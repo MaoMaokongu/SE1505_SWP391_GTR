@@ -23,7 +23,7 @@ import until.GoogleUtils;
  *
  * @author admin
  */
-@WebServlet(name = "LogingoogleController", urlPatterns = {"/LogingoogleController"})
+@WebServlet(name = "LoginGoogleController", urlPatterns = {"/LoginGoogleController"})
 public class LoginGoogleController extends HttpServlet {
 
     public static final String ERROR = "login.jsp";

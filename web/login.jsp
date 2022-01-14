@@ -342,15 +342,16 @@ form .button{
       <div class="links">
         <div class="teacher">
           
-           <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/SWP_loginApi/LogingoogleController&response_type=code
+           <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/SWP_loginApi/LoginGoogleController&response_type=code
            &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google-plus-square"><span>Teacher</span></i></a></br>  
         <h4>${requestScope.ERROR_LOGIN}</h4> 
         </div>
         <div class="student">
           
-           <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/SWP_loginApi/LogingoogleController&response_type=code
-           &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google-plus-square"><span>Student</span></i></a></br>  
-        <h4>${requestScope.ERROR_LOGIN}</h4> 
+           <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/SWP_loginApi/LoginGoogleController&response_type=code
+           &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google-plus-square"><span>Student</span></i></a></br> </a></br>  
+         
+           <h4>${requestScope.ERROR_LOGIN}</h4>
         </div>
       </div>
        <div class="signup">
