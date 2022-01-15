@@ -10,7 +10,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8">
-        <title> Home Page </title>
+        <title> Student Page </title>
         <link rel="stylesheet" href="home.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -285,21 +285,21 @@
                     <span class="tooltip">Search</span>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="projectRegistration.jsp">
                         <i class='bx bx-grid-alt'></i>
                         <span class="links_name">Đăng kí đồ án</span>
                     </a>
                     <span class="tooltip">Đăng kí đồ án</span>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="profileStudent.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Tài khoản</span>
                     </a>
                     <span class="tooltip">Tài khoản</span>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="messages.jsp">
                         <i class='bx bx-chat' ></i>
                         <span class="links_name">Messages</span>
                     </a>
@@ -313,7 +313,7 @@
                     <span class="tooltip">Files</span>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="registeredProject.jsp">
                         <i class='bx bx-cart-alt' ></i>
                         <span class="links_name">Đồ án đã đăng kí</span>
                     </a>
@@ -335,10 +335,10 @@
                 </li>
                 <li class="profile">
                     <div class="profile-details">
-                        <img src="user.png" alt="profileImg">
+                        <img src="image/user.png" alt="profileImg">
                         <div class="name_job">
                             <div class="name">${sessionScope.USER.username}</div>
-                            <div class="job">SExxxxx</div>
+                            <div class="job">${sessionScope.USER.user_id}</div>
                         </div>
                     </div>
                     <a href="index.html"><i class='bx bx-log-out' id="log_out" ></i></a>

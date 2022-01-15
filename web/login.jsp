@@ -28,7 +28,7 @@
             text-align: center;
             font-family: sans-serif;
             justify-content: center;
-            background: url(bg.jpg);
+            background: url(image/bg.jpg);
             background-size: cover;
             background-position: center;
         }
