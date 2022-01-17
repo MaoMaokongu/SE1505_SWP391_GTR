@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Another Login Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>Bussiness</header>
+      <form>
+        <div class="input-field">
+          <input type="text" required>
+          <label>Username</label>
+        </div>
+        <div class="input-field">
+          <input class="pswrd" type="password" required>
+          <span class="show">SHOW</span>
+          <label>Password</label>
+        </div>
+        <div class="button">
+          <div class="inner"></div>
+          <button>LOGIN</button>
+        </div>
+      </form>
+      <div class="auth">Sinh viên, Giảng viên, Cán bộ ĐH-FPT</div>
+      <!-- Selected box -->
+      <div class="containers">
+  
+
+        <div class="select-box">
+          <div class="options-container">
+            
+            <div class="option">
+              <input
+                type="radio"
+                class="radio"
+                id="campus"
+                name="category"
+              />
+              <label for="campus">Select Campus</label>
+            </div>
+      
+            <div class="option">
+              <input type="radio" class="radio" id="hl" name="category" />
+              <label for="hl">Hoà Lạc</label>
+            </div>
+      
+            <div class="option">
+              <input type="radio" class="radio" id="hcm" name="category" />
+              <label for="hcm">Hồ Chí Minh</label>
+            </div>
+
+            <div class="option">
+              <input type="radio" class="radio" id="dn" name="category" />
+              <label for="dn">Đà Nẵng</label>
+            </div>
+
+            <div class="option">
+              <input type="radio" class="radio" id="ct" name="category" />
+              <label for="ct">Cần Thơ</label>
+            </div>
+      
+            <div class="option">
+              <input type="radio" class="radio" id="qn" name="category" />
+              <label for="qn">Quy Nhơn</label>
+            </div> 
+            
+          </div>
+      
+          <div class="selected">
+            Select Campus
+          </div>
+        </div>
+      </div>
+      <!-- -------- -->
+      
+      <div class="links">
+        <!-- <div class="bussiness">
+          <i class="fab fa-google-plus-square"><span>Bussiness</span></i>
+        </div> -->
+        <div class="teacher">
+          <a href="home.html"><i class="fab fa-google-plus-square"><span>Teacher</span></i></a>
+        </div>
+        <div class="student">
+          <a href="home.html"><i class="fab fa-google-plus-square"><span>Student</span></i></a>
+        </div>
+      </div>
+      <!-- <div class="signup">
+        Not a member? <a href="signup.html">Signup now</a>
+      </div> -->
+    </div>
+    <script>
+      var input = document.querySelector('.pswrd');
+      var show = document.querySelector('.show');
+      show.addEventListener('click', active);
+      function active(){
+        if(input.type === "password"){
+          input.type = "text";
+          show.style.color = "#1DA1F2";
+          show.textContent = "HIDE";
+        }else{
+          input.type = "password";
+          show.textContent = "SHOW";
+          show.style.color = "#111";
+        }
+      }
+    </script>
+
+  <script src="main.js"></script>
+
+  </body>
+</html>
