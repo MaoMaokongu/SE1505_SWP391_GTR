@@ -12,7 +12,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8">
-        <title> dwdwd Page </title>
+        <title> Student Page </title>
         <link rel="stylesheet" href="home.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -365,7 +365,7 @@
             </ul>
         </div>
         <section class="home-section">
-            <div class="text">Dashboard</div>
+            <div class="text">${sessionScope.USER.group_id.group_id}</div>
         </section>
 
         <script>

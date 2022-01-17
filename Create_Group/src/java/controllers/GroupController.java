@@ -34,16 +34,15 @@ public class GroupController extends HttpServlet {
 
         String url = ERROR;
         try {
-            int group_id = Integer.parseInt(request.getParameter("group_id"));
-            
-            GroupDAO dao = new GroupDAO();
-            UserDAO usdao = new UserDAO();
-            List<UserDTO> list = usdao.getUsers(group_id);
             HttpSession session = request.getSession();
+            UserDAO usdao = new UserDAO();
+            String group_id = request.getParameter("group_id");
+
+            List<UserDTO> list = usdao.getUsersByGroupID(Integer.parseInt(group_id));
+
             if (list.size() > 0) {
                 session.setAttribute("LIST_USER", list);
                 url = SUCCESS;
-                System.out.println(list);
             }
         } catch (Exception e) {
             log("Error at GroupController" + e.toString());

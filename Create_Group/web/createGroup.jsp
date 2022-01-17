@@ -23,7 +23,8 @@
         ${requestScope.BUG}
         </br>
         <form action="JoinGroupController">
-            Enroll: <input type="text" name="name" required=""/>
+            Enroll: <input type="text" name="enroll" required=""/>
+<!--            <input type="hidden" name="email" value=""/>-->
             <input type="submit" name="action" value="Join"/>
             <input type="reset" name="Reset"/>
         </form>

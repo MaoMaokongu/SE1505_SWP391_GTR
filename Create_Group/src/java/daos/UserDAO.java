@@ -25,7 +25,7 @@ public class UserDAO {
     public static final String UPDATE_GROUP_ID = " UPDATE tblUsers SET Group_id = ?, leader =? WHERE Email =?";
     private static final String GET_USERS = " SELECT User_id, Email, Username, Gender, Role_id, leader FROM tblUsers WHERE Group_id=?";
 
-    public List<UserDTO> getUsers(int group_id) throws SQLException {
+    public List<UserDTO> getUsersByGroupID(int group_id) throws SQLException {
         List<UserDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
@@ -47,7 +47,7 @@ public class UserDAO {
                     boolean leader = rs.getBoolean("leader");
                     RoleDAO dao = new RoleDAO();
                     GroupDAO grdao = new GroupDAO();
-                    list.add(new UserDTO(id, email, username, gender, dao.getRole(role_id), grdao.getGroup_Name(group_id), leader));
+                    list.add(new UserDTO(id, email, username, gender, dao.getRole(role_id), grdao.getGroupById(group_id), leader));
                 }
             }
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class UserDAO {
         return list;
     }
 
-    public boolean Update_Group_id(GroupDTO group, UserDTO user) throws SQLException {
+    public boolean UpdateUser(GroupDTO group, UserDTO user) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -77,6 +77,32 @@ public class UserDAO {
             stm = conn.prepareStatement(UPDATE_GROUP_ID);
             stm.setInt(1, group.getGroup_id());
             stm.setBoolean(2, true);
+            stm.setString(3, user.getEmail());
+            check = stm.executeUpdate() > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
+    public boolean UpdateUser_normal(GroupDTO group, UserDTO user) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            stm = conn.prepareStatement(UPDATE_GROUP_ID);
+            stm.setInt(1, group.getGroup_id());
+            stm.setBoolean(2, false);
             stm.setString(3, user.getEmail());
             System.out.println(group.getGroup_id());
             check = stm.executeUpdate() > 0 ? true : false;
@@ -115,7 +141,7 @@ public class UserDAO {
                 boolean leader = rs.getBoolean("leader");
                 RoleDAO dao = new RoleDAO();
                 GroupDAO grdao = new GroupDAO();
-                user = new UserDTO(user_id, email, username, gender, dao.getRole(role), grdao.getGroup_Name(groupid), leader);
+                user = new UserDTO(user_id, email, username, gender, dao.getRole(role), grdao.getGroupById(groupid), leader);
             }
         } catch (Exception e) {
             e.printStackTrace();

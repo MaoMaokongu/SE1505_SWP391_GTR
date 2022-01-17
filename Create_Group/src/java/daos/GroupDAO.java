@@ -58,7 +58,7 @@ public class GroupDAO {
         return check;
     }
 
-    public GroupDTO getGroup_Name(int group_id) throws SQLException {
+    public GroupDTO getGroupById(int group_id) throws SQLException {
         GroupDTO group = null;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -94,7 +94,7 @@ public class GroupDAO {
         return group;
     }
 
-    public GroupDTO get_ID(String group_name) throws SQLException {
+    public GroupDTO getGroupByName(String group_name) throws SQLException {
         GroupDTO group = null;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -129,7 +129,7 @@ public class GroupDAO {
         return group;
     }
 
-    public boolean insert(GroupDTO group, UserDTO user) throws SQLException {
+    public boolean insert_GroupName(String group_name) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -138,7 +138,7 @@ public class GroupDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(INSERT);
-                stm.setString(1, group.getGroup_name());
+                stm.setString(1, group_name);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
