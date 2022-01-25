@@ -9,7 +9,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Another Login Demo</title>
+        <title>Login</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>
@@ -28,7 +28,7 @@
             text-align: center;
             font-family: sans-serif;
             justify-content: center;
-            background: url(bg.jpg);
+            background: url(img/bg.jpg);
             background-size: cover;
             background-position: center;
         }

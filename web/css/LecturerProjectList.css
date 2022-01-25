@@ -1,0 +1,497 @@
+:root {
+    --main-bg-color: #009d63;
+    --main-text-color: #009d63;
+    --second-text-color: #bbbec5;
+    --second-bg-color: #c1efde;
+}
+
+.primary-text {
+    color: var(--main-text-color);
+}
+
+.second-text {
+    color: var(--second-text-color);
+}
+
+.primary-bg {
+    background-color: var(--main-bg-color);
+}
+
+.secondary-bg {
+    background-color: var(--second-bg-color);
+}
+
+.rounded-full {
+    border-radius: 100%;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    background-image: linear-gradient( to right, #baf3d7, #c2f5de, #cbf7e4, #d4f8ea, #ddfaef);
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+#menu-toggle {
+    cursor: pointer;
+}
+
+.list-group-item {
+    border: none;
+    padding: 20px 30px;
+}
+
+.list-group-item.active {
+    background-color: transparent;
+    color: var(--main-text-color);
+    font-weight: bold;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+
+
+/* button to Accept or Deny */
+
+
+/* btn1 */
+
+.btn1 {
+    display: block;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #009d63;
+    border-radius: 50px;
+    color: #009d63;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader1 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #009d63;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished1 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #009d63;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished1:before {
+    content: url('greentick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.btn2 {
+    display: block;
+    margin-left: 150px;
+    margin-top: -35px;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #ca2626;
+    border-radius: 50px;
+    color: #ca2626;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader2 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #ca2626;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished2 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #ca2626;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished2:before {
+    content: url('redtick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.btn3 {
+    display: block;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #009d63;
+    border-radius: 50px;
+    color: #009d63;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader3 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #009d63;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished3 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #009d63;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished3:before {
+    content: url('greentick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.btn4 {
+    display: block;
+    margin-left: 150px;
+    margin-top: -35px;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #ca2626;
+    border-radius: 50px;
+    color: #ca2626;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader4 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #ca2626;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished4 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #ca2626;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished4:before {
+    content: url('redtick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.btn5 {
+    display: block;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #009d63;
+    border-radius: 50px;
+    color: #009d63;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader5 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #009d63;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished5 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #009d63;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished5:before {
+    content: url('greentick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.btn6 {
+    display: block;
+    margin-left: 150px;
+    margin-top: -35px;
+    /* height: 40px; */
+    text-align: center;
+    /* background: #009d63; */
+    font-size: 18px;
+    border: 2px solid #ca2626;
+    border-radius: 50px;
+    color: #ca2626;
+    text-transform: uppercase;
+    /* font-family: sans-serif; */
+    letter-spacing: 2px;
+    transition: all 0.1s ease;
+}
+
+.loader6 {
+    font-size: 0;
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 2px solid #ca2626;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: animate 1s 0.4s linear infinite;
+}
+
+@keyframes animate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.finished6 {
+    font-size: 0;
+    height: 40px;
+    width: 40px;
+    border: none;
+    background: #ca2626;
+    position: relative;
+    animation: special 1s ease-in;
+}
+
+@keyframes special {
+    10% {
+        transform: scale(0.8) translateY(20px);
+    }
+    35% {
+        transform: scale(1) translateY(0px);
+    }
+}
+
+.finished6:before {
+    content: url('redtick.png');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* ------------------------------------ */
+
+.select {
+    padding: 8px 12px;
+    color: #333333;
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('dat:image/svg+xml;utf8,');
+}
+
+.select:focus,
+.select:hover {
+    outline: none;
+    border: 1px solid #bbbbbb;
+}
+
+.select option {
+    background: #ffffff;
+}
+
+.list {
+    text-align: center;
+}
