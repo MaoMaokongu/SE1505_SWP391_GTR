@@ -5,13 +5,11 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.config.Checkmail;
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.GoogleDTO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.GoogleUtils;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,66 +21,60 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "LoginGoogleController", urlPatterns = {"/LoginGoogleController"})
-public class LoginGoogleController extends HttpServlet {
+// Sinh viên tạo một nhóm bằng cách nhập Group Name vào và click nut create tren studentgroup.jsp
+// Khi click nút cteate tên group sẽ được thêm vào bảng Group
+// Đồng thời update group id cho sinh viên 
+// sau đó dispatcher sang groupcontroller
+@WebServlet(name = "CreateGroupController", urlPatterns = {"/CreateGroupController"})
+public class CreateGroupController extends HttpServlet {
 
-    public static final String ERROR = "index.jsp";
-    public static final String SUCCESS = "index.jsp";
-    public static final String STUDENT = "studentproject.jsp";
-    public static final String LECTURER = "lecturer.jsp";
-    public static final String ADMIN = "admin_manage_group.jsp";
+    private static final String ERROR = "studentgroup.jsp";
+    private static final String SUCCESS = "GroupController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
         String url = ERROR;
+        GroupDAO grDao = new GroupDAO();
+        GroupDTO group;
 
+        UserDAO usDao = new UserDAO();
+        UserDTO user;
         try {
-            String code = request.getParameter("code");
 
-            if (code == null || code.isEmpty()) {
-                RequestDispatcher dis = request.getRequestDispatcher(url);
-                dis.forward(request, response);
+            String groupName = request.getParameter("groupName");
+            String email = request.getParameter("email");
+            user = usDao.getUserByEmail(email);
+
+            if (user.getGroup() != null) {
+                request.setAttribute("BUG", "You already has group!");
+                url = ERROR;
             } else {
-                String acccessToken = GoogleUtils.getToken(code);
-
-                GoogleDTO ggpojo = GoogleUtils.getUserInfo(acccessToken);
-
-                Checkmail checkmail = new Checkmail();
-                if (!checkmail.validate(ggpojo.getEmail())) {
-                    request.setAttribute("ERROR_LOGIN", "Please login by FPT email!");
+                group = grDao.getGroupByName(groupName);
+                if (group != null) {
+                    request.setAttribute("DUPLICATE", "Group Name is existing! Please choose another name.");
                     url = ERROR;
                 } else {
-
-                    UserDAO dao = new UserDAO();
-                    UserDTO user = dao.getUserByEmail(ggpojo.getEmail());
+                    boolean insertGroupName = grDao.insertGroupName(groupName);
+                    group = grDao.getGroupByName(groupName);
+                    boolean insertGroupId = usDao.updateGroupUser(usDao.getUserByEmail(email), group);
                     HttpSession session = request.getSession();
-                    
-                    if (user != null) {
-                        switch (user.getRole().getName()) {
-                            case "Student":
-                                url = STUDENT;
-                                break;
-                            case "Lecturer":
-                                url = LECTURER;
-                                break;
-                            case "Admin":
-                                url = ADMIN;
-                                break;
-                        }
+                    if (insertGroupId && insertGroupName) {
+                        user = usDao.getUserByEmail(email);
                         session.setAttribute("USER", user);
+                        request.setAttribute("SUCCESS", "Group has been initialized");
+                        url = SUCCESS;
                     } else {
-                        request.setAttribute("ERROR", "Sorry! Your account is not supported!");
+                        request.setAttribute("ERROR", "Group cannot be initialized!");
                     }
                 }
             }
         } catch (Exception e) {
-            log("error at LogingoogleController:" + e.toString());
+            log("Error at CreateGroupController" + e.toString());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

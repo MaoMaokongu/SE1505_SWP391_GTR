@@ -5,23 +5,26 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author admin
  */
-@Data
-public class RoleDTO {
+@Getter
+@Setter
+public class SemesterDTO {
     
-    private int roleId;
-    private String Name;
+    private int semesterId;
+    private String name;
 
-    public RoleDTO() {
+    public SemesterDTO() {
     }
 
-    public RoleDTO(int roleId, String Name) {
-        this.roleId = roleId;
-        this.Name = Name;
+    public SemesterDTO(int semesterId, String name) {
+        this.semesterId = semesterId;
+        this.name = name;
     }
+   
 }

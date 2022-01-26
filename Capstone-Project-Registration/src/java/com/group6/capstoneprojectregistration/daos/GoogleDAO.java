@@ -5,7 +5,7 @@
  */
 package com.group6.capstoneprojectregistration.daos;
 
-import com.group6.capstoneprojectregistration.dtos.AccountGoogleDTO;
+import com.group6.capstoneprojectregistration.dtos.GoogleDTO;
 import com.group6.capstoneprojectregistration.untils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,9 +47,9 @@ public class GoogleDAO {
         return check;
     }
 
-    public AccountGoogleDTO checklogin(String email) throws SQLException {
+    public GoogleDTO checklogin(String email) throws SQLException {
 
-        AccountGoogleDTO gg = null;
+        GoogleDTO gg = null;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -67,7 +67,7 @@ public class GoogleDAO {
                 String family_name = rs.getString("family_name");
                 String picture = rs.getString("picture");
 
-                gg = new AccountGoogleDTO(id, email, verified_email, name, given_name, family_name, picture);
+                gg = new GoogleDTO(id, email, verified_email, name, given_name, family_name, picture);
             }
         } catch (Exception e) {
             e.printStackTrace();
