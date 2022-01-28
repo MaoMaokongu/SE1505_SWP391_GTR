@@ -24,7 +24,7 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <img src="img/logo.png" width="80px" height="80px">
                     <div>
-                        Projects System
+                        Project Registration
                     </div>
                 </div>
                 <div class="list-group list-group-flush my-3">
@@ -89,12 +89,6 @@
                     </div>
                     <div class="row my-5">
                         <h3 class="fs-4 mb-3">Management Groups</h3>
-                        <!-- <li class="search-box">
-                            <i class="fas fa-search"></i>&emsp;&emsp;
-                            <input type="text" placeholder="Search...">
-                            
-                        </li> -->
-
                         <!-- Search -->
                         <div class="d-flex flex-row">
                             <div class="input-group d-flex justify-content-start">

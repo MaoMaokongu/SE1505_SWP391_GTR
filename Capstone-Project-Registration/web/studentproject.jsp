@@ -214,6 +214,10 @@
     </head>
 
     <body>
+        <c:set var="loginUser" value="${sessionScope.USER}"></c:set>
+        <c:if test="${loginUser == null || loginUser.role.name ne 'Student'}">
+            <c:redirect url="index.jsp"></c:redirect>
+        </c:if>
         <c:url var="logoutLink" value="LogoutController">
             <c:param name="action" value="Logout"></c:param>
         </c:url>
@@ -226,7 +230,7 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <img src="img/logo.png" width="80px" height="80px">
                     <div>
-                        Projects System
+                        Project Registration
                     </div>
                 </div>
                 <div class="list-group list-group-flush my-3">
@@ -236,7 +240,7 @@
                     <a href="studentprofile.jsp"
                        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-user me-2"></i>Account</a>
-                    <a href="Messages.jsp"
+                    <a href="MessageController"
                        class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                             class="fas fa-comments me-2"></i>Messages</a>
                     <a href="projectdetails.jsp"
@@ -268,7 +272,7 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user me-2"></i>Student
+                                    <i class="fas fa-user me-2"></i>${sessionScope.USER.userName}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="#">Profile</a></li>

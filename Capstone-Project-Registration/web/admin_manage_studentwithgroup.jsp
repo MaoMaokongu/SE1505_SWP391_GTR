@@ -43,7 +43,7 @@
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <img src="img/logo.png" width="80px" height="80px">
                     <div>
-                        Projects System
+                        Project Registration
                     </div>
                 </div>
                 <div class="list-group list-group-flush my-3">
