@@ -1,9 +1,10 @@
 <%-- 
-    Document   : adminProject
-    Created on : Jan 25, 2022, 9:31:22 AM
+    Document   : Messages
+    Created on : Jan 25, 2022, 9:39:47 AM
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,16 @@
     </head>
 
     <body>
+        <c:set var="loginUser" value="${sessionScope.USER}"></c:set>
+        <c:if test="${loginUser == null || loginUser.role.name ne 'Student'}">
+            <c:redirect url="index.jsp"></c:redirect>
+        </c:if>
+        <c:url var="logoutLink" value="LogoutController">
+            <c:param name="action" value="Logout"></c:param>
+        </c:url>
+        <c:url var="group" value="GroupController">
+            <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+        </c:url>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
             <div class="bg-white" id="sidebar-wrapper">
@@ -28,24 +39,23 @@
                     </div>
                 </div>
                 <div class="list-group list-group-flush my-3">
-                    <div class="sidenav">
-                        <button
-                            class="dropdown-btn list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                            <i class="fas fa-user-graduate me-2"></i>Manage Students
-                        </button>
-                        <div class="dropdown-container ">
-                            <a href="admin_manage_studentwithgroup.jsp"><i class="fas fa-users me-2"></i>Group</a>
-                            <a href="admin_manage_studentwithnogroup.jsp"><i class="fas fa-users-slash me-2"></i>No Group</a>
-                        </div>
-                    </div>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-project-diagram me-2"></i>Manage Projects</a>
-                    <a href="admin_manage_group.jsp" class="list-group-item list-group-item-action bg-transparent second-text active"><i
-                            class="fas fa-user me-2"></i>Manage Groups</a>
-                    <a href="admin_manage_mentor.jsp" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                            class="fas fa-comments me-2"></i>Manage Lecturers</a>
-                    <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
-                            class="fas fa-power-off me-2"></i>Logout</a>>
+                    <a href="studentproject.jsp"
+                       class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-project-diagram me-2"></i>Projects</a>
+                    <a href="studentprofile.jsp"
+                       class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-user me-2"></i>Account</a>
+                    <a href="#"
+                       class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-comments me-2"></i>Messages</a>
+                    <a href="projectdetails.jsp"
+                       class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-file-signature me-2"></i></i>Project Have Signed</a>
+                    <a href="${group}"
+                       class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                            class="fas fa-users-cog me-2"></i>Group</a>
+                    <a href="${logoutLink}" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                            class="fas fa-power-off me-2"></i>Logout</a>
                 </div>
             </div>
             <!-- /#sidebar-wrapper -->
@@ -55,7 +65,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                        <h2 class="fs-2 m-0">Projects Management</h2>
+                        <h2 class="fs-2 m-0">Messages</h2>
                     </div>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -69,7 +79,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user me-2"></i>Admin
+                                    <i class="fas fa-user me-2"></i>${sessionScope.USER.userName}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -82,13 +92,8 @@
                 </nav>
 
                 <div class="container-fluid px-4">
-                    <div class="list d-flex align-items-center justify-content-start">
-                        <button type="button" class="btn btn-success btn-sm btn-student">Upload Project</button>
-                        <button type="button" class="btn btn-warning btn-sm btn-student">New Semester</button>
-                        <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
-                    </div>
                     <div class="row my-5">
-                        <h3 class="fs-4 mb-3">Projects Management</h3>
+                        <!-- <h3 class="fs-4 mb-3"></h3> -->
                         <!-- <li class="search-box">
                             <i class="fas fa-search"></i>&emsp;&emsp;
                             <input type="text" placeholder="Search...">
@@ -96,27 +101,27 @@
                         </li> -->
 
                         <!-- Search -->
-                        <div class="d-flex flex-row">
+                        <!-- <div class="d-flex flex-row">
                             <div class="input-group d-flex justify-content-start">
                                 <div class="form-outline">
                                     <input type="search" id="form1" class="form-control" />
                                 </div>
-                                <button type="button" class="btn btn-primary" style="margin-bottom: 15px">
+                                <button type="button" class="btn btn-primary">
                                     <i class="fas fa-search"></i>
                                 </button>
-                            </div>
+                            </div> -->
 
-                            <!-- filter -->
-                            <div class="list d-flex align-items-center justify-content-start">
-                                <i class="fas fa-filter"></i>
-                                <select class="select">
-                                    <option>Spring 2022</option>
-                                    <option value="web">Fall 2021</option>
-                                    <option value="mobile">Summer 2021</option>
-                                    <option value="desktop">Spring 2021</option>
-                                </select>
-                            </div>
-                        </div>
+                        <!-- filter -->
+                        <!-- <div class="list d-flex align-items-center justify-content-start">
+                            <i class="fas fa-filter"></i>
+                            <select class="select">
+                                <option >Spring 2022</option>
+                                <option value="web">Fall 2021</option>
+                                <option value="mobile">Summer 2021</option>
+                                <option value="desktop">Spring 2021</option>
+                            </select>
+                        </div> -->
+                        <!-- </div> -->
 
 
                         <!-- <><button class="btn sort">Sort</button></i> -->
@@ -125,28 +130,54 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" width="50">#</th>
-                                        <th>Project Name</th>
-                                        <th>Mentor</th>
-                                        <th>Co-Mentor</th>
-                                        <th>Quantity</th>
+                                        <th>Message</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Đồ án...Đồ án...Đồ án..Đồ án..Đồ án..Đồ án..</td>
-                                        <td>Nguyễn Thế Hoàng</td>
-                                        <td></td>
-                                        <td>4</td>
-                                    </tr>
-                                </tbody>
+                                <c:if test="${sessionScope.MESSAGE_USER == null}">
+                                    <h5>${requestScope.MESSAGE_USER}</h5>
+                                </c:if>
+                                <c:if test="${sessionScope.MESSAGE_USER != null}">
+                                    <tbody>
+                                        <c:forEach var="event" varStatus="counter" items="${sessionScope.MESSAGE_USER}">
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>${event.message.messageContent}${event.sender.userName}- Leader of ${event.sender.group.name}</td>
+                                                <td><button id="myBtn1" class="btn btn-primary">see more</button></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </c:if>
                             </table>
+                        </div>
+
+                        <div id="myModal" class="modal">
+
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>Modal Header</h2>
+                                    <span class="close">&times;</span>
+
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the Modal Body</p>
+                                    <p>Some other text...</p>
+                                </div>
+                                <!-- <div class="modal-footer">
+                                  <h3>Modal Footer</h3>
+                                </div> -->
+                            </div>
+
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
+        <!-- modal see more -->
+        <script src="js/SeeMore.js"></script>
+
         <!-- /#page-content-wrapper -->
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
@@ -173,5 +204,11 @@
                 });
             }
         </script>
+
+
+
+
+
+        <!-- <script src="js/SeeMore.js"></script> -->
     </body>
 </html>

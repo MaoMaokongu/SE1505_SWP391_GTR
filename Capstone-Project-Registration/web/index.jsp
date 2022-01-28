@@ -347,7 +347,8 @@
                 </div>
                 <div class="student">
                     <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8084/Capstone-Project-Registration/LoginGoogleController&response_type=code
-                       &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google-plus-square"><span>Student</span></i></a></br>  
+                       &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force">
+                        <i class="fab fa-google-plus-square"><span>Student</span></i></a></br>  
                     <h4>${requestScope.ERROR_LOGIN}</h4>
                 </div>
             </div>
@@ -356,38 +357,35 @@
             </div> -->
         </div>
         <script>
-            var input = document.querySelector('.pswrd');
-            var show = document.querySelector('.show');
-            show.addEventListener('click', active);
-            function active() {
-                if (input.type === "password") {
+                    var input = document.querySelector('.pswrd');
+                    var show = document.querySelector('.show');
+                    show.addEventListener('click', active);
+                    function active() {
+                    if (input.type === "password") {
                     input.type = "text";
-                    show.style.color = "#1DA1F2";
-                    show.textContent = "HIDE";
-                } else {
+                            show.style.color = "#1DA1F2";
+                            show.textContent = "HIDE";
+                    } else {
                     input.type = "password";
-                    show.textContent = "SHOW";
-                    show.style.color = "#111";
-                }
-            }
+                            show.textContent = "SHOW";
+                            show.style.color = "#111";
+                    }
+                    }
         </script>
 
         <script>
             const selected = document.querySelector(".selected");
-            const optionsContainer = document.querySelector(".options-container");
-
-            const optionsList = document.querySelectorAll(".option");
-
-            selected.addEventListener("click", () => {
-                optionsContainer.classList.toggle("active");
-            });
-
-            optionsList.forEach(o => {
-                o.addEventListener("click", () => {
+                    const optionsContainer = document.querySelector(".options-container");
+                    const optionsList = document.querySelectorAll(".option");
+                    selected.addEventListener("click", () = > {
+                    optionsContainer.classList.toggle("active");
+                    });
+                    optionsList.forEach(o = > {
+                    o.addEventListener("click", () = > {
                     selected.innerHTML = o.querySelector("label").innerHTML;
-                    optionsContainer.classList.remove("active");
-                });
-            });
+                            optionsContainer.classList.remove("active");
+                    });
+                    });
 
         </script>
 
