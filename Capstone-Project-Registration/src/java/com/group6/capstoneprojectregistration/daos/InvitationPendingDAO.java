@@ -18,9 +18,9 @@ import java.sql.SQLException;
  */
 public class InvitationPendingDAO {
 
-    private static final String INSERT_PENDING_USER = " INSERT INTO [Invitation Pending] ([Status], [User], [Group]) VALUES (?, ?, ?)";
+    private static final String INSERT_PENDING_USER = " INSERT INTO [Invitation Pending] ([Status], [User], [Group], Userinvited) VALUES (?, ?, ?, ?)";
 
-    public boolean insertPendingUser(UserDTO user, GroupDTO group) throws SQLException {
+    public boolean insertPendingUser(UserDTO user, GroupDTO group, String receiver) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -33,6 +33,7 @@ public class InvitationPendingDAO {
                 stm.setInt(1, 1);
                 stm.setString(2, user.getUserId());
                 stm.setInt(3, group.getGroupId());
+                stm.setString(4, receiver);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
 

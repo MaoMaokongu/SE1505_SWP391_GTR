@@ -28,7 +28,7 @@ public class LoginGoogleController extends HttpServlet {
 
     public static final String ERROR = "index.jsp";
     public static final String SUCCESS = "index.jsp";
-    public static final String STUDENT = "studentproject.jsp";
+    public static final String STUDENT = "ProjectController";
     public static final String LECTURER = "lecturer.jsp";
     public static final String ADMIN = "admin_manage_group.jsp";
 
@@ -49,11 +49,11 @@ public class LoginGoogleController extends HttpServlet {
 
                 GoogleDTO ggpojo = GoogleUtils.getUserInfo(acccessToken);
 
-                Checkmail checkmail = new Checkmail();
-                if (!checkmail.validate(ggpojo.getEmail())) {
-                    request.setAttribute("ERROR_LOGIN", "Please login by FPT email!");
-                    url = ERROR;
-                } else {
+//                Checkmail checkmail = new Checkmail();
+//                if (!checkmail.validate(ggpojo.getEmail())) {
+//                    request.setAttribute("ERROR_LOGIN", "Please login by FPT email!");
+//                    url = ERROR;
+//                } else {
 
                     UserDAO dao = new UserDAO();
                     UserDTO user = dao.getUserByEmail(ggpojo.getEmail());
@@ -75,7 +75,7 @@ public class LoginGoogleController extends HttpServlet {
                     } else {
                         request.setAttribute("ERROR", "Sorry! Your account is not supported!");
                     }
-                }
+//                }
             }
         } catch (Exception e) {
             log("error at LogingoogleController:" + e.toString());

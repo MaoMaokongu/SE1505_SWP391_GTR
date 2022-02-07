@@ -287,24 +287,24 @@
 
                     <div class="row my-5">
                         <div class="col">
-                            <jsp:useBean id="list_project" class="com.group6.capstoneprojectregistration.daos.ProjectDAO" scope="request"></jsp:useBean>
-                                <table border ="1" class="table bg-white rounded shadow-sm  table-hover" id="example">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Mentor</th>
-                                            <th>Co-Mentor</th>
-                                            <th>Number Of Students</th>
-                                            <th>Description</th>
-                                            <th>Semester</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${list_project.listProject}" var="project" >
+                            <table border ="1" class="table bg-white rounded shadow-sm  table-hover" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Mentor</th>
+                                        <th>Co-Mentor</th>
+                                        <th>Number Of Students</th>
+                                        <th>Description</th>
+                                        <th>Semester</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${sessionScope.LIST_PROJECT}" var="project" >
+                                        ${requestScope.BUG}
                                         <tr>
                                             <th>${project.projectId}</th>
-                                            <td>${project.name}</td>
+                                            <td style="width: 500px">${project.name}</td>
                                             <td>${project.mentor}</td>
                                             <td>${project.coMentor}</td>
                                             <td>${project.numOfStus}</td>
@@ -314,7 +314,6 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>

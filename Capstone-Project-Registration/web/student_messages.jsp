@@ -93,57 +93,27 @@
 
                 <div class="container-fluid px-4">
                     <div class="row my-5">
-                        <!-- <h3 class="fs-4 mb-3"></h3> -->
-                        <!-- <li class="search-box">
-                            <i class="fas fa-search"></i>&emsp;&emsp;
-                            <input type="text" placeholder="Search...">
-                            
-                        </li> -->
-
-                        <!-- Search -->
-                        <!-- <div class="d-flex flex-row">
-                            <div class="input-group d-flex justify-content-start">
-                                <div class="form-outline">
-                                    <input type="search" id="form1" class="form-control" />
-                                </div>
-                                <button type="button" class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div> -->
-
-                        <!-- filter -->
-                        <!-- <div class="list d-flex align-items-center justify-content-start">
-                            <i class="fas fa-filter"></i>
-                            <select class="select">
-                                <option >Spring 2022</option>
-                                <option value="web">Fall 2021</option>
-                                <option value="mobile">Summer 2021</option>
-                                <option value="desktop">Spring 2021</option>
-                            </select>
-                        </div> -->
-                        <!-- </div> -->
-
-
-                        <!-- <><button class="btn sort">Sort</button></i> -->
                         <div class="col">
-                            <table class="table bg-white rounded shadow-sm  table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" width="50">#</th>
-                                        <th>Message</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <c:if test="${sessionScope.MESSAGE_USER == null}">
-                                    <h5>${requestScope.MESSAGE_USER}</h5>
-                                </c:if>
-                                <c:if test="${sessionScope.MESSAGE_USER != null}">
+                            <c:if test="${sessionScope.MESSAGE_USER == null}">
+                                <h5>${requestScope.MESSAGE_USER}</h5>
+                            </c:if>
+                            <c:if test="${sessionScope.MESSAGE_USER != null}">
+                                <table class="table bg-white rounded shadow-sm  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="50">#</th>
+                                            <th>Message</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <c:forEach var="event" varStatus="counter" items="${sessionScope.MESSAGE_USER}">
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>${event.message.messageContent}${event.sender.userName}- Leader of ${event.sender.group.name}</td>
-                                                <td><button id="myBtn1" class="btn btn-primary">see more</button></td>
+                                                <td scope="row">${counter.count}</td>
+                                                <td style="width: 1000px">${event.event.messageContent}by ${event.sender.group.name}</td>
+                                                <c:if test="${event.event ne 'Invite'}">
+                                                    <td><button id="myBtn1" class="btn btn-primary">see more</button></td>
+                                                </c:if>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -164,9 +134,6 @@
                                     <p>Some text in the Modal Body</p>
                                     <p>Some other text...</p>
                                 </div>
-                                <!-- <div class="modal-footer">
-                                  <h3>Modal Footer</h3>
-                                </div> -->
                             </div>
 
                         </div>
@@ -204,11 +171,6 @@
                 });
             }
         </script>
-
-
-
-
-
-        <!-- <script src="js/SeeMore.js"></script> -->
+        <!--         <script src="js/SeeMore.js"></script> -->
     </body>
 </html>

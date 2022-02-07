@@ -107,6 +107,7 @@
                             </div>
                         </div>
                         <div class="col">
+                            ${requestScope.INVITE}
                             <table class="table bg-white rounded shadow-sm  table-hover">
                                 <thead>
                                     <tr>
@@ -132,8 +133,8 @@
                                                     <c:param name="sender_email" value="${sessionScope.USER.email}"></c:param>
                                                     <c:param name="group_name" value="${sessionScope.USER.group.name}"></c:param>
                                                 </c:url>
-                                                <!--<button id="demo" type="button" class="btn btn-primary" onclick="myFunction()">invite</button>-->
-                                                <a href="${invite}" id="demo" type="button" class="btn btn-primary" onclick="myFunction()">Invite</a>
+<!--                                                <button id="demo" type="button" class="btn btn-primary" onclick="myFunction()">invite</button>-->
+                                                <a href="${invite}" id="change" class="btn btn-primary" type="button" onclick="myFunction()">Invite</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -147,16 +148,19 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                                                            var el = document.getElementById("wrapper");
-                                                            var toggleButton = document.getElementById("menu-toggle");
+                                                    var el = document.getElementById("wrapper");
+                                                    var toggleButton = document.getElementById("menu-toggle");
 
-                                                            toggleButton.onclick = function () {
-                                                                el.classList.toggle("toggled");
-                                                            };
-                                                            function myFunction() {
-                                                                document.getElementById("demo").innerHTML = "Invited";
-                                                                // document.getElementById("demo").style.color = "red";
-                                                            }
+                                                    toggleButton.onclick = function () {
+                                                        el.classList.toggle("toggled");
+                                                    };
+        </script>
+        <script>
+            function myFunction() {
+                document.getElementById("change").innerHTML = "Pending...";
+                
+                // document.getElementById("demo").style.color = "red";
+            }
         </script> 
     </body>
 

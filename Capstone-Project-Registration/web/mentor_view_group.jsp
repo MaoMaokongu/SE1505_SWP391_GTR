@@ -72,10 +72,10 @@
                 </nav>
 
                 <div class="container-fluid px-4">
-                    <div class="list d-flex align-items-center justify-content-start">
+<!--                    <div class="list d-flex align-items-center justify-content-start">
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
                         <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
-                    </div>
+                    </div>-->
 
                     <div class="row my-5">
                         <h3 class="fs-4 mb-3">Projects Guide</h3>

@@ -8,6 +8,7 @@ package com.group6.capstoneprojectregistration.controllers;
 import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
+import com.group6.capstoneprojectregistration.daos.MessageEventDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
@@ -42,13 +43,33 @@ public class InviteUserController extends HttpServlet {
         GroupDAO grDao = new GroupDAO();
         InvitationPendingDAO peDao = new InvitationPendingDAO();
         EventDAO evDao = new EventDAO();
+        MessageEventDAO meDao = new MessageEventDAO();
 
         try {
             UserDTO sender = usDao.getUserByEmail(senderEmail);
             GroupDTO group = grDao.getGroupByName(groupName);
-            boolean checkUserPending = peDao.insertPendingUser(sender, group);
+            boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
 //          UserDTO receiver = usDao.getUserByEmail(receiverEmail);
             boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
+//            EventDTO event = evDao.getEventOf(receiverEmail, sender, null);
+//            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(receiverEmail);
+//            
+//            System.out.println(event);
+//            System.out.println(listEvent);
+//            listEvent.hashCode();
+//            listEvent.equals(event);
+//            System.out.println(listEvent.hashCode());
+//           boolean check = listEvent.contains(event);
+//            
+//           Set<EventDTO> intersect = new HashSet<>(event);
+//            intersect.retainAll(listEvent);
+//           System.out.println(intersect.size());
+//           System.out.println(intersect);
+//            
+//            if (listEvent.contains(event)) {
+//                request.setAttribute("INVITE", "Mời rồi mời gì nữa 3!");
+//                url = ERROR;
+//            } else 
 
             if (checkUserPending && checkInviteEvent) {
                 request.setAttribute("INVITE", "Invite successfully!");
