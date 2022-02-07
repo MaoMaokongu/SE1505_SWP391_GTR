@@ -14,20 +14,21 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class PendingDTO {
+public class InvitationPendingDTO {
 
     private int id;
     private UserStatusDTO status;
     private UserDTO user;
     private GroupDTO group;
-
-    public PendingDTO() {
+    private String userInvited;
+    public InvitationPendingDTO() {
     }
 
-    public PendingDTO(int id, UserStatusDTO status, UserDTO user, GroupDTO group) {
-        this.id = id;
+    public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
         this.status = status;
         this.user = user;
         this.group = group;
+        this.userInvited = userInvited;
     }
+
 }

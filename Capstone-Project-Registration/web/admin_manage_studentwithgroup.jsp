@@ -103,7 +103,7 @@
 
                 <div class="container-fluid px-4">
                     <div class="list d-flex align-items-center justify-content-start">
-                        <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>
+<!--                        <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>-->
                         <button type="button" class="btn btn-warning btn-sm btn-student">New Semester</button>
                         <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
                     </div>

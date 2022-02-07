@@ -5,9 +5,8 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.EventDAO;
-import com.group6.capstoneprojectregistration.dtos.EventDTO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -21,38 +20,34 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "MessageController", urlPatterns = {"/MessageController"})
-public class MessageController extends HttpServlet {
+@WebServlet(name = "ProjectController", urlPatterns = {"/ProjectController"})
+public class ProjectController extends HttpServlet {
 
-    private static final String ERROR = "student_messages.jsp";
-    private static final String SUCCESS = "student_messages.jsp";
+    private static final String ERROR = "studentproject.jsp";
+    private static final String SUCCESS = "studentproject.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
 
         try {
+            ProjectDAO dao = new ProjectDAO();
+            List<ProjectDTO> listProject = dao.getListProject();
             HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            String userEmail = user.getEmail();
-            
-            EventDAO evDao = new EventDAO();
-            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userEmail);
-            
-            if (listEvent.size() > 0) {
-                session.setAttribute("MESSAGE_USER", listEvent);
+            if (listProject.size() > 0) {
+                session.setAttribute("LIST_PROJECT", listProject);
                 url = SUCCESS;
             } else {
-                request.setAttribute("MESSAGE_USER", "You don't have any messages");
+                request.setAttribute("BUG", "Can not load project");
+                url = ERROR;
             }
-            
-            
         } catch (Exception e) {
-            log("Error at MessageController" + e.toString());
+            log("Error at ProjectController" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

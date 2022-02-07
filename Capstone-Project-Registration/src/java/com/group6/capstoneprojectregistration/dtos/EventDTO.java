@@ -15,20 +15,18 @@ import lombok.Setter;
 @Setter
 @Getter
 public class EventDTO {
-    
+
     private int eventId;
     private String receiver;
     private UserDTO sender;
-    private MessageEventDTO message;
+    private MessageEventDTO event;
 
     public EventDTO() {
     }
 
-    public EventDTO(String receiver, UserDTO sender, MessageEventDTO message) {
+    public EventDTO(String receiver, UserDTO sender, MessageEventDTO event) {
         this.receiver = receiver;
         this.sender = sender;
-        this.message = message;
+        this.event = event;
     }
-
-    
 }
