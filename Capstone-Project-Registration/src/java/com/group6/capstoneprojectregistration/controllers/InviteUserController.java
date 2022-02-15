@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InviteUserController", urlPatterns = {"/InviteUserController"})
 public class InviteUserController extends HttpServlet {
 
-    private static final String ERROR = "student_nogroup.jsp";
-    private static final String SUCCESS = "student_nogroup.jsp";
+    private static final String ERROR = "NoGroupStudentController";
+    private static final String SUCCESS = "NoGroupStudentController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
