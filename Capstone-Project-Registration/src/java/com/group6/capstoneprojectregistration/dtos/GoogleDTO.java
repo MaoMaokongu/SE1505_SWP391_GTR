@@ -1,8 +1,9 @@
 package com.group6.capstoneprojectregistration.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,7 +16,8 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class GoogleDTO {
     
     private String id;
@@ -26,18 +28,4 @@ public class GoogleDTO {
     private String family_name;
     private String link;
     private String picture;
-
-    public GoogleDTO() {
-    }
-
-    public GoogleDTO(String id, String email, boolean verified_email, String name, String given_name, String family_name, String picture) {
-        this.id = id;
-        this.email = email;
-        this.verified_email = verified_email;
-        this.name = name;
-        this.given_name = given_name;
-        this.family_name = family_name;
-        this.picture = picture;
-    }
- 
 }

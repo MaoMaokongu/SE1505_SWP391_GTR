@@ -5,23 +5,21 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author admin
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoleDTO {
     
     private int roleId;
     private String Name;
-
-    public RoleDTO() {
-    }
-
-    public RoleDTO(int roleId, String Name) {
-        this.roleId = roleId;
-        this.Name = Name;
-    }
 }

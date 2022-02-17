@@ -5,7 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -14,17 +16,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SemesterDTO {
     
     private int semesterId;
     private String name;
-
-    public SemesterDTO() {
-    }
-
-    public SemesterDTO(int semesterId, String name) {
-        this.semesterId = semesterId;
-        this.name = name;
-    }
-   
 }

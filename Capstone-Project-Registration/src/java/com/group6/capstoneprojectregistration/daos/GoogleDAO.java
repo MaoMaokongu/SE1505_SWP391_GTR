@@ -65,9 +65,10 @@ public class GoogleDAO {
                 String name = rs.getString("Name");
                 String given_name = rs.getString("given_name");
                 String family_name = rs.getString("family_name");
+                String link = rs.getString("link");
                 String picture = rs.getString("picture");
-
-                gg = new GoogleDTO(id, email, verified_email, name, given_name, family_name, picture);
+                
+                gg = new GoogleDTO(id, email, verified_email, name, given_name, family_name,link, picture);
             }
         } catch (Exception e) {
             e.printStackTrace();

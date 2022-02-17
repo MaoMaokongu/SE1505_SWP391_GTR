@@ -13,6 +13,7 @@ import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,7 @@ public class InviteUserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = ERROR;
-
+        
         String receiverEmail = request.getParameter("receiver_email");
         String senderEmail = request.getParameter("sender_email");
         String groupName = request.getParameter("group_name");

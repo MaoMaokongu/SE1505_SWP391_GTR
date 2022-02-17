@@ -5,13 +5,19 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author admin
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroupDTO {
     
     private int groupId;
@@ -19,17 +25,8 @@ public class GroupDTO {
     private boolean isApproved;
     private String projectId;
 
-    public GroupDTO(int groupId, String name, boolean isApproved, String projectId) {
-        this.groupId = groupId;
-        this.name = name;
-        this.isApproved = isApproved;
-        this.projectId = projectId;
-    }
-
     public GroupDTO(int groupId, String name) {
         this.groupId = groupId;
         this.name = name;
     }
-    
-    
 }

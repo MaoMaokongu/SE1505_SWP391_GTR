@@ -6,6 +6,7 @@
 package com.group6.capstoneprojectregistration.dtos;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -14,13 +15,11 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class MessageEventDTO {
     
     private String messageEvent;
     private String messageContent;
-
-    public MessageEventDTO() {
-    }
 
     public MessageEventDTO(String messageContent) {
         this.messageContent = messageContent;

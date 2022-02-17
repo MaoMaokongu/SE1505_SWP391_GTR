@@ -6,6 +6,7 @@
 package com.group6.capstoneprojectregistration.dtos;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -14,6 +15,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class InvitationPendingDTO {
 
     private int id;
@@ -21,9 +23,7 @@ public class InvitationPendingDTO {
     private UserDTO user;
     private GroupDTO group;
     private String userInvited;
-    public InvitationPendingDTO() {
-    }
-
+ 
     public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
         this.status = status;
         this.user = user;

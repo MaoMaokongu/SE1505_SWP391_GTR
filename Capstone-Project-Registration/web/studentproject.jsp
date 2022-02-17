@@ -284,7 +284,6 @@
                     </div>
                 </nav>
                 <div class="container-fluid px-4">
-
                     <div class="row my-5">
                         <div class="col">
                             <table border ="1" class="table bg-white rounded shadow-sm  table-hover" id="example">
@@ -297,19 +296,23 @@
                                         <th>Number Of Students</th>
                                         <th>Description</th>
                                         <th>Semester</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${sessionScope.LIST_PROJECT}" var="project" >
                                         ${requestScope.BUG}
                                         <tr>
-                                            <th>${project.projectId}</th>
-                                            <td style="width: 500px">${project.name}</td>
-                                            <td>${project.mentor}</td>
-                                            <td>${project.coMentor}</td>
-                                            <td>${project.numOfStus}</td>
-                                            <td>${project.discription}</td>
-                                            <td>${project.semester.name}</td>
+                                            <th style="width: 250px">${project.projectId}</th>
+                                            <td style="width: 1000px">${project.name}</td>
+                                            <td style="width: 500px">${project.mentor}</td>
+                                            <td style="width: 500px">${project.coMentor}</td>
+                                            <td style="width: 500px">${project.numOfStus}</td>
+                                            <td style="width: 500px">${project.discription}</td>
+                                            <td style="width: 500px">${project.semester.name}</td>
+                                            <td>
+
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
