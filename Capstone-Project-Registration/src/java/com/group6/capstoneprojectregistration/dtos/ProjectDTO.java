@@ -5,7 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -14,6 +16,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectDTO {
     
     private String projectId;
@@ -25,20 +29,4 @@ public class ProjectDTO {
     private String discription;
     private SemesterDTO semester;
 
-    public ProjectDTO() {
-    }
-
-    public ProjectDTO(String projectId, String name, String mentor, String coMentor, int numOfStus, boolean isSelected, String discription, SemesterDTO semester) {
-        this.projectId = projectId;
-        this.name = name;
-        this.mentor = mentor;
-        this.coMentor = coMentor;
-        this.numOfStus = numOfStus;
-        this.isSelected = isSelected;
-        this.discription = discription;
-        this.semester = semester;
-    }
-    
-    
-    
 }

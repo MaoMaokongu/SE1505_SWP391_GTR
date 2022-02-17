@@ -6,7 +6,9 @@
 package com.group6.capstoneprojectregistration.dtos;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -15,6 +17,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
 
     private String userId;
@@ -25,18 +29,4 @@ public class UserDTO {
     private GroupDTO group;
     private boolean isLeader;
 
-    public UserDTO() {
-    }
-
-    public UserDTO(String userId, String email, String userName, String gender, RoleDTO role, GroupDTO group, boolean isLeader) {
-        this.userId = userId;
-        this.email = email;
-        this.userName = userName;
-        this.gender = gender;
-        this.role = role;
-        this.group = group;
-        this.isLeader = isLeader;
-    }
-
-  
 }

@@ -121,6 +121,7 @@
                                 </thead>
                                 <tbody>
                                     <c:forEach var="usernogroup" varStatus="counter" items="${sessionScope.LIST_NO_GROUP_USER}">
+                                    <form id="myForm" action="InviteUserController">
                                         <tr>
                                             <th>${counter.count}</th>
                                             <td>${usernogroup.userId}</td>
@@ -128,16 +129,14 @@
                                             <td>${usernogroup.userName}</td>
                                             <td>${usernogroup.gender}</td>
                                             <td>
-                                                <c:url var="invite" value="InviteUserController">
-                                                    <c:param name="receiver_email" value="${usernogroup.email}"></c:param>
-                                                    <c:param name="sender_email" value="${sessionScope.USER.email}"></c:param>
-                                                    <c:param name="group_name" value="${sessionScope.USER.group.name}"></c:param>
-                                                </c:url>
-<!--                                                <button id="demo" type="button" class="btn btn-primary" onclick="myFunction()">invite</button>-->
-                                                <a href="${invite}" id="change" class="btn btn-primary" type="button" onclick="myFunction()">Invite</a>
+                                                <input type="submit" value="Invite"/>
+                                                <input type="hidden" name="receiver_email" value="${usernogroup.email}"/>
+                                                <input type="hidden" name="sender_email" value="${sessionScope.USER.email}"/>
+                                                <input type="hidden" name="group_name" value="${sessionScope.USER.group.name}"/>
                                             </td>
                                         </tr>
-                                    </c:forEach>
+                                    </form>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -148,20 +147,31 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                                                    var el = document.getElementById("wrapper");
-                                                    var toggleButton = document.getElementById("menu-toggle");
+            var el = document.getElementById("wrapper");
+            var toggleButton = document.getElementById("menu-toggle");
 
-                                                    toggleButton.onclick = function () {
-                                                        el.classList.toggle("toggled");
-                                                    };
+            toggleButton.onclick = function () {
+                el.classList.toggle("toggled");
+            };
         </script>
         <script>
-            function myFunction() {
-                document.getElementById("change").innerHTML = "Pending...";
-                
-                // document.getElementById("demo").style.color = "red";
-            }
+//            function myFunction() {
+//                document.getElementById("myForm").submit();
+//
+//            }
         </script> 
+        <script>
+//            function change() // no ';' here
+//            {
+//                var elem = document.getElementById("button");
+//                if (elem.value == "Invite"){
+//                    elem.value = "Invited";
+//                    this.disable;
+//                }                    
+//                else
+//                    elem.value = "Invite";
+//            }
+        </script>
     </body>
 
 </html>
