@@ -119,42 +119,52 @@
                                         <th scope="col" width="50"></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- 1.LIST_INVITATION_BYGROUP -->
-                                    <c:forEach var="invitation" varStatus="counter" items="${requestScope.LIST_INVITATION_BYGROUP}">
+                                <tbody>                   
+                                    <!-- 1.LIST_USER_INVITED -->
+                                    <c:forEach var="userInvited" varStatus="counter" items="${sessionScope.LIST_USER_INVITED}">
                                         <tr>
                                             <th>${counter.count}</th>
-                                            <td>${invitation.user.userId}</td>
-                                            <td>${invitation.user.email}</td>
-                                            <td>${invitation.user.userName}</td>
-                                            <td>${invitation.user.gender}</td>
+                                            <td>${userInvited.userId}</td>
+                                            <td>${userInvited.email}</td>
+                                            <td>${userInvited.userName}</td>
+                                            <td>${userInvited.gender}</td>
                                             <td>
-                                                <button id="demo" type="button" class="btn btn-primary">${invitation.status.name}</button>
+                                                <!--need status here-->
+                                                <button id="demo" type="button" class="btn btn-primary" style="color: red">Invited</button>
                                                 </a>
                                             </td>
                                         </tr>
                                     </c:forEach>
-                                        
+
                                     <!-- 2.LIST_NO_GROUP_USER -->
-                                    <c:forEach var="usernogroup" varStatus="counter" items="${requestScope.LIST_NO_GROUP_USER}">
-                                        <tr>
-                                            <th>${counter.count}</th>
-                                            <td>${usernogroup.userId}</td>
-                                            <td>${usernogroup.email}</td>
-                                            <td>${usernogroup.userName}</td>
-                                            <td>${usernogroup.gender}</td>
-                                            <td>
-                                                <c:url var="invite" value="InviteUserController">
-                                                    <c:param name="receiver_email" value="${usernogroup.email}"></c:param>
-                                                    <c:param name="sender_email" value="${sessionScope.USER.email}"></c:param>
-                                                    <c:param name="group_name" value="${sessionScope.USER.group.name}"></c:param>
-                                                </c:url>
-                                                <!--<button id="demo" type="button" class="btn btn-primary" onclick="myFunction()">invite</button>-->   
-                                                <a href="${invite}" id="change" class="btn btn-primary" type="button" onclick="myFunction()">Invite</a>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.LIST_NO_GROUP_USER.size() > 0}">
+                                                <c:forEach var="usernogroup" varStatus="counter" items="${sessionScope.LIST_NO_GROUP_USER}">
+                                                <tr>
+                                                    <th>${counter.count}</th>
+                                                    <td>${usernogroup.userId}</td>
+                                                    <td>${usernogroup.email}</td>
+                                                    <td>${usernogroup.userName}</td>
+                                                    <td>${usernogroup.gender}</td>
+                                                    <td>
+                                                        <c:url var="invite" value="InviteUserController">
+                                                            <c:param name="receiver_email" value="${usernogroup.email}"></c:param>
+                                                            <c:param name="sender_email" value="${sessionScope.USER.email}"></c:param>
+                                                            <c:param name="group_name" value="${sessionScope.USER.group.name}"></c:param>
+                                                        </c:url>
+                                                        <!--<button id="demo" type="button" class="btn btn-primary" onclick="myFunction()">invite</button>-->   
+                                                        <a href="${invite}" id="change" class="btn btn-primary" type="button" onclick="myFunction()">Invite</a>
+                                                        </a>
+                                                    </td>
+                                                </tr>          
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tr>
+                                                <td colspan="6" style="text-align: center">No more students to invite</td>
+                                            </tr>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </tbody>
                             </table>
                         </div>
@@ -165,17 +175,17 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                                                    var el = document.getElementById("wrapper");
-                                                    var toggleButton = document.getElementById("menu-toggle");
+                                                            var el = document.getElementById("wrapper");
+                                                            var toggleButton = document.getElementById("menu-toggle");
 
-                                                    toggleButton.onclick = function () {
-                                                        el.classList.toggle("toggled");
-                                                    };
+                                                            toggleButton.onclick = function () {
+                                                                el.classList.toggle("toggled");
+                                                            };
         </script>
         <script>
             function myFunction() {
                 document.getElementById("change").innerHTML = "Pending...";
-                
+
                 // document.getElementById("demo").style.color = "red";
             }
         </script> 

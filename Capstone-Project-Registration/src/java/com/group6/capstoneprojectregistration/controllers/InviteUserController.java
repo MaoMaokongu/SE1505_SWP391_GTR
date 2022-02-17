@@ -28,12 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InviteUserController", urlPatterns = {"/InviteUserController"})
 public class InviteUserController extends HttpServlet {
 
-    private static final String ERROR = "NoGroupStudentController";
-    private static final String SUCCESS = "NoGroupStudentController";
+    private static final String URL = "NoGroupStudentController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = ERROR;
+        String url = URL;
 
         String receiverEmail = request.getParameter("receiver_email");
         String senderEmail = request.getParameter("sender_email");
@@ -73,15 +72,13 @@ public class InviteUserController extends HttpServlet {
 
             if (checkUserPending && checkInviteEvent) {
                 request.setAttribute("INVITE", "Invite successfully!");
-                url = SUCCESS;
             } else {
                 request.setAttribute("INVITE", "Invitation failed!");
-                url = ERROR;
             }
         } catch (Exception e) {
             log("Error at PendingController" + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

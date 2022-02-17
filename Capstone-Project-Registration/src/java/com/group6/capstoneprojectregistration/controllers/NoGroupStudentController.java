@@ -7,7 +7,6 @@ package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.util.List;
@@ -32,28 +31,22 @@ public class NoGroupStudentController extends HttpServlet {
             throws ServletException, IOException {
         String url = ERROR;
 
-//        String userId = request.getParameter("userid");
-        HttpSession session = request.getSession();
         try {
-            UserDTO user = (UserDTO)session.getAttribute("USER");
+            HttpSession session = request.getSession();
+            UserDTO user = (UserDTO) session.getAttribute("USER");
             int groupId = user.getGroup().getGroupId();
-            
-            //1.LIST_INVITATION_BYGROUP
+
+            //1.LIST_USER_INVITED
             InvitationPendingDAO invitationDao = new InvitationPendingDAO();
-            List<InvitationPendingDTO> listInvitation = (List<InvitationPendingDTO>) invitationDao.getAllInvitedByGroup(groupId);
+            List<UserDTO> listUserInvited = (List<UserDTO>) invitationDao.getListUserInvited(groupId);
 
             //2.LIST_NO_GROUP_USER
             UserDAO usDao = new UserDAO();
-            List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser();
+            List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser(groupId);
             //--------------------------
-            if (listUser.size() > 0) {
-                request.setAttribute("LIST_INVITATION_BYGROUP", listInvitation);
-                request.setAttribute("LIST_NO_GROUP_USER", listUser);
-                url = SUCCESS;
-            } else {
-                request.setAttribute("LIST_NO_GROUP_USER", "There are no students who haven't had group!");
-            }
-
+            session.setAttribute("LIST_USER_INVITED", listUserInvited);
+            session.setAttribute("LIST_NO_GROUP_USER", listUser);
+            url = SUCCESS;
         } catch (Exception e) {
             log("Error at NoGroupUserController" + e.toString());
         } finally {

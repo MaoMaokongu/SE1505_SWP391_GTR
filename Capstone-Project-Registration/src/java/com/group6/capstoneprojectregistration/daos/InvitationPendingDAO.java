@@ -6,9 +6,7 @@
 package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
-import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.dtos.UserStatusDTO;
 import com.group6.capstoneprojectregistration.untils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +22,7 @@ import java.util.List;
 public class InvitationPendingDAO {
 
     private static final String INSERT_PENDING_USER = " INSERT INTO [Invitation Pending] ([Status], [User], [Group], Userinvited) VALUES (?, ?, ?, ?)";
-    private static final String GET_LIST_INVITATION_BY_GROUP_ID = " SELECT * FROM [Invitation Pending] WHERE [Group] = ?";
+    private static final String GET_LIST_USER_INVITED = " SELECT * FROM [User] tbl1 WHERE EXISTS(SELECT * FROM [Invitation Pending] tbl2 WHERE tbl1.Email = tbl2.UserInvited AND [Group] = ?) AND [Group] is null";
 
     public boolean insertPendingUser(UserDTO user, GroupDTO group, String receiver) throws SQLException {
         boolean check = false;
@@ -57,8 +55,8 @@ public class InvitationPendingDAO {
         return check;
     }
 
-    public List<InvitationPendingDTO> getAllInvitedByGroup(int groupId) throws SQLException {
-        List<InvitationPendingDTO> listInvitation = new ArrayList<>();
+    public List<UserDTO> getListUserInvited(int groupId) throws SQLException {
+        List<UserDTO> listUser = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -66,21 +64,21 @@ public class InvitationPendingDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = GET_LIST_INVITATION_BY_GROUP_ID;
+                String sql = GET_LIST_USER_INVITED;
                 stm = conn.prepareStatement(sql);
                 stm.setInt(1, groupId);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    int id = rs.getInt("Id");
-                    int statusId = rs.getInt("Status");
-                    String userId = rs.getString("User");
-                    String userInvited = rs.getString("UserInvited");
-
-                    UserStatusDAO statusDao = new UserStatusDAO();
-                    UserDAO userDao = new UserDAO();
+                    String userId = rs.getString("UserId");
+                    String email = rs.getString("Email");
+                    String userName = rs.getString("Username");
+                    String gender = rs.getString("Gender");
+                    int role = rs.getInt("role");
+                    int group = rs.getInt("Group");
+                    boolean isLeader = rs.getBoolean("IsLeader");
+                    RoleDAO rlDao = new RoleDAO();
                     GroupDAO grDao = new GroupDAO();
-
-                    listInvitation.add(new InvitationPendingDTO(statusDao.getStatusById(statusId), userDao.getStrUserById(userId), grDao.getGroupById(groupId), userInvited));
+                    listUser.add(new UserDTO(userId, email, userName, gender, rlDao.getRole(role), grDao.getGroupById(group), isLeader));
                 }
             }
         } catch (Exception e) {
@@ -97,6 +95,6 @@ public class InvitationPendingDAO {
             }
         }
 
-        return listInvitation;
+        return listUser;
     }
 }
