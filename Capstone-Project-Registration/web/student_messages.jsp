@@ -28,6 +28,7 @@
         </c:url>
         <c:url var="group" value="GroupController">
             <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+            <c:param name="email" value="${sessionScope.USER.email}"></c:param>
         </c:url>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
@@ -94,31 +95,49 @@
                 <div class="container-fluid px-4">
                     <div class="row my-5">
                         <div class="col">
-                            <c:if test="${sessionScope.MESSAGE_USER == null}">
-                                <h5>${requestScope.MESSAGE_USER}</h5>
-                            </c:if>
+
+                            <h5>${requestScope.MESSAGE_USER}</h5>
+
+                            ${requestScope.Accept_Success}
                             <c:if test="${sessionScope.MESSAGE_USER != null}">
-                                <table class="table bg-white rounded shadow-sm  table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" width="50">#</th>
-                                            <th>Message</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="event" varStatus="counter" items="${sessionScope.MESSAGE_USER}">
+                                <c:if test="${ not empty sessionScope.MESSAGE_USER}">
+                                    <table class="table bg-white rounded shadow-sm  table-hover">
+                                        <thead>
                                             <tr>
-                                                <td scope="row">${counter.count}</td>
-                                                <td style="width: 1000px">${event.event.messageContent}by ${event.sender.group.name}</td>
-                                                <c:if test="${event.event ne 'Invite'}">
-                                                    <td><button id="myBtn1" class="btn btn-primary">see more</button></td>
-                                                </c:if>
+                                                <th scope="col" width="50">#</th>
+                                                <th>Message</th>
+                                                <th></th>
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="event" varStatus="counter" items="${sessionScope.MESSAGE_USER}">
+                                            <form action="StudentDecisionController">
+                                                <tr>
+                                                    <td scope="row">${counter.count}</td>
+                                                    <td style="width: 1000px">
+                                                        <c:if test="${requestScope.INVITE != null}">
+                                                            ${requestScope.INVITE} ${event.sender.group.name}
+                                                        </c:if>
+                                                        <c:if test="${requestScope.ACCEPT != null}">
+                                                            ${requestScope.ACCEPT} ${event.sender.userName}
+                                                        </c:if>
+                                                    </td>
+                                                    <c:if test="${event.event.messageEvent == 'Invite'}">
+                                                        <td>
+                                                            <input type="hidden" name="sender" value="${event.sender.userId}">
+                                                            <input type="hidden" name="invitedUserId" value="${loginUser.userId}">
+                                                            <input type="hidden" name="emailReceiver" value="${loginUser.email}">
+                                                            <input type="submit" name="studentDecision" value="Accept">
+                                                            <input type="submit" name="studentDecision" value="Deny">
+                                                        </td>
+                                                    </c:if>
+                                                </tr>
+                                            </form>
                                         </c:forEach>
-                                    </tbody>
+                                        </tbody>
+                                    </table>
                                 </c:if>
-                            </table>
+                            </c:if>
                         </div>
 
                         <div id="myModal" class="modal">

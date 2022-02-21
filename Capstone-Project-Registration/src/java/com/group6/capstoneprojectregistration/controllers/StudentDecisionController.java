@@ -5,7 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.EventDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.util.List;
@@ -20,40 +22,56 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "NoGroupStudentController", urlPatterns = {"/NoGroupStudentController"})
-public class NoGroupStudentController extends HttpServlet {
+@WebServlet(name = "StudentDecisionController", urlPatterns = {"/StudentDecisionController"})
+public class StudentDecisionController extends HttpServlet {
 
-    private static final String ERROR = "studentgroup.jsp";
-    private static final String SUCCESS = "student_nogroup.jsp";
+    private static final String ERROR = "student_messages.jsp";
+    private static final String SUCCESS = "student_messages.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String url = ERROR;
 
-//        String userId = request.getParameter("userid");
-        HttpSession session = request.getSession();
         try {
+
+            String studentDecision = request.getParameter("studentDecision");
+            String invitedUserId = request.getParameter("invitedUserId");
+            String sender = request.getParameter("sender");
+            String emailReceiver = request.getParameter("emailReceiver");
+
             UserDAO usDao = new UserDAO();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
-            if (numOfStudent < 5) {
-                List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser();
-                if (listUser.size() > 0) {
-                    session.setAttribute("LIST_NO_GROUP_USER", listUser);
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("LIST_NO_GROUP_USER", "There are no students who haven't had group!");
-                    url = SUCCESS;
+            UserDTO user = usDao.getStrUserById(sender);
+            EventDAO evDao = new EventDAO();
+            EventDTO event = evDao.getEventOf(sender);
+            UserDTO userBack = usDao.getUserByEmail(emailReceiver);
+            
+            HttpSession session = request.getSession();
+
+            if (studentDecision.equals("Accept")) {
+                boolean checkAddUserIntoGroup = usDao.addUserIntoGroup(user, invitedUserId);
+                if (checkAddUserIntoGroup) {
+                    boolean checkDeleteMessage = evDao.deleteMessage(emailReceiver, user);
+                    if (checkDeleteMessage) {
+                        boolean checkInsertAcceptEvnet = evDao.insertAcceptEvent(user, userBack.getUserId());
+                        if (checkInsertAcceptEvnet) {
+                            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(emailReceiver);
+                            session.setAttribute("MESSAGE_USER", listEvent);
+                            request.setAttribute("Accept_Success", "Welcome to group " + user.getGroup().getName());
+                            url = SUCCESS;
+                        }
+                    }
                 }
             } else {
-                request.setAttribute("ENOUGH", "Your team have enough member!");
                 url = ERROR;
             }
+
         } catch (Exception e) {
-            log("Error at NoGroupUserController" + e.toString());
+            log("Error at StudentDecisionController" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

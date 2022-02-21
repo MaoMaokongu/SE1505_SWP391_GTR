@@ -28,6 +28,7 @@
         </c:url>
         <c:url var="group" value="GroupController">
             <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+            <c:param name="email" value="${sessionScope.USER.email}"></c:param>
         </c:url>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
@@ -111,14 +112,20 @@
 
                     <div class="col">
                         <c:if test="${sessionScope.LIST_USER_IN_GROUP == null}">
-                            <button disabled="">Invite</button>
+                            <!--                            <button disabled="">Invite</button>-->
                             <h3>You don't have a group yet, Please create or join group first!</h3>
                         </c:if>
+
                         <c:if test="${sessionScope.LIST_USER_IN_GROUP != null}">
-                            <c:url var="studentnogroup" value="NoGroupStudentController">
-                                <c:param name="userid" value="${loginUser.userId}"></c:param>
-                            </c:url>
-                            <a href="${studentnogroup}"><button>Invite</button></a>
+                            <c:if test="${loginUser.leader == true}">
+                                <c:url var="studentnogroup" value="NoGroupStudentController">
+                                    <c:param name="userid" value="${loginUser.userId}"></c:param>
+                                </c:url>
+                                <a href="${studentnogroup}"><button>Invite</button></a>
+                            </c:if>
+                            <h5 style="color: red">${requestScope.SUCCESS}</h5>
+                            <h5 style="color: red">${requestScope.ERROR}</h5>
+                            <h5 style="color: red">${requestScope.ENOUGH}</h5>
                             <table class="table bg-white rounded shadow-sm  table-hover">
                                 <thead>
                                     <tr>

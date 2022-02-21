@@ -7,6 +7,7 @@ package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
+import com.group6.capstoneprojectregistration.dtos.MessageEventDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.util.List;
@@ -35,18 +36,19 @@ public class MessageController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
             String userEmail = user.getEmail();
-            
+
             EventDAO evDao = new EventDAO();
             List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userEmail);
-            
-            if (listEvent.size() > 0) {
+            String event = evDao.getEventOf(userEmail).getEvent().getMessageEvent();
+            if (!listEvent.isEmpty()) {
+                if ("Invite".equals(event)) request.setAttribute("INVITE", "You received an invitation to join the group by");
+                if ("Accept".equals(event)) request.setAttribute("ACCEPT", "Your invitation has been accepted by");
                 session.setAttribute("MESSAGE_USER", listEvent);
                 url = SUCCESS;
             } else {
                 request.setAttribute("MESSAGE_USER", "You don't have any messages");
             }
-            
-            
+
         } catch (Exception e) {
             log("Error at MessageController" + e.toString());
         } finally {

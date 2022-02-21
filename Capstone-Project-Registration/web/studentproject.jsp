@@ -223,6 +223,7 @@
         </c:url>
         <c:url var="group" value="GroupController">
             <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+            <c:param name="email" value="${sessionScope.USER.email}"></c:param>
         </c:url>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
@@ -294,7 +295,6 @@
                                         <th>Mentor</th>
                                         <th>Co-Mentor</th>
                                         <th>Number Of Students</th>
-                                        <th>Description</th>
                                         <th>Semester</th>
                                         <th></th>
                                     </tr>
@@ -304,11 +304,19 @@
                                         ${requestScope.BUG}
                                         <tr>
                                             <th style="width: 250px">${project.projectId}</th>
-                                            <td style="width: 1000px">${project.name}</td>
+                                            <td style="width: 1000px">
+                                                <c:url var="projectDetails" value="ProjectDetailsController">
+                                                    <c:param name="projectName" value="${project.name}"></c:param>
+                                                    <c:param name="projectMentor" value="${project.mentor}"></c:param>
+                                                    <c:param name="projectCoMentor" value="${project.coMentor}"></c:param>
+                                                    <c:param name="projectNumOfStu" value="${project.numOfStus}"></c:param>
+                                                    <c:param name="projectDiscription" value="${project.discription}"></c:param>
+                                                </c:url>
+                                                <a href="${projectDetails}">${project.name}</a>
+                                            </td>
                                             <td style="width: 500px">${project.mentor}</td>
                                             <td style="width: 500px">${project.coMentor}</td>
                                             <td style="width: 500px">${project.numOfStus}</td>
-                                            <td style="width: 500px">${project.discription}</td>
                                             <td style="width: 500px">${project.semester.name}</td>
                                             <td>
 
@@ -326,8 +334,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        var el = document.getElementById("wrapper");
+    <script>         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
         toggleButton.onclick = function () {

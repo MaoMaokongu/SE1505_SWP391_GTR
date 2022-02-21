@@ -26,6 +26,72 @@ public class UserDAO {
     private static final String GET_LIST_USER_BY_GROUP_ID = " SELECT * FROM [User] WHERE [Group] = ?";
     private static final String GET_LIST_NO_GROUP_USER = " SELECT * FROM [User] WHERE [Group] is null";
     private static final String GET_USER_BY_ID = " SELECT * FROM [User] WHERE UserId = ?";
+    private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? Where UserId = ?";
+    private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
+
+    public int countStudentInGroup(int group) throws SQLException {
+        int count = 0;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = COUNT_STUDENT_IN_GROUP;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, group);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int numOfStudent = rs.getInt("Students");
+                    count = numOfStudent;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return count;
+    }
+
+    public boolean addUserIntoGroup(UserDTO sender, String invitedUserId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = ADD_USER_INTO_GROUP;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, sender.getGroup().getGroupId());
+                stm.setString(2, invitedUserId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
 
     public UserDTO getStrUserById(String strUserId) throws SQLException {
         UserDTO user = null;

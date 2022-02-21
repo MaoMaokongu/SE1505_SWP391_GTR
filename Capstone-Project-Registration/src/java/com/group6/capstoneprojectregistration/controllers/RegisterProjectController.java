@@ -5,55 +5,25 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "NoGroupStudentController", urlPatterns = {"/NoGroupStudentController"})
-public class NoGroupStudentController extends HttpServlet {
-
-    private static final String ERROR = "studentgroup.jsp";
-    private static final String SUCCESS = "student_nogroup.jsp";
+@WebServlet(name = "RegisterProjectController", urlPatterns = {"/RegisterProjectController"})
+public class RegisterProjectController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = ERROR;
-
-//        String userId = request.getParameter("userid");
-        HttpSession session = request.getSession();
-        try {
-            UserDAO usDao = new UserDAO();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
-            if (numOfStudent < 5) {
-                List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser();
-                if (listUser.size() > 0) {
-                    session.setAttribute("LIST_NO_GROUP_USER", listUser);
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("LIST_NO_GROUP_USER", "There are no students who haven't had group!");
-                    url = SUCCESS;
-                }
-            } else {
-                request.setAttribute("ENOUGH", "Your team have enough member!");
-                url = ERROR;
-            }
-        } catch (Exception e) {
-            log("Error at NoGroupUserController" + e.toString());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
