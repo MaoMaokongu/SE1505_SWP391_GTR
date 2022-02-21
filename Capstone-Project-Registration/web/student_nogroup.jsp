@@ -22,6 +22,7 @@
         </c:url>
         <c:url var="group" value="GroupController">
             <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+            
         </c:url>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->

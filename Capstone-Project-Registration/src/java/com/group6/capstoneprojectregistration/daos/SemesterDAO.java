@@ -35,7 +35,6 @@ public class SemesterDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) {                    
                     String name = rs.getString("Name");
-                    
                     semester = new SemesterDTO(id, name);
                 }
             }

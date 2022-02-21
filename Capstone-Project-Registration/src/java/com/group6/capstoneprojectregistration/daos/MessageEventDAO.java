@@ -18,9 +18,9 @@ import java.sql.SQLException;
  */
 public class MessageEventDAO {
 
-    private static final String GET_MESS_CONTENT_BY_EVENT = " SELECT MessageContent FROM [Message Event] WHERE MessageEvent = ?";
+    private static final String GET_MESS_CONTENT_BY_EVENT = " SELECT MessageContent, MessageEvent FROM [Message Event] WHERE MessageEvent = ? ";
     private static final String GET = " ";
-    
+
     public MessageEventDTO get() throws SQLException {
         MessageEventDTO message = null;
         Connection conn = null;
@@ -30,7 +30,7 @@ public class MessageEventDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class MessageEventDAO {
     }
 
     public MessageEventDTO getMessageContentByEvent(String messEvent) throws SQLException {
-        MessageEventDTO messageEvent = null;
+        MessageEventDTO mesEvent = null;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -63,8 +63,10 @@ public class MessageEventDAO {
                 stm.setString(1, messEvent);
                 rs = stm.executeQuery();
                 if (rs.next()) {
+                    String messageEvent = rs.getString("MessageEvent");
                     String messageContent = rs.getString("MessageContent");
-                    messageEvent = new MessageEventDTO(messageContent);
+
+                    mesEvent = new MessageEventDTO(messageEvent, messageContent);
                 }
             }
         } catch (Exception e) {
@@ -81,6 +83,6 @@ public class MessageEventDAO {
             }
         }
 
-        return messageEvent;
+        return mesEvent;
     }
 }

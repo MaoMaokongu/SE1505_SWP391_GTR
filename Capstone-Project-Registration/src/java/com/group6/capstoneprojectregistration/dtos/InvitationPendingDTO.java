@@ -24,11 +24,11 @@ public class InvitationPendingDTO {
     private GroupDTO group;
     private String userInvited;
  
-    public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
-        this.status = status;
-        this.user = user;
-        this.group = group;
-        this.userInvited = userInvited;
-    }
+//    public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
+//        this.status = status;
+//        this.user = user;
+//        this.group = group;
+//        this.userInvited = userInvited;
+//    }
 
 }

@@ -6,7 +6,6 @@
 package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
-import com.group6.capstoneprojectregistration.dtos.MessageEventDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import com.group6.capstoneprojectregistration.untils.DBUtils;
 import java.sql.Connection;
@@ -27,7 +26,37 @@ public class EventDAO {
     private static final String GET_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ?";
 //    private static final String GET_ALL_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event]";
     private static final String CHECK_DUPLICATE = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ? AND Sender = ? AND [Event] = ? ";
+    private static final String DELETE_MESSAGE = " DELETE FROM [Event] WHERE Receiver = ? AND Sender =? AND [Event] = ?";
     
+    public boolean deleteMessage(String emailReceiver, UserDTO user) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_MESSAGE;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, emailReceiver);
+                stm.setString(2, user.getUserId());
+                stm.setString(3, "Invite");
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public boolean checkDuplicate() throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -40,8 +69,8 @@ public class EventDAO {
                 String sql = CHECK_DUPLICATE;
                 stm = conn.prepareStatement(sql);
                 rs = stm.executeQuery();
-                while (rs.next()) {                    
-                    
+                while (rs.next()) {
+
                 }
             }
         } catch (Exception e) {
@@ -61,7 +90,7 @@ public class EventDAO {
         return check;
     }
 
-    public EventDTO getEventOf(String argReceiver, UserDTO argSender, String argEvent) throws SQLException {
+    public EventDTO getEventOf(String argReceiver) throws SQLException {
         EventDTO event = null;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -152,6 +181,35 @@ public class EventDAO {
                 stm.setString(1, receiverEmail);
                 stm.setString(2, sender.getUserId());
                 stm.setString(3, "Invite");
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+    
+    public boolean insertAcceptEvent(UserDTO receiver, String sender) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = INSERT_EVENT;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, receiver.getEmail());
+                stm.setString(2, sender);
+                stm.setString(3, "Accept");
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {

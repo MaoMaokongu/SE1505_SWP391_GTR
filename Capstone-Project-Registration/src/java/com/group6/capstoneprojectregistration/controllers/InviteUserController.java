@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,7 +36,7 @@ public class InviteUserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = ERROR;
-        
+
         String receiverEmail = request.getParameter("receiver_email");
         String senderEmail = request.getParameter("sender_email");
         String groupName = request.getParameter("group_name");
@@ -49,9 +50,8 @@ public class InviteUserController extends HttpServlet {
         try {
             UserDTO sender = usDao.getUserByEmail(senderEmail);
             GroupDTO group = grDao.getGroupByName(groupName);
-            boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
+
 //          UserDTO receiver = usDao.getUserByEmail(receiverEmail);
-            boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
 //            EventDTO event = evDao.getEventOf(receiverEmail, sender, null);
 //            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(receiverEmail);
 //            
@@ -70,13 +70,22 @@ public class InviteUserController extends HttpServlet {
 //            if (listEvent.contains(event)) {
 //                request.setAttribute("INVITE", "Mời rồi mời gì nữa 3!");
 //                url = ERROR;
-//            } else 
-
-            if (checkUserPending && checkInviteEvent) {
-                request.setAttribute("INVITE", "Invite successfully!");
-                url = SUCCESS;
+//            } else
+            HttpSession session = request.getSession();
+            UserDTO user = (UserDTO) session.getAttribute("USER");
+            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
+            if (numOfStudent < 5) {
+                boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
+                boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
+                if (checkUserPending && checkInviteEvent) {
+                    request.setAttribute("INVITE", "Invite successfully!");
+                    url = SUCCESS;
+                } else {
+                    request.setAttribute("INVITE", "Invitation failed!");
+                    url = ERROR;
+                }
             } else {
-                request.setAttribute("INVITE", "Invitation failed!");
+                request.setAttribute("INVITE", "Your team have enough member!");
                 url = ERROR;
             }
         } catch (Exception e) {

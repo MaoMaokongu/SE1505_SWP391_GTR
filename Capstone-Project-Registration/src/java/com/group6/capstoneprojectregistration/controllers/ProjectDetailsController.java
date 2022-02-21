@@ -5,10 +5,10 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,37 +20,34 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "NoGroupStudentController", urlPatterns = {"/NoGroupStudentController"})
-public class NoGroupStudentController extends HttpServlet {
+@WebServlet(name = "ProjectDetailsController", urlPatterns = {"/ProjectDetailsController"})
+public class ProjectDetailsController extends HttpServlet {
 
-    private static final String ERROR = "studentgroup.jsp";
-    private static final String SUCCESS = "student_nogroup.jsp";
+    private static final String ERROR = "projectdetails.jsp";
+    private static final String SUCCESS = "projectdetails.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = ERROR;
 
-//        String userId = request.getParameter("userid");
-        HttpSession session = request.getSession();
+        String projectName = request.getParameter("projectName");
+//        String projectMentor = request.getParameter("projectMentor");
+//        String projectCoMentor = request.getParameter("projectCoMentor");
+//        String projectNumOfStu = request.getParameter("projectNumOfStu");
+//        String projectDiscription = request.getParameter("projectDiscription");
+        
         try {
-            UserDAO usDao = new UserDAO();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
-            if (numOfStudent < 5) {
-                List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser();
-                if (listUser.size() > 0) {
-                    session.setAttribute("LIST_NO_GROUP_USER", listUser);
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("LIST_NO_GROUP_USER", "There are no students who haven't had group!");
-                    url = SUCCESS;
-                }
-            } else {
-                request.setAttribute("ENOUGH", "Your team have enough member!");
-                url = ERROR;
+            ProjectDAO proDao = new ProjectDAO();
+            ProjectDTO project = proDao.getProject(projectName);
+            HttpSession session = request.getSession();
+            
+            if (project != null) {
+                session.setAttribute("PROJECT_DETAILS", project);
+                url = SUCCESS;
             }
+            
         } catch (Exception e) {
-            log("Error at NoGroupUserController" + e.toString());
+            log("Error at ProjectDetailsController" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
