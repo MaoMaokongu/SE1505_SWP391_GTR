@@ -22,7 +22,7 @@ import java.util.List;
 public class InvitationPendingDAO {
 
     private static final String INSERT_PENDING_USER = " INSERT INTO [Invitation Pending] ([Status], [User], [Group], Userinvited) VALUES (?, ?, ?, ?)";
-    private static final String GET_LIST_USER_INVITED = " SELECT * FROM [User] tbl1 WHERE EXISTS(SELECT * FROM [Invitation Pending] tbl2 WHERE tbl1.Email = tbl2.UserInvited AND [Group] = ?) AND [Group] is null";
+    private static final String GET_LIST_USER_INVITED = " SELECT * FROM [User] tbl1 WHERE EXISTS(SELECT * FROM [Invitation Pending] tbl2 WHERE tbl1.Email = tbl2.UserInvited AND [Group] = ? AND [Status] = 1) AND [Group] is null";
 
     public boolean insertPendingUser(UserDTO user, GroupDTO group, String receiver) throws SQLException {
         boolean check = false;
