@@ -130,7 +130,7 @@
                                             <td>${userInvited.gender}</td>
                                             <td>
                                                 <!--need status here-->
-                                                <button id="demo" type="button" class="btn btn-primary" style="color: red">Invited</button>
+                                                <button id="demo" type="button" class="btn btn-primary" disabled="">Invited</button>
                                                 </a>
                                             </td>
                                         </tr>
