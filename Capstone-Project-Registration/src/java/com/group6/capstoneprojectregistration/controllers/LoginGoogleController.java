@@ -29,8 +29,8 @@ public class LoginGoogleController extends HttpServlet {
     public static final String ERROR = "index.jsp";
     public static final String SUCCESS = "index.jsp";
     public static final String STUDENT = "ProjectController";
-    public static final String LECTURER = "lecturer.jsp";
-    public static final String ADMIN = "admin_manage_group.jsp";
+    public static final String LECTURER = "projectguiding.jsp";
+    public static final String ADMIN = "adminHasGroup.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,17 +54,15 @@ public class LoginGoogleController extends HttpServlet {
 //                    request.setAttribute("ERROR_LOGIN", "Please login by FPT email!");
 //                    url = ERROR;
 //                } else {
-
                     UserDAO dao = new UserDAO();
                     UserDTO user = dao.getUserByEmail(ggpojo.getEmail());
                     HttpSession session = request.getSession();
-                    
                     if (user != null) {
                         switch (user.getRole().getName()) {
                             case "Student":
                                 url = STUDENT;
                                 break;
-                            case "Lecturer":
+                            case "Mentor":
                                 url = LECTURER;
                                 break;
                             case "Admin":
@@ -80,8 +78,7 @@ public class LoginGoogleController extends HttpServlet {
         } catch (Exception e) {
             log("error at LogingoogleController:" + e.toString());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

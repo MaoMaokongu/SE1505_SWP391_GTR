@@ -16,7 +16,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-
 public class EventDTO {
 
     private int eventId;
