@@ -30,7 +30,7 @@ public class LoginGoogleController extends HttpServlet {
     public static final String SUCCESS = "index.jsp";
     public static final String STUDENT = "ProjectController";
     public static final String LECTURER = "projectguiding.jsp";
-    public static final String ADMIN = "adminHasGroup.jsp";
+    public static final String ADMIN = "adminStudents.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
