@@ -238,10 +238,10 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="active"><a href="adminStudents.html"><i class="fa fa-circle-o"></i> Manage Students</a></li>
-                                <li><a href="adminGroups.html"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
-                                <li><a href="adminProject.html"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
-                                <li><a href="adminLecturers.html"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>/a>
+                                <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Students</a></li>
+                                <li><a href="pages/admin/adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
+                                <li><a href="pages/admin/adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
+                                <li><a href="pages/admin/adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -447,7 +447,7 @@
                                                         </div>
                                                       </div> -->
                                                         <div class="box-tools">
-                                                            <button type="button" class="btn btn-default btn-sm btn-student"><a href="adminStudentsRandom.html">Random</a></button>
+                                                            <button type="button" class="btn btn-default btn-sm btn-student"><a href="pages/admin/adminStudentsRandom.jsp">Random</a></button>
                                                         </div>
                                                     </div>
                                                     <!-- /.box-header -->
