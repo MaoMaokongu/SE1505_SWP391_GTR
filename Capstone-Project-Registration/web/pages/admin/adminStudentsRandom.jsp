@@ -718,6 +718,9 @@
                                                         </table>
                                                     </div>
                                                     <!-- /.box-body -->
+                                                    <div class="box-footer clearfix">
+                                                        <button type="button" class="btn btn-primary btn-sm btn-student pull-right">Save</button> 
+                                                    </div>
                                                 </div>
                                                 <!-- /.box -->
                                             </div>

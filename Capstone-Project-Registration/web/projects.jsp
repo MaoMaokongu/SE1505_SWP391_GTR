@@ -17,30 +17,28 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <!--<link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 
         <!-- Font Awesome -->
-        <!--<link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">-->
+        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 
         <!-- Ionicons -->
-        <!--<link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">-->
+        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
 
-        <!-- DataTables -->
-        <!--<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">-->
-        <!-- Theme style -->
-        <!--<link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">-->
-        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+     
+        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
 
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
-        <!--<link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">-->
-        <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
 
         <!-- modal css -->
-        <link rel="stylesheet" href="modal.css">
+        <!--<link rel="stylesheet" href="pages/account/modal.css">-->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -331,28 +329,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <c:forEach items="${sessionScope.LIST_PROJECT}" var="project">
-                                            ${requestScope.BUG}
-                                            <tr>
-                                                <th style="width: 250px">${project.projectId}</th>
-                                                <td style="width: 1000px">
-                                            <c:url var="projectDetails" value="ProjectDetailsController">
-                                                <c:param name="projectName" value="${project.name}"></c:param>
-                                                <c:param name="projectMentor" value="${project.mentor}"></c:param>
-                                                <c:param name="projectCoMentor" value="${project.coMentor}"></c:param>
-                                                <c:param name="projectNumOfStu" value="${project.numOfStus}"></c:param>
-                                                <c:param name="projectDiscription" value="${project.discription}"></c:param>
-                                            </c:url>
-                                            <a href="${projectDetails}">${project.name}</a>
-                                            </td>
-                                            <td style="width: 500px">${project.mentor}</td>
-                                            <td style="width: 500px">${project.coMentor}</td>
-                                            <td style="width: 500px">${project.numOfStus}</td>
-                                            <td style="width: 500px">${project.semester.name}</td>
-                                            <td style="width: 500px">
-                                            </td>
-                                            </tr>
-                                        </c:forEach>
+                                            <c:forEach items="${sessionScope.LIST_PROJECT}" var="project">
+                                                ${requestScope.BUG}
+                                                <tr>
+                                                    <th style="width: 250px">${project.projectId}</th>
+                                                    <td style="width: 1000px">
+                                                        <c:url var="projectDetails" value="ProjectDetailsController">
+                                                            <c:param name="projectName" value="${project.name}"></c:param>
+                                                            <c:param name="projectMentor" value="${project.mentor}"></c:param>
+                                                            <c:param name="projectCoMentor" value="${project.coMentor}"></c:param>
+                                                            <c:param name="projectNumOfStu" value="${project.numOfStus}"></c:param>
+                                                            <c:param name="projectDiscription" value="${project.discription}"></c:param>
+                                                        </c:url>
+                                                        <a href="#" data-toggle="modal" data-target="#myModal">${project.name}</a>
+                                                    </td>
+                                                    <td style="width: 500px">${project.mentor}</td>
+                                                    <td style="width: 500px">${project.coMentor}</td>
+                                                    <td style="width: 500px">${project.numOfStus}</td>
+                                                    <td style="width: 500px">${project.semester.name}</td>
+                                                    <td style="width: 500px">
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -390,20 +388,32 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
+        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
         <!-- Bootstrap 3.3.7 -->
+        <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
         <!-- SlimScroll -->
+        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
         <!-- FastClick -->
+        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
         <script src="bower_components/fastclick/lib/fastclick.js"></script>
+
         <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.min.js"></script>
+        <script src="../../dist1/js/adminlte.min.js"></script>
+        <script src="dist1/js/adminlte.min.js"></script>
+
         <!-- AdminLTE for demo purposes -->
-        <script src="dist/js/demo.js"></script>
+        <script src="../../dist1/js/demo.js"></script>
+        <script src="dist1/js/demo.js"></script>
+
         <!-- page script -->
         <!-- Modal ?? án -->
-        <script src="modal.js"></script>
+        <!--<script src="pages/account/modal.js"></script>-->
     </body>
 
 </html>

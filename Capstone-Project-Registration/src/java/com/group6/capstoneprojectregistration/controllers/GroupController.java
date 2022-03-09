@@ -24,8 +24,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "GroupController", urlPatterns = {"/GroupController"})
 public class GroupController extends HttpServlet {
 
-    private static final String ERROR = "studentgroup.jsp";
-    private static final String SUCCESS = "studentgroup.jsp";
+    private static final String ERROR = "student.jsp";
+    private static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -23,8 +23,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ProjectDetailsController", urlPatterns = {"/ProjectDetailsController"})
 public class ProjectDetailsController extends HttpServlet {
 
-    private static final String ERROR = "projectdetails.jsp";
-    private static final String SUCCESS = "projectdetails.jsp";
+    private static final String ERROR = "pages/account/projectdetails.jsp";
+    private static final String SUCCESS = "pages/account/projectdetails.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

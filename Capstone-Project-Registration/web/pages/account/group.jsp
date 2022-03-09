@@ -21,10 +21,10 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
         <!-- My group -->
         <link rel="stylesheet" href="MyGroup.css">
 
@@ -263,8 +263,27 @@
                         <li class="active"><a href="#">Groups</a></li>
                     </ol>
                     <div class="createbutton">
-                        Group Name: <input type="text" name="groupName"> <button><a href="creategroup1.html">Create</a></button>
-                        <button disabled=""><a href="#"></a>Invite</button>
+                        <form action="../../CreateGroupController">
+                            Group Name: <input type="text" name="groupName" value="">
+                            <input type="hidden" name="email" value="${sessionScope.USER.email}"/>
+                            <input type="submit" name="action" value="Create" style="border-radius: 50px"/>
+                            ${requestScope.BUG}
+                            ${requestScope.DUPLICATE}
+                            <button class="btn btn-outline-primary" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
+                                <i class="fa fa-user-plus"></i>
+                            </button>
+                        </form>
+                        <section>
+                            <div id="PopoverContent" style="display: none;">
+                                <div class="input-group header">
+                                    <input type="text" class="form-control" placeholder="What's email?" aria-label="Email with two button addons" aria-describedby="button-addon1">
+                                    <div class="input-group-append" id="button-addon1">
+                                        <button type="button" class="btn btn-default btn-sm btn-student">Invite</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
                     </div>
                 </section>
 
@@ -332,9 +351,21 @@
         <!-- FastClick -->
         <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="../../dist/js/adminlte.min.js"></script>
+        <script src="../../dist1/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist/js/demo.js"></script>
+        <script src="../../dist1/js/demo.js"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover({
+                    sanitize: false,
+                    content: function () {
+                        return $("#PopoverContent").html();
+                    }
+                });
+            }).on('shown.bs.popover', function () {
+                $('#ExecutorSNPSearchStr').focus();
+            });
+        </script>
     </body>
 
 </html>
