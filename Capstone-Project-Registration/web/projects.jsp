@@ -17,24 +17,24 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist1/css/bootstrap.min.css">
 
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">-->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 
         <!-- Ionicons -->
-        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">-->
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
 
-     
-        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+
+        <!--<link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">-->
         <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
 
         <!-- AdminLTE Skins. Choose a skin from the css/skins
            folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
+        <!--<link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">-->
         <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
 
         <!-- modal css -->
@@ -332,7 +332,7 @@
                                             <c:forEach items="${sessionScope.LIST_PROJECT}" var="project">
                                                 ${requestScope.BUG}
                                                 <tr>
-                                                    <th style="width: 250px">${project.projectId}</th>
+                                                    <td style="width: 250px">${project.projectId}</td>
                                                     <td style="width: 1000px">
                                                         <c:url var="projectDetails" value="ProjectDetailsController">
                                                             <c:param name="projectName" value="${project.name}"></c:param>
@@ -342,6 +342,32 @@
                                                             <c:param name="projectDiscription" value="${project.discription}"></c:param>
                                                         </c:url>
                                                         <a href="#" data-toggle="modal" data-target="#myModal">${project.name}</a>
+
+                                                        <!-- Modal -->
+                                                        <div id="myModal" class="modal fade" role="dialog">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        Project Name: <h1 class="modal-title" id="projectName">${project.name}</h1>
+                                                                        Mentor: <h4 class="modal-title">${project.mentor}</h4>
+                                                                        Co-Mentor: <h4 class="modal-title">${project.coMentor}</h4>
+                                                                        NumberOfStus: <small class="modal-title">${project.numOfStus}</small>
+
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Dis: <p>${project.discription}</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Register</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.modal -->
                                                     </td>
                                                     <td style="width: 500px">${project.mentor}</td>
                                                     <td style="width: 500px">${project.coMentor}</td>
@@ -388,29 +414,33 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-        <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <!--<script src="../../bower_components/jquery/dist/jquery.min.js"></script>-->
+        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
 
         <!-- Bootstrap 3.3.7 -->
-        <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!--<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
 
         <!-- SlimScroll -->
-        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <!--<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
         <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
         <!-- FastClick -->
-        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+        <!--<script src="../../bower_components/fastclick/lib/fastclick.js"></script>-->
         <script src="bower_components/fastclick/lib/fastclick.js"></script>
 
         <!-- AdminLTE App -->
-        <script src="../../dist1/js/adminlte.min.js"></script>
+        <!--<script src="../../dist1/js/adminlte.min.js"></script>-->
         <script src="dist1/js/adminlte.min.js"></script>
 
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist1/js/demo.js"></script>
+        <!--<script src="../../dist1/js/demo.js"></script>-->
         <script src="dist1/js/demo.js"></script>
 
+        <script>
+           
+//            function openRelativeModal(id){$('#myModal'+id).style.display = "block";}
+        </script>
         <!-- page script -->
         <!-- Modal ?? án -->
         <!--<script src="pages/account/modal.js"></script>-->
