@@ -334,34 +334,46 @@
                                                 <tr>
                                                     <td style="width: 250px">${project.projectId}</td>
                                                     <td style="width: 1000px">
-                                                        <c:url var="projectDetails" value="ProjectDetailsController">
+                                                        <c:url var="here" value="projects.jsp">
                                                             <c:param name="projectName" value="${project.name}"></c:param>
                                                             <c:param name="projectMentor" value="${project.mentor}"></c:param>
                                                             <c:param name="projectCoMentor" value="${project.coMentor}"></c:param>
                                                             <c:param name="projectNumOfStu" value="${project.numOfStus}"></c:param>
                                                             <c:param name="projectDiscription" value="${project.discription}"></c:param>
                                                         </c:url>
-                                                        <a href="#" data-toggle="modal" data-target="#myModal">${project.name}</a>
-
+                                                        <a href="#" data-toggle="modal" data-target="#myModal" data-id=" ${project.discription}"
+                                                           data-id1=" ${project.name}" data-id2="${project.mentor}" data-id3="${project.coMentor}" data-id4="${project.numOfStus}"
+                                                           data-url="${here}">${project.name}</a>
+                                                        <!--                                                        <button type="button" class="btn btn-primary 
+                                                                                                                        btn-sm" data-toggle="modal" 
+                                                                                                                        data-target="#myModal"
+                                                                                                                        data-id="${project.name}"
+                                                                                                                        data-url="#">
+                                                                                                                    Submit
+                                                                                                                </button>-->
+                                                        
                                                         <!-- Modal -->
-                                                        <div id="myModal" class="modal fade" role="dialog">
-                                                            <div class="modal-dialog">
+                                                        <div id="myModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
+                                                            <div class="modal-dialog" role="document">
 
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        Project Name: <h1 class="modal-title" id="projectName">${project.name}</h1>
-                                                                        Mentor: <h4 class="modal-title">${project.mentor}</h4>
-                                                                        Co-Mentor: <h4 class="modal-title">${project.coMentor}</h4>
-                                                                        NumberOfStus: <small class="modal-title">${project.numOfStus}</small>
-
+                                                                    <div class="modal-header" style="background: #3c8dbc" >
+                                                                        <h3 id="sampleId1" style="color: blanchedalmond"></h3>
+                                                                        <h3 id="sampleId2" style="color: blanchedalmond"></h3>
+                                                                        <h3 id="sampleId3" style="color: blanchedalmond"></h3>
+                                                                        <h3 id="sampleId4" style="color: blanchedalmond"></h3>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        Dis: <p>${project.discription}</p>
+
+
+                                                                        <h3 id="sampleId"></h3>
+
+
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Register</button>
+                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+                                                                        <a class="btn btn-primary btn-sm" href="" id="actualDeleteBtn">Back</a>
                                                                     </div>
                                                                 </div>
 
@@ -434,12 +446,18 @@
         <script src="dist1/js/adminlte.min.js"></script>
 
         <!-- AdminLTE for demo purposes -->
-        <!--<script src="../../dist1/js/demo.js"></script>-->
+        <!--<script src="../../dist1/js/demo.js"></script>--> 
         <script src="dist1/js/demo.js"></script>
 
         <script>
-           
-//            function openRelativeModal(id){$('#myModal'+id).style.display = "block";}
+            $('#myModal').on('shown.bs.modal', function (event) {
+                $("#sampleId").text($(event.relatedTarget).data('id'));
+                $("#sampleId1").text($(event.relatedTarget).data('id1'));
+                $("#sampleId2").text($(event.relatedTarget).data('id2'));
+                $("#sampleId3").text($(event.relatedTarget).data('id3'));
+                $("#sampleId4").text($(event.relatedTarget).data('id4'));
+                $("#actualDeleteBtn").attr('href', $(event.relatedTarget).data('url'));
+            });
         </script>
         <!-- page script -->
         <!-- Modal ?? án -->
