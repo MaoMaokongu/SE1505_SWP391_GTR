@@ -23,4 +23,5 @@ public class UserStatusDTO {
     private int statusId;
     private String Name;
 
+    
 }

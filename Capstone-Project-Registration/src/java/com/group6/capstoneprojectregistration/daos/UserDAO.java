@@ -24,7 +24,7 @@ public class UserDAO {
     private static final String GET_USER_BY_EMAIL = " SELECT UserId, Email, Username, Gender, Role, [Group], Isleader FROM [User] WHERE Email = ?";
     private static final String UPDATE_GROUP_USER = " UPDATE [User] SET [Group] = ?, IsLeader = ? WHERE UserId = ?";
     private static final String GET_LIST_USER_BY_GROUP_ID = " SELECT * FROM [User] WHERE [Group] = ?";
-    private static final String GET_LIST_NO_GROUP_USER = " SELECT * FROM [User] WHERE [Group] is null";
+    private static final String GET_LIST_NO_GROUP_USER = " SELECT * FROM [User] WHERE [Group] is null AND [Role] = ?";
     private static final String GET_USER_BY_ID = " SELECT * FROM [User] WHERE UserId = ?";
     private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? Where UserId = ?";
     private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
@@ -135,7 +135,7 @@ public class UserDAO {
         return user;
     }
 
-    public List<UserDTO> getListNoGroupUser() throws SQLException {
+    public List<UserDTO> getListNoGroupUser(int intRole) throws SQLException {
         List<UserDTO> listUser = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
@@ -146,6 +146,7 @@ public class UserDAO {
             if (conn != null) {
                 String sql = GET_LIST_NO_GROUP_USER;
                 stm = conn.prepareStatement(sql);
+                stm.setInt(1, intRole);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String userId = rs.getString("UserId");

@@ -4,6 +4,9 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,18 +18,28 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="../../bower_components/bootstrap/dist1/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/bootstrap/dist1/css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist1/css/bootstrap.min.css">
+
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">-->
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+
         <!-- Ionicons -->
-        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
+        <!--<link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">-->
+        <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+
         <!-- Theme style -->
-        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+        <!--<link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">-->
+        <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
+
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
+        <!--<link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">-->
+        <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
+
         <!-- My group -->
-        <link rel="stylesheet" href="MyGroup.css">
+        <!--<link rel="stylesheet" href="MyGroup.css">-->
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,9 +51,15 @@
         <!-- Google Font -->
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+
+        </style>
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
+        <c:url var="logout" value="LogoutController">
+
+        </c:url>
         <div class="wrapper">
 
             <header class="main-header">
@@ -60,17 +79,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
+                    <c:url var="link" value="MessageController">
 
+                    </c:url>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <!-- Messages: style can be found in dropdown.less-->
                             <li class="dropdown messages-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <a href="${link}" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="label label-success">4</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header">You have 4 messages</li>
+                                    <!--<li class="header">You have 4 messages</li>-->
+                                    <%--<c:forEach items="${sessionScope.INVITATION}" var="invite" varStatus="count">--%>
                                     <li>
                                         <!-- inner menu: contains the actual data -->
                                         <ul class="menu">
@@ -78,75 +100,43 @@
                                                 <!-- start message -->
                                                 <a href="#">
                                                     <div class="pull-left">
-                                                        <img src="Chinh Truong.png" class="img-circle" alt="User Image">
+                                                        a
                                                     </div>
                                                     <h4>
-                                                        Chinh Truong - Be
+                                                        b
                                                         <small><i class="fa fa-clock-o"></i> 5 mins</small>
                                                     </h4>
                                                     <p>Fighting!!!</p>
                                                 </a>
                                             </li>
-                                            <!-- end message -->
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Van Trung.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Van Trung - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Phu.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Phu - Be
-                                                        <small><i class="fa fa-clock-o"></i> Today</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Hai.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Hai - Be
-                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Diu Huong.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Diu Huong - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
+                                            <!-- end message -->                                         
                                         </ul>
                                     </li>
+                                    <%--</c:forEach>--%>
                                     <li class="footer"><a href="#">See All Messages</a></li>
                                 </ul>
                             </li>
                             <!-- Notifications: style can be found in dropdown.less -->
                             <li class="dropdown notifications-menu">
+
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell-o"></i>
                                     <span class="label label-warning">6</span>
                                 </a>
+
+                                <!--                                <a href="index.jsp" class="csw-btn-button fa fa-bell-o" rel="nofollow" target="_blank" ></a>-->
+
+                                <!--                                <button onclick="window.location.href = '/page2'">Continue</button>
+                                                                <form action="https://chuanseoweb.com">
+                                                                    <button class="csw-btn-button" type="submit">Gửi Form</button>
+                                                                </form>-->
+                                <!--                                <form action="login.jsp">
+                                                                    <button type="submit" class="dropdown-toggle" style="background: ;background: bottom;border: none;padding-top: 15px;padding-left: 10px; " data-toggle="dropdown" >
+                                                                        <i class="fa fa-bell-o whiteiconcolor" style="color: white"></i>
+                                                                    </button>
+                                                                </form>-->
+                                <%--<jsp:useBean id="menu" class="com.group6.capstoneprojectregistration.daos.InvitationPendingDAO" scope="session">                                </jsp:useBean>--%>
+                                <%--<c:forEach items="${menu.getUserPending(sessionScope.USER.email)}" var="list">--%>
                                 <ul class="dropdown-menu">
                                     <li class="header">You have 6 notifications</li>
                                     <li>
@@ -154,48 +144,40 @@
                                         <ul class="menu">
                                             <li>
                                                 <a href="#">
-                                                    <i class="fa fa-users text-aqua"></i> 3 new members joined today
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-warning text-yellow"></i> you have received 1 invited
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="fa fa-users text-red"></i> 2 new members joined
+                                                    <i class="fa fa-users text-aqua"></i> ee
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="footer"><a href="#">View all</a></li>
                                 </ul>
+                                <%--</c:forEach>--%>
                             </li>
 
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="admin.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">User</span>
+                                    <img src="pages/account/admin.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">${sessionScope.USER.userName}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="admin.png" class="img-circle" alt="User Image">
+                                        <img src="pages/account/admin.png" class="img-circle" alt="User Image">
 
                                         <p>
-                                            User
-                                            <small>Member since Feb. 2022</small>
+                                            ${sessionScope.USER.userName}
+
                                         </p>
                                     </li>
+
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -211,10 +193,10 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="admin.png" class="img-circle" alt="User Image">
+                            <img src="pages/account/admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>User</p>
+                            <p>${sessionScope.USER.userName}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -239,10 +221,11 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="account.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
+                                <li><a href="message.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Groups</a></li>
-                                <li><a href="../../projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
+                                <li><a href="projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
                                 <li><a href="ProjectHadSign.jsp"><i class="fa fa-circle-o"></i> Projects Had Signed</a></li>
+                                <li><a href="message.jsp"><i class="fa fa-circle-o"></i> Message</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -256,30 +239,38 @@
                 <section class="content-header">
                     <h1>
                         Group:
-                        <small>"Name"</small>
+                        <small>${sessionScope.USER.group.name}</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                         <li class="active"><a href="#">Groups</a></li>
                     </ol>
                     <div class="createbutton">
-                        <form action="../../CreateGroupController">
+                        <form action="CreateGroupController">
                             Group Name: <input type="text" name="groupName" value="">
                             <input type="hidden" name="email" value="${sessionScope.USER.email}"/>
                             <input type="submit" name="action" value="Create" style="border-radius: 50px"/>
-                            ${requestScope.BUG}
-                            ${requestScope.DUPLICATE}
-                            <button class="btn btn-outline-primary" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
-                                <i class="fa fa-user-plus"></i>
-                            </button>
+
+                            <c:if test="${sessionScope.LIST_USER_IN_GROUP eq null}">
+                                <button disabled="" class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
+                                    <!--<i class="fa fa-user-plus"></i>-->
+                                </button>
+                            </c:if>
+                            <c:if test="${sessionScope.LIST_USER_IN_GROUP ne null}">
+                                <button class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
+                                    <!--<i class="fa fa-user-plus"></i>-->
+                                </button>
+                            </c:if>
                         </form>
                         <section>
                             <div id="PopoverContent" style="display: none;">
                                 <div class="input-group header">
-                                    <input type="text" class="form-control" placeholder="What's email?" aria-label="Email with two button addons" aria-describedby="button-addon1">
-                                    <div class="input-group-append" id="button-addon1">
-                                        <button type="button" class="btn btn-default btn-sm btn-student">Invite</button>
-                                    </div>
+                                    <form action="InviteUserController" method="post">
+                                        <input type="hidden" name="sender" value="${sessionScope.USER.email}"/>
+                                        <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
+                                        <input type="text" name="receiver" value="" class="form-control" placeholder="What's email?" aria-label="Email with two button addons" aria-describedby="button-addon1" >
+                                        <input type="submit" name="acount" value="Invite" class="input-group-append" id="button-addon1"/>
+                                    </form>
                                 </div>
                             </div>
                         </section>
@@ -288,10 +279,17 @@
                 </section>
 
                 <!-- Main content -->
+
                 <section class="content">
+
                     <div class="row">
+
                         <div class="col-xs-12">
+                            <h4 style="color: red">${requestScope.INVITE}</h4>
+                            <h4 style="color: red">${requestScope.BUG}</h4>
+                            <h4 style="color: red">${requestScope.DUPLICATE}</h4>
                             <div class="box">
+
                                 <div class="box-header">
                                     <h3 class="box-title">Information</h3>
 
@@ -308,14 +306,28 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>User Id</th>
-                                            <th>Username</th>
-                                            <th>Gender</th>
-                                            <th>Leader</th>
-                                            <th>Email</th>
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>User Id</th>
+                                                <th>Username</th>
+                                                <th>Gender</th>
+                                                <th>Leader</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${sessionScope.LIST_USER_IN_GROUP}" var="user" varStatus="count">
+                                                <tr>
+                                                    <td style="width: 50px">${count.count}</td>
+                                                    <td style="width: 100px">${user.userId}</td>
+                                                    <td style="width: 100px">${user.userName}</td>
+                                                    <td style="width: 100px">${user.gender}</td>
+                                                    <td style="width: 100px">${user.leader}</td>
+                                                    <td style="width: 100px">${user.email}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <!-- /.box-body -->
@@ -343,17 +355,17 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-        <script src="../../bower_components/jquery/dist1/jquery.min.js"></script>
+        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
-        <script src="../../bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
+        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
         <!-- Slimscroll -->
-        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="../../dist1/js/adminlte.min.js"></script>
+        <script src="dist1/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist1/js/demo.js"></script>
+        <script src="dist1/js/demo.js"></script>
         <script>
             $(function () {
                 $('[data-toggle="popover"]').popover({

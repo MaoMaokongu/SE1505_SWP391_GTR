@@ -7,9 +7,9 @@ package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
-import com.group6.capstoneprojectregistration.dtos.MessageEventDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,36 +25,27 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "MessageController", urlPatterns = {"/MessageController"})
 public class MessageController extends HttpServlet {
 
-    private static final String ERROR = "student_messages.jsp";
-    private static final String SUCCESS = "student_messages.jsp";
+    private static final String ERROR = "messagee.jsp";
+    private static final String SUCCESS = "messagee.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = ERROR;
-
+        
         try {
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            String userEmail = user.getEmail();
-
-            EventDAO evDao = new EventDAO();
-            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userEmail);
-            String event = evDao.getEventOf(userEmail).getEvent().getMessageEvent();
-            if (!listEvent.isEmpty()) {
-                if ("Invite".equals(event)) request.setAttribute("INVITE", "You received an invitation to join the group by");
-                if ("Accept".equals(event)) request.setAttribute("ACCEPT", "Your invitation has been accepted by");
-                session.setAttribute("MESSAGE_USER", listEvent);
+            EventDAO dao = new EventDAO();
+            List<EventDTO> listEvent = dao.getAllEventByReceiverEmail(user.getEmail());
+            if (listEvent.size() > 0) {
+                session.setAttribute("EVENT", listEvent);
                 url = SUCCESS;
-            } else {
-                request.setAttribute("MESSAGE_USER", "You don't have any messages");
             }
-
         } catch (Exception e) {
-            log("Error at MessageController" + e.toString());
-        } finally {
+            log("Error at MessageController " + e.toString());
+        } finally{
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

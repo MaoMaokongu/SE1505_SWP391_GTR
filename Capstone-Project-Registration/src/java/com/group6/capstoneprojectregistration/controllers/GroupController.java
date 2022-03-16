@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "GroupController", urlPatterns = {"/GroupController"})
 public class GroupController extends HttpServlet {
 
-    private static final String ERROR = "student.jsp";
+    private static final String ERROR = "group.jsp";
     private static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -35,16 +35,24 @@ public class GroupController extends HttpServlet {
 
         try {
             UserDAO usDao = new UserDAO();
-            UserDTO user = usDao.getUserByEmail(email);
+//            UserDTO user = usDao.getUserByEmail(email);
             HttpSession session = request.getSession();
-//            UserDTO user1 = (UserDTO) session.getAttribute("USER");
+            UserDTO user = (UserDTO) session.getAttribute("USER");
             List<UserDTO> listUser = usDao.getListUserByGroupId(user.getGroup().getGroupId());
-            if (listUser.size() > 0) {
-                session.setAttribute("LIST_USER_IN_GROUP", listUser);
-                url = SUCCESS;
+            if (!listUser.isEmpty()) {
+                if (listUser.size() > 0) {
+                    session.setAttribute("LIST_USER_IN_GROUP", listUser);
+                    url = SUCCESS;
+                }
+            } else {
+                request.setAttribute("LIST_USER_IN_GROUP", "Empty Group!");
+                url = ERROR;
             }
+
         } catch (Exception e) {
-            log("Error at GroupController" + e.toString());
+            log("Error at GroupController " + e.toString());
+            request.setAttribute("LIST_USER_IN_GROUP", "Empty Group!");
+            url = ERROR;
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

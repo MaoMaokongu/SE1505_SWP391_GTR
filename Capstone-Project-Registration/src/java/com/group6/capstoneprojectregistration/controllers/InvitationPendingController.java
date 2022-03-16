@@ -5,9 +5,11 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
+import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,42 +22,53 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "NoGroupStudentController", urlPatterns = {"/NoGroupStudentController"})
-public class NoGroupStudentController extends HttpServlet {
+@WebServlet(name = "InvitationPendingController", urlPatterns = {"/InvitationPendingController"})
+public class InvitationPendingController extends HttpServlet {
 
-    private static final String ERROR = "studentgroup.jsp";
-    private static final String SUCCESS = "student_nogroup.jsp";
+    private static final String ERROR = "userpending.jsp";
+    private static final String SUCCESS = "userpending.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         String url = ERROR;
-
-//        String userId = request.getParameter("userid");
-        HttpSession session = request.getSession();
+        
         try {
-            UserDAO usDao = new UserDAO();
+            HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
-            if (numOfStudent < 5) {
-                List<UserDTO> listUser = (List<UserDTO>) usDao.getListNoGroupUser();
-                if (listUser.size() > 0) {
-                    session.setAttribute("LIST_NO_GROUP_USER", listUser);
-                    url = SUCCESS;
-                } else {
-                    request.setAttribute("LIST_NO_GROUP_USER", "There are no students who haven't had group!");
-                    url = SUCCESS;
-                }
-            } else {
-                request.setAttribute("ENOUGH", "Your team have enough member!");
-                url = ERROR;
-            }
-        } catch (Exception e) {
-            log("Error at NoGroupUserController" + e.toString());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
-        }
-    }
+            String userEmail = user.getUserId();
+            
 
+            InvitationPendingDAO ivDao = new InvitationPendingDAO();
+            List<InvitationPendingDTO> invitation = ivDao.getUserPedingByLoginUserAndStatus(userEmail,1);
+            
+            if (invitation.size() > 0) {
+                session.setAttribute("INVITATION", invitation);
+                url = SUCCESS;
+            } else {
+                request.setAttribute("INVITATION", "Nothing here");
+                url = SUCCESS;
+            }
+//            EventDAO evDao = new EventDAO();
+//            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userEmail);
+//            String event = evDao.getEventOf(userEmail).getEvent().getMessageEvent();
+//            if (!listEvent.isEmpty()) {
+//                if ("Invite".equals(event)) request.setAttribute("INVITE", "You received an invitation to join the group by");
+//                if ("Accept".equals(event)) request.setAttribute("ACCEPT", "Your invitation has been accepted by");
+//                session.setAttribute("MESSAGE_USER", listEvent);
+//                url = SUCCESS;
+//            } else {
+//                request.setAttribute("MESSAGE_USER", "You don't have any messages");
+//            }
+
+        } catch (Exception e) {
+            log("Error at MessageController" + e.toString());
+        
+      } finally {
+           request.getRequestDispatcher(url).forward(request, response);
+        }  
+
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

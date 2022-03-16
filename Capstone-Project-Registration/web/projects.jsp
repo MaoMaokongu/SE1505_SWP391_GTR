@@ -51,6 +51,9 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
+        <c:url var="logout" value="LogoutController">
+
+        </c:url>
         <div class="wrapper">
 
             <header class="main-header">
@@ -98,54 +101,6 @@
                                                 </a>
                                             </li>
                                             <!-- end message -->
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Van Trung.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Van Trung - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Phu.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Phu - Be
-                                                        <small><i class="fa fa-clock-o"></i> Today</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Hai.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Hai - Be
-                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Diu Huong.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Diu Huong - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
                                         </ul>
                                     </li>
                                     <li class="footer"><a href="#">See All Messages</a></li>
@@ -187,7 +142,7 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="pages/account/admin.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">User</span>
+                                    <span class="hidden-xs">${sessionScope.USER.userName}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
@@ -195,8 +150,8 @@
                                         <img src="pages/account/admin.png" class="img-circle" alt="User Image">
 
                                         <p>
-                                            User
-                                            <small>Member since Feb. 2022</small>
+                                            ${sessionScope.USER.userName}
+
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
@@ -205,7 +160,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -224,7 +179,7 @@
                             <img src="pages/account/admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>User</p>
+                            <p>${sessionScope.USER.userName}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -240,6 +195,10 @@
             </form> -->
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <c:url var="group" value="GroupController">
+                        <c:param name="groupName" value="${sessionScope.USER.group.name}"></c:param>
+                        <c:param name="email" value="${sessionScope.USER.email}"></c:param>
+                    </c:url>
                     <ul class="sidebar-menu" data-widget="tree">
                         <li class="treeview active">
                             <a href="#">
@@ -249,10 +208,10 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/account/account.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
-                                <li><a href="pages/account/group.jsp"><i class="fa fa-circle-o"></i> Groups</a></li>
+                                <li><a href="account.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
+                                <li><a href="${group}"><i class="fa fa-circle-o"></i> Groups</a></li>
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Projects</a></li>
-                                <li><a href="pages/account/ProjectHadSign.jsp"><i class="fa fa-circle-o"></i> Projects Had Signed</a></li>
+                                <li><a href="ProjectHadSign.jsp"><i class="fa fa-circle-o"></i> Projects Had Signed</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -351,7 +310,7 @@
                                                                                                                         data-url="#">
                                                                                                                     Submit
                                                                                                                 </button>-->
-                                                        
+
                                                         <!-- Modal -->
                                                         <div id="myModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">

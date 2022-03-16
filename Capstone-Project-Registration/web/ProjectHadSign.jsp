@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,18 +16,18 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="../../bower_components/bootstrap/dist1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist1/css/bootstrap.min.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
         <!-- DataTables -->
-        <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
         <!-- details -->
         <link rel="stylesheet" href="details.css" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -42,6 +43,9 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
+        <c:url var="logout" value="LogoutController">
+
+        </c:url>
         <div class="wrapper">
 
             <header class="main-header">
@@ -71,74 +75,28 @@
                                     <span class="label label-success">4</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header">You have 4 messages</li>
-                                    <li>
-                                        <!-- inner menu: contains the actual data -->
-                                        <ul class="menu">
-                                            <li>
-                                                <!-- start message -->
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Chinh Truong.png" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Chinh Truong - Be
-                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <!-- end message -->
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Van Trung.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Van Trung - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Phu.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Phu - Be
-                                                        <small><i class="fa fa-clock-o"></i> Today</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Thanh Hai.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Hai - Be
-                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="Diu Huong.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Diu Huong - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    <%--<c:forEach varStatus="count" items="" var="">--%>
+                                        <li class="header">You have 4 messages</li>
+                                        <li>
+                                            <!-- inner menu: contains the actual data -->
+                                            <ul class="menu">
+                                                <li>
+                                                    <!-- start message -->
+                                                    <a href="#">
+                                                        <div class="pull-left">
+                                                            <img src="Chinh Truong.png" class="img-circle" alt="User Image">
+                                                        </div>
+                                                        <h4>
+                                                            Chinh Truong - Be
+                                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                        </h4>
+                                                        <p>Fighting!!!</p>
+                                                    </a>
+                                                </li>
+                                                <!-- end message -->
+                                            </ul>
+                                        </li>
+                                    <%--</c:forEach>--%>
                                     <li class="footer"><a href="#">See All Messages</a></li>
                                 </ul>
                             </li>
@@ -177,17 +135,17 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="admin.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">User</span>
+                                    <img src="pages/account/admin.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">${sessionScope.USER.userName}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="admin.png" class="img-circle" alt="User Image">
+                                        <img src="pages/account/admin.png" class="img-circle" alt="User Image">
 
                                         <p>
-                                            User
-                                            <small>Member since Feb. 2022</small>
+                                            ${sessionScope.USER.userName}
+
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
@@ -196,7 +154,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -212,10 +170,10 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="admin.png" class="img-circle" alt="User Image">
+                            <img src="pages/account/admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>User</p>
+                            <p>${sessionScope.USER.userName}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -242,7 +200,7 @@
                             <ul class="treeview-menu">
                                 <li><a href="account.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
                                 <li><a href="group.jsp"><i class="fa fa-circle-o"></i> Groups</a></li>
-                                <li><a href="../../projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
+                                <li><a href="projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Projects Had Signed</a>
                                 </li>
                             </ul>
@@ -439,17 +397,17 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-        <script src="../../bower_components/jquery/dist1/jquery.min.js"></script>
+        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
-        <script src="../../bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
+        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
         <!-- SlimScroll -->
-        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="../../dist1/js/adminlte.min.js"></script>
+        <script src="dist1/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist1/js/demo.js"></script>
+        <script src="dist1/js/demo.js"></script>
         <!-- page script -->
     </body>
 

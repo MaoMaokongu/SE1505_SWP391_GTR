@@ -5,7 +5,6 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,28 +14,19 @@ import lombok.Setter;
  *
  * @author admin
  */
-@Getter
 @Setter
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-
-    private String userId;
-    private String email;
-    private String userName;
-    private String gender;
-    private RoleDTO role;
+public class ProjectDetailsDTO {
+    
+    private int id;
+    private ProjectDTO project;
     private GroupDTO group;
-    private boolean isLeader;
 
-    public UserDTO() {
-        this.userId = "";
-        this.email = "";
-        this.userName = "";
-        this.gender = "";
-        this.role = null;
-        this.group = null;
-        this.isLeader = false;
+    public ProjectDetailsDTO(ProjectDTO project, GroupDTO group) {
+        this.project = project;
+        this.group = group;
     }
-
     
 }

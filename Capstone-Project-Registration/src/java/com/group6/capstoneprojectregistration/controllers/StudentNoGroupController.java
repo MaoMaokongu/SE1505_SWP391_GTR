@@ -5,15 +5,11 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.EventDAO;
-import com.group6.capstoneprojectregistration.daos.GroupDAO;
-import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
-import com.group6.capstoneprojectregistration.daos.MessageEventDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.EventDTO;
-import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,57 +21,28 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-// Khi leader click invite 1 sinh vien tren danh sach
-// 
-@WebServlet(name = "InviteUserController", urlPatterns = {"/InviteUserController"})
-public class InviteUserController extends HttpServlet {
+@WebServlet(name = "StudentNoGroupController", urlPatterns = {"/StudentNoGroupController"})
+public class StudentNoGroupController extends HttpServlet {
 
     private static final String ERROR = "group.jsp";
-    private static final String SUCCESS = "group.jsp";
+    private static final String SUCCESS = "student-with-no-group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
-
-        String receiverEmail = request.getParameter("receiver");
-        String senderEmail = request.getParameter("sender");
-        String groupName = request.getParameter("groupName");
-
-        UserDAO usDao = new UserDAO();
-        GroupDAO grDao = new GroupDAO();
-        InvitationPendingDAO peDao = new InvitationPendingDAO();
-        EventDAO evDao = new EventDAO();
-        MessageEventDAO meDao = new MessageEventDAO();
-
         try {
-            UserDTO sender = usDao.getUserByEmail(senderEmail);
-            GroupDTO group = grDao.getGroupByName(groupName);
-
             HttpSession session = request.getSession();
+            UserDAO dao = new UserDAO();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
-            UserDTO receiver = usDao.getUserByEmail(receiverEmail);
-            EventDTO event = evDao.getEventOf(receiverEmail);
-            if (event == null) {
-                if (numOfStudent < 5) {
-                    boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
-                    boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
-                    if (checkUserPending && checkInviteEvent) {
-                        request.setAttribute("INVITE", "Invite " + receiver.getUserName() + " successfully!");
-                        url = SUCCESS;
-                    } else {
-                        request.setAttribute("INVITE", "Invitation failed!");
-                        url = ERROR;
-                    }
-                } else {
-                    request.setAttribute("INVITE", "Your team have enough member!");
-                    url = ERROR;
-                }
-            } else {
-                request.setAttribute("INVITE", "This user already invited");
+            List<UserDTO> listUserNoGroup = dao.getListNoGroupUser(user.getRole().getRoleId());
+            if (listUserNoGroup.size() > 0) {
+                session.setAttribute("LIST_USER_NO_GROUP", listUserNoGroup);
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at InviteUserController" + e.toString());
+            log("Error at StudentNoGroupController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -6,8 +6,12 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +29,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "StudentDecisionController", urlPatterns = {"/StudentDecisionController"})
 public class StudentDecisionController extends HttpServlet {
 
-    private static final String ERROR = "student_messages.jsp";
-    private static final String SUCCESS = "student_messages.jsp";
+    private static final String ERROR = "group.jsp";
+    private static final String SUCCESS = "GroupController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,19 +49,26 @@ public class StudentDecisionController extends HttpServlet {
             EventDAO evDao = new EventDAO();
             EventDTO event = evDao.getEventOf(sender);
             UserDTO userBack = usDao.getUserByEmail(emailReceiver);
-            
+            InvitationPendingDAO ipDao = new InvitationPendingDAO();
+            InvitationPendingDTO invite = ipDao.getUserPendingByUserId(sender);
+            GroupDAO grDao = new GroupDAO();
+
             HttpSession session = request.getSession();
 
             if (studentDecision.equals("Accept")) {
                 boolean checkAddUserIntoGroup = usDao.addUserIntoGroup(user, invitedUserId);
                 if (checkAddUserIntoGroup) {
                     boolean checkDeleteMessage = evDao.deleteMessage(emailReceiver, user);
-                    if (checkDeleteMessage) {
+                    boolean checkUserPending = ipDao.updateStatusWhenAccept(invite);
+                    if (checkDeleteMessage && checkUserPending) {
                         boolean checkInsertAcceptEvnet = evDao.insertAcceptEvent(user, userBack.getUserId());
                         if (checkInsertAcceptEvnet) {
+                            //user da co nhom, nen update lai USER tren session de dung
+                            UserDTO userLogin = usDao.getUserByEmail(emailReceiver);
+                            session.setAttribute("USER", userLogin);
                             List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(emailReceiver);
-                            session.setAttribute("MESSAGE_USER", listEvent);
-                            request.setAttribute("Accept_Success", "Welcome to group " + user.getGroup().getName());
+                            session.setAttribute("EVENT", listEvent);
+                            request.setAttribute("ACCEPT", "Welcome to group " + user.getGroup().getName());
                             url = SUCCESS;
                         }
                     }
