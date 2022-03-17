@@ -288,7 +288,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${sessionScope.LIST_PROJECT}" var="project">
+                                            <c:forEach items="${sessionScope.LIST_PROJECT}" var="project" varStatus="vs">
                                                 ${requestScope.BUG}
                                                 <tr>
                                                     <td style="width: 250px">${project.projectId}</td>
@@ -300,9 +300,9 @@
                                                             <c:param name="projectNumOfStu" value="${project.numOfStus}"></c:param>
                                                             <c:param name="projectDiscription" value="${project.discription}"></c:param>
                                                         </c:url>
-                                                        <a href="#" data-toggle="modal" data-target="#myModal" data-id=" ${project.discription}"
+                                                        <a href="#" data-toggle="modal" data-target="#myModal${vs.index}" data-id=" ${project.discription}"
                                                            data-id1=" ${project.name}" data-id2="${project.mentor}" data-id3="${project.coMentor}" data-id4="${project.numOfStus}"
-                                                           data-url="${here}">${project.name}</a>
+                                                           data-url="${here}" id="viewDetailButton">${project.name}</a>
                                                         <!--                                                        <button type="button" class="btn btn-primary 
                                                                                                                         btn-sm" data-toggle="modal" 
                                                                                                                         data-target="#myModal"
@@ -310,24 +310,27 @@
                                                                                                                         data-url="#">
                                                                                                                     Submit
                                                                                                                 </button>-->
-
                                                         <!-- Modal -->
-                                                        <div id="myModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
+                                                        <div id="myModal${vs.index}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
 
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header" style="background: #3c8dbc" >
                                                                         <h3 id="sampleId1" style="color: blanchedalmond"></h3>
-                                                                        <h3 id="sampleId2" style="color: blanchedalmond"></h3>
-                                                                        <h3 id="sampleId3" style="color: blanchedalmond"></h3>
-                                                                        <h3 id="sampleId4" style="color: blanchedalmond"></h3>
+
                                                                     </div>
                                                                     <div class="modal-body">
 
-
-                                                                        <h3 id="sampleId"></h3>
-
+                                                                        <div class="row">
+                                                                            ${project.name}
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            ${project.mentor}
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            ${project.discription}
+                                                                        </div>
 
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -408,16 +411,16 @@
         <!--<script src="../../dist1/js/demo.js"></script>--> 
         <script src="dist1/js/demo.js"></script>
 
-        <script>
-            $('#myModal').on('shown.bs.modal', function (event) {
-                $("#sampleId").text($(event.relatedTarget).data('id'));
-                $("#sampleId1").text($(event.relatedTarget).data('id1'));
-                $("#sampleId2").text($(event.relatedTarget).data('id2'));
-                $("#sampleId3").text($(event.relatedTarget).data('id3'));
-                $("#sampleId4").text($(event.relatedTarget).data('id4'));
-                $("#actualDeleteBtn").attr('href', $(event.relatedTarget).data('url'));
-            });
-        </script>
+        <!--        <script>
+                    $('#myModal').on('shown.bs.modal', function (event) {
+                        $("#sampleId").html($(event.relatedTarget).data('id'));
+                        $("#sampleId1").text($(event.relatedTarget).data('id1'));
+                        $("#sampleId2").text($(event.relatedTarget).data('id2'));
+                        $("#sampleId3").text($(event.relatedTarget).data('id3'));
+                        $("#sampleId4").text($(event.relatedTarget).data('id4'));
+                        $("#actualDeleteBtn").attr('href', $(event.relatedTarget).data('url'));
+                    });
+                </script>-->
         <!-- page script -->
         <!-- Modal ?? án -->
         <!--<script src="pages/account/modal.js"></script>-->
