@@ -5,14 +5,14 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
-import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,56 +22,37 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author PC
  */
-@WebServlet(name = "RegisterProjectController", urlPatterns = {"/RegisterProjectController"})
-public class RegisterProjectController extends HttpServlet {
+@WebServlet(name = "LecturerProjectPendingController", urlPatterns = {"/LecturerProjectPendingController"})
+public class LecturerProjectPendingController extends HttpServlet {
 
-    private static final String ERROR = "projects.jsp";
-    private static final String SUCCESS = "projects.jsp";
+    private static final String ERROR = "projectlist.jsp";
+    private static final String SUCCESS = "projectlist.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            boolean checkInsertProjectId = false;
-            String projectId = request.getParameter("projectId").trim();
-            int groupId = Integer.parseInt(request.getParameter("groupId"));
-            ProjectDetailDAO pdDao = new ProjectDetailDAO();
-            UserDAO userDao = new UserDAO();
-            ProjectDAO projectDao = new ProjectDAO();
-            ProjectDTO project = projectDao.getProjectById(projectId);
-            GroupDAO grDao = new GroupDAO();
+            ProjectDAO prjDao = new ProjectDAO();
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            GroupDTO grDto = grDao.getGroupByGroupId(groupId);
-            int count = userDao.countStudentInGroup(groupId);
-            if (count == project.getNumOfStus()) { //số thành viên trong nhóm = projectnumber
-                if (!grDto.isApproved()) {//kiểm tra nhóm đã đăng kí thành công đồ án chưa
-                    if (pdDao.getProjectDetailByGroupIdAndProjectId(groupId, projectId) == null) {//ko đăng kí 1 đồ án 2 lần
-
-                        checkInsertProjectId = pdDao.insertProjectId(projectId, groupId);
-                        if (checkInsertProjectId) {//check insert thành công hay ko                   
-                            request.setAttribute("INSERT_PROJECTID", "Register Successful");
-                            url = SUCCESS;
-                        } else {
-                            request.setAttribute("INSERT_PROJECTID", "Register Fail");
-                            url = ERROR;
-                        }
-                    } else {
-                        request.setAttribute("INSERT_PROJECTID", "This project is already registed");
-                        url = ERROR;
-                    }
+            ProjectDetailDAO prjdDao = new ProjectDetailDAO();
+            List<ProjectDetailsDTO> listprojectdetail = prjdDao.getProjectDetailsByMentorId(user.getUserId());
+            if (listprojectdetail.size() >= 0) {
+                if (!listprojectdetail.isEmpty()) {
+                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
+                    url = SUCCESS;
                 } else {
-                    request.setAttribute("INSERT_PROJECTID", "Your group already have a project");
+                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
+                    request.setAttribute("EMPTY_LIST", "The list is empty");
+                    url = ERROR;
                 }
-            } else {
-                request.setAttribute("INSERT_PROJECTID", "Not Enough Member");
-                url = ERROR;
+
             }
         } catch (Exception e) {
-            log("Error at ProjectController" + e.toString());
+            log("Error at LecturerProjectPendingController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

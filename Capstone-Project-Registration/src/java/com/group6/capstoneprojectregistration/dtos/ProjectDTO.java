@@ -22,7 +22,7 @@ public class ProjectDTO {
     
     private String projectId;
     private String name;
-    private String mentor;
+    private UserDTO mentor;
     private String coMentor;
     private int numOfStus;
     private boolean isSelected;

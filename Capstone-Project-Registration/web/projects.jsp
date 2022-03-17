@@ -343,7 +343,7 @@
                                                         </div>
                                                         <!-- /.modal -->
                                                     </td>
-                                                    <td style="width: 500px">${project.mentor}</td>
+                                                    <td style="width: 500px">${project.mentor.userName}</td>
                                                     <td style="width: 500px">${project.coMentor}</td>
                                                     <td style="width: 500px">${project.numOfStus}</td>
                                                     <td style="width: 500px">${project.semester.name}</td>

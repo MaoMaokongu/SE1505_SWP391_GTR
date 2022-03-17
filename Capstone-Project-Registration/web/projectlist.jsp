@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,16 +16,16 @@
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="../../bower_components/bootstrap/dist1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist1/css/bootstrap.min.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -192,8 +193,11 @@
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
+                                        <c:url var="logout" value="LogoutController">
+
+                                        </c:url>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -249,7 +253,7 @@
                                 </ul>
                               </li> -->
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> List of Projects</a></li>
-                                <li><a href="../../projectguiding.jsp"><i class="fa fa-circle-o"></i> Projects Guild</a></li>
+                                <li><a href="projectguiding.jsp"><i class="fa fa-circle-o"></i> Projects Guild</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -282,6 +286,7 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title">List of Groups</h3>
+                                    ${requestScope.ACCEPTED}
                                     <small>register project</small>
                                     <!-- <div class="box-tools">
                                     
@@ -319,53 +324,39 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Projects's Name</th>
-                                            <th>Groups's Name</th>
-                                            <th>Leader</th>
-                                            <th style="width : 60px">Status</th>
-                                            <th style="width : 200px"></th>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Web Develope</td>
-                                            <td>Group 1</td>
-                                            <td>Phu</td>
-                                            <td><button class="btn btn-primary">Details</button></td>
-                                            <td>
-                                                <button class="btn1">Accept</button>
-                                                <button class="btn2">Deny</button>
-                                            </td>
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Projects's Name</th>
+                                                <th>Groups's Name</th>
+                                                <th style="width : 60px"></th>
+                                                <th style="width : 200px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                                <c:forEach varStatus="count"  items="${sessionScope.LIST_PROJECT_DETAILS}" var="list">
 
+                                                    <tr>
 
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>App Mobile</td>
-                                            <td>Group 2</td>
-                                            <td>Huong</td>
-                                            <td><button class="btn btn-primary">Details</button></td>
-                                            <td>
-                                                <button class="btn3">Accept</button>
-                                                <button class="btn4">Deny</button>
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Desktop App</td>
-                                            <td>Group 3</td>
-                                            <td>Bao</td>
-                                            <td><button class="btn btn-primary">Details</button></td>
-                                            <td>
-                                                <button class="btn5">Accept</button>
-                                                <button class="btn6">Deny</button>
-                                            </td>
-
-
-                                        </tr>
+                                                        <td>${count.count}</td>
+                                                        <td>${list.project.name}</td>
+                                                        <td>${list.group.name}</td>
+                                                        <td>
+                                                            <form action="AcceptGroupController">
+                                                                <input type="hidden" name="groupId" value="${list.group.groupId}"/>                                 
+                                                                <input type="hidden" name="projectId" value="${list.project.projectId}"/>                                 
+                                                                <input type="submit" name="accept" value="Accept"/>
+                                                                <input type="submit" name="deny" value="Deny"/>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            <c:if test="${sessionScope.LIST_PROJECT_DETAILS eq null}">
+                                            <h3>Empty</h3>
+                                            </c:if>
+                                        </tbody>
+                                        ${requestScope.EMPTY_LIST}
                                     </table>
                                 </div>
                                 <!-- /.box-body -->
@@ -404,17 +395,17 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-        <script src="../../bower_components/jquery/dist1/jquery.min.js"></script>
+        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
-        <script src="../../bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
+        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
         <!-- Slimscroll -->
-        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="../../dist1/js/adminlte.min.js"></script>
+        <script src="dist1/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist1/js/demo.js"></script>
+        <script src="dist1/js/demo.js"></script>
     </body>
 
 </html>

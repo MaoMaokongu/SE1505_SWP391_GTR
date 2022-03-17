@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -192,12 +193,16 @@
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
-                                        <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                    
+                                    <c:url var="logout" value="LogoutController">
+
+                                    </c:url>
+                                    <div class="pull-right">
+                                        <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
                             </li>
+                        </ul>
+                        </li>
                         </ul>
                     </div>
                 </nav>
@@ -237,7 +242,7 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="pages/lecturer/projectlist.jsp"><i class="fa fa-circle-o"></i> List of Projects</a></li>
+                                <li><a href="LecturerProjectPendingController"><i class="fa fa-circle-o"></i> List of Projects</a></li>
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Project Guild</a></li>
                             </ul>
                         </li>
@@ -308,40 +313,22 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Projects's Title</th>
-                                            <th>Groups's Name</th>
-                                            <th>Leader</th>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Television</td>
-                                            <td>Jonny</td>
-                                            <td>Phu</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Laptop</td>
-                                            <td>Kenny</td>
-                                            <td>Phu</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Cell Phone</td>
-                                            <td>Jenny</td>
-                                            <td>Phu</td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Fridge</td>
-                                            <td>Killy</td>
-                                            <td>Phu</td>
-
-                                        </tr>
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Projects's Title</th>
+                                                <th>Groups's Name</th>                                             
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach varStatus="count" items="${sessionScope.LIST_PROJECT_GUIDING}" var="list">
+                                            <tr>
+                                                <td>${count.count}</td>
+                                                <td>${list.project.name}</td>
+                                                <td>${list.name}</td>
+                                            </tr>
+                                            </c:forEach>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <!-- /.box-body -->

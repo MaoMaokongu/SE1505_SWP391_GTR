@@ -23,7 +23,7 @@ public class GroupDTO {
     private int groupId;
     private String name;
     private boolean isApproved;
-    private String projectId;
+    private ProjectDTO project;
 
     public GroupDTO(int groupId, String name) {
         this.groupId = groupId;
