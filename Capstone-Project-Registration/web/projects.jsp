@@ -240,6 +240,7 @@
                             <div class="box">
                                 <div class="box-header">
                                     <h3 class="box-title">List of Projects</h3>
+                                    ${requestScope.INSERT_PROJECTID}
 
                                     <!-- <div class="box-tools">
                     
@@ -254,16 +255,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-header clearfix">
-                                    <ul class="pagination pagination-sm no-margin pull-left">
-                                        <i>Show</i>
-                                        <select class="select">
-                                            <option><a href="#">10</a></option>
-                                            <option><a href="#">15</a></option>
-                                            <option><a href="#">25</a></option>
-                                            <option><a href="#">30</a></option>
-                                        </select>
-                                        <i>entries</i>
-                                    </ul>
+                                    
                                     <ul class="pagination pagination-sm no-margin pull-right">
                                         <i class="fa fa-filter">Filter</i>
                                         <select class="select">
@@ -334,7 +326,15 @@
 
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+                                                                         <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader }"> 
+
+                                                                            <form action="RegisterProjectController">
+
+                                                                                <input id="sampleId5" type="submit" value="Register" class="btn btn-primary" />
+                                                                                <input type="hidden" name="projectId" value="${project.projectId}"/>
+                                                                                <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
+                                                                            </form>
+                                                                        </c:if>
                                                                         <a class="btn btn-primary btn-sm" href="" id="actualDeleteBtn">Back</a>
                                                                     </div>
                                                                 </div>
@@ -357,13 +357,16 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer clearfix">
                                     <ul class="pagination pagination-sm no-margin pull-right">
-                                        <!-- <li><a href="#">&laquo;</a></li> -->
-                                        <li><a href="#">Previous</a></li>
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">Next</a></li>
-                                        <!-- <li><a href="#">&raquo;</a></li> -->
+                                        <c:if test="${tag > 1}">
+                                            <li class="page-item "><a href="ProjectController?index=${tag-1}" class="page-link">Previous</a> </li>
+                                            </c:if>
+
+                                        <c:forEach begin="1" end="${endP}" var="i" >
+                                            <li class="page-item ${tag == i?"active":""}"><a href="ProjectController?index=${i}" class="page-link">${i}</a> </li>
+                                            </c:forEach>
+                                            <c:if test="${tag < endP}">
+                                            <li class="page-item"><a href="ProjectController?index=${tag+1}" class="page-link">Next</a></li>
+                                            </c:if>
                                     </ul>
                                 </div>
                             </div>
