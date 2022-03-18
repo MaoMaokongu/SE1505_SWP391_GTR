@@ -7,11 +7,12 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Account | Projects</title>
         <!-- Tell the browser to be responsive to screen width -->
@@ -255,7 +256,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-header clearfix">
-                                    
+
                                     <ul class="pagination pagination-sm no-margin pull-right">
                                         <i class="fa fa-filter">Filter</i>
                                         <select class="select">
@@ -307,26 +308,19 @@
                                                             <div class="modal-dialog" role="document">
 
                                                                 <!-- Modal content-->
-                                                                <div class="modal-content">
+                                                                <div class="modal-content modal-lg">
                                                                     <div class="modal-header" style="background: #3c8dbc" >
                                                                         <h3 id="sampleId1" style="color: blanchedalmond"></h3>
 
                                                                     </div>
                                                                     <div class="modal-body">
-
-                                                                        <div class="row">
-                                                                            ${project.name}
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            ${project.mentor}
-                                                                        </div>
                                                                         <div class="row">
                                                                             ${project.discription}
                                                                         </div>
 
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                         <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader }"> 
+                                                                        <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader }"> 
 
                                                                             <form action="RegisterProjectController">
 
@@ -425,7 +419,7 @@
                     });
                 </script>-->
         <!-- page script -->
-        <!-- Modal ?? án -->
+        <!-- Modal ?? Ã¡n -->
         <!--<script src="pages/account/modal.js"></script>-->
     </body>
 

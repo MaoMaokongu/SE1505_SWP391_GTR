@@ -26,7 +26,7 @@ public class ProjectDAO {
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
     private static final String UPDATE_PROJECT = " UPDATE project SET IsSelected = ? WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
-    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project "
+    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
             + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
 
