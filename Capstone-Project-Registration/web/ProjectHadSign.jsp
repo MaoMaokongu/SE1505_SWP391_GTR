@@ -76,26 +76,26 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <%--<c:forEach varStatus="count" items="" var="">--%>
-                                        <li class="header">You have 4 messages</li>
-                                        <li>
-                                            <!-- inner menu: contains the actual data -->
-                                            <ul class="menu">
-                                                <li>
-                                                    <!-- start message -->
-                                                    <a href="#">
-                                                        <div class="pull-left">
-                                                            <img src="Chinh Truong.png" class="img-circle" alt="User Image">
-                                                        </div>
-                                                        <h4>
-                                                            Chinh Truong - Be
-                                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                        </h4>
-                                                        <p>Fighting!!!</p>
-                                                    </a>
-                                                </li>
-                                                <!-- end message -->
-                                            </ul>
-                                        </li>
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="Chinh Truong.png" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Chinh Truong - Be
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <p>Fighting!!!</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                        </ul>
+                                    </li>
                                     <%--</c:forEach>--%>
                                     <li class="footer"><a href="#">See All Messages</a></li>
                                 </ul>
@@ -298,36 +298,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.tab-pane -->
+                                    <!--/.tab-pane--> 
                                     <div class="tab-pane" id="tab_2">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="box">
-                                                    <div class="box-header">
-                                                        <h3 class="box-title">Projects</h3>
-                                                        <small>in processing...</small>
-                                                    </div>
-                                                    <div class="box-body table-responsive no-padding">
-                                                        <table class="table table-hover">
-                                                            <tr>
-                                                                <th style="width : 10px">#</th>
-                                                                <th>Project's Name</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>Success</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                    <!-- /.box-body -->
-                                                </div>
-                                                <!-- /.box -->
-                                            </div>
-                                        </div>
+
                                     </div>
-                                    <!-- /.tab-pane -->
+                                    <!--/.tab-pane--> 
                                     <div class="tab-pane" id="tab_3">
                                         <div class="row">
                                             <div class="col-xs-12">
@@ -365,9 +340,9 @@
                                                             </tr>
                                                         </table>
                                                     </div>
-                                                    <!-- /.box-body -->
+                                                    <!--/.box-body--> 
                                                 </div>
-                                                <!-- /.box -->
+                                                <!--/.box--> 
                                             </div>
                                         </div>
                                     </div>

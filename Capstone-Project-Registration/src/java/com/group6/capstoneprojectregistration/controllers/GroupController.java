@@ -45,14 +45,13 @@ public class GroupController extends HttpServlet {
                     url = SUCCESS;
                 }
             } else {
-                request.setAttribute("LIST_USER_IN_GROUP", "Empty Group!");
+                session.setAttribute("LIST_USER_IN_GROUP", listUser);
+                request.setAttribute("MESSAGE", "Empty Group!");
                 url = ERROR;
             }
 
         } catch (Exception e) {
             log("Error at GroupController " + e.toString());
-            request.setAttribute("LIST_USER_IN_GROUP", "Empty Group!");
-            url = ERROR;
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

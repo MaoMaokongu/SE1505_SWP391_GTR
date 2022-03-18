@@ -301,7 +301,7 @@
                                                             <h4 style="color: red">${requestScope.BUG}</h4>
                                                             <h4 style="color: red">${requestScope.DUPLICATE}</h4>
                                                             <h4 style="color: red">${requestScope.ACCEPT}</h4>
-                                                            <h4 style="color: red">${requestScope.LIST_USER_IN_GROUP}</h4>
+                                                            <h4 style="color: red">${requestScope.MESSAGE}</h4>
                                                         </div>
                                                         <!-- /.box-header -->
                                                         <div class="box-header clearfix">
