@@ -232,9 +232,9 @@
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab_1" data-toggle="tab">Signed</a></li>
-                                    <li><a href="#tab_2" data-toggle="tab">Accepted</a></li>
-                                    <li><a href="#tab_3" data-toggle="tab">Cancle</a></li>
+                                    <!--<li class="active"><a href="#tab_1" data-toggle="tab">Signed</a></li>-->
+                                    <!--                                    <li><a href="#tab_2" data-toggle="tab">Accepted</a></li>
+                                                                        <li><a href="#tab_3" data-toggle="tab">Cancle</a></li>-->
                                     <!-- <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                             Dropdown <span class="caret"></span>
@@ -247,7 +247,7 @@
                                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
                                             </ul>
                                         </li> -->
-                                    <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear">Status</i></a></li>
+                                    <!--<li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear">Status</i></a></li>-->
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="tab_1">
@@ -255,41 +255,25 @@
                                             <div class="col-xs-12">
                                                 <div class="box">
                                                     <div class="box-header">
-                                                        <h3 class="box-title">Projects</h3>
-                                                        <small>in processing...</small>
+                                                        <h3 class="box-title">Approved</h3>
+                                                        <small>Project</small>
                                                     </div>
                                                     <div class="box-body table-responsive no-padding">
                                                         <table class="table table-hover">
-                                                            <tr>
-                                                                <th style="width : 10px">#</th>
-                                                                <th>Project's Name</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>In processing...</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>In processing...</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>In processing...</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>In processing...</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>In processing...</td>
-                                                            </tr>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width : 10px">#</th>
+                                                                    <th>Project's Name</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>Đồ án...</td>
+                                                                    <td>In processing...</td>
+                                                                </tr>
+                                                            </tbody>
                                                         </table>
                                                     </div>
                                                     <!-- /.box-body -->
@@ -299,53 +283,43 @@
                                         </div>
                                     </div>
                                     <!--/.tab-pane--> 
-                                    <div class="tab-pane" id="tab_2">
-
-                                    </div>
-                                    <!--/.tab-pane--> 
-                                    <div class="tab-pane" id="tab_3">
-                                        <div class="row">
-                                            <div class="col-xs-12">
-                                                <div class="box">
-                                                    <div class="box-header">
-                                                        <h3 class="box-title">Projects</h3>
-                                                        <small>in processing...</small>
-                                                    </div>
-                                                    <div class="box-body table-responsive no-padding">
-                                                        <table class="table table-hover">
+                                    <!--<div class="tab-pane" id="tab_2">-->
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="box">
+                                                <div class="box-header">
+                                                    <h3 class="box-title">Pending</h3>
+                                                    <small>Projects</small>
+                                                </div>
+                                                <div class="box-body table-responsive no-padding">
+                                                    <table class="table table-hover">
+                                                        <thead>
                                                             <tr>
                                                                 <th style="width : 10px">#</th>
-                                                                <th>Project's Name</th>
-                                                                <th>Status</th>
+                                                                <th style="width: 100px">Project Id</th>
+                                                                <th style="width: 500px">Project Name</th>
+                                                                <th style="width: 200px">Status</th>
                                                             </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>Cancle</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>Cancle</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>Cancle</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>Đồ án...</td>
-                                                                <td>Cancle</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                    <!--/.box-body--> 
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach items="${sessionScope.LIST_PROJECT_PENDING}" var="list" varStatus="count">
+                                                                <tr>
+                                                                    <td>${count.count}</td>
+                                                                    <td>${list.project.projectId}</td>
+                                                                    <td>${list.project.name}</td>
+                                                                    <td>In processing...</td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <!--/.box--> 
+                                                <!-- /.box-body -->
                                             </div>
+                                            <!-- /.box -->
                                         </div>
+                                        <!--</div>-->
                                     </div>
+                                    <!--/.tab-pane--> 
                                     <!-- /.tab-pane -->
                                 </div>
                                 <!-- /.tab-content -->

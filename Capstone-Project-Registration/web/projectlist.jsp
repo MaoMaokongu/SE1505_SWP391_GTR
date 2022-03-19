@@ -175,16 +175,16 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="admin.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Lecturer</span>
+                                    <img src="pages/admin/admin.png" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">${sessionScope.USER.userName}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="admin.png" class="img-circle" alt="User Image">
+                                        <img src="pages/admin/admin.png" class="img-circle" alt="User Image">
 
                                         <p>
-                                            Lecturer
+                                            ${sessionScope.USER.userName}
                                             <small>Member since Feb. 2022</small>
                                         </p>
                                     </li>
@@ -213,23 +213,23 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="admin.png" class="img-circle" alt="User Image">
+                            <img src="pages/admin/admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Lecturer</p>
+                            <p>${sessionScope.USER.userName}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                     <!-- search form -->
-                    <!-- <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                      <input type="text" name="q" class="form-control" placeholder="Search...">
-                          <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                            </button>
-                          </span>
-                    </div>
-                  </form> -->
+<!--                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form> -->
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" data-widget="tree">
@@ -253,7 +253,7 @@
                                 </ul>
                               </li> -->
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> List of Projects</a></li>
-                                <li><a href="projectguiding.jsp"><i class="fa fa-circle-o"></i> Projects Guild</a></li>
+                                <li><a href="ListProjectGuidingController"><i class="fa fa-circle-o"></i> Projects Guild</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -327,6 +327,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">#</th>
+                                                <th>Projects's Id</th>
                                                 <th>Projects's Name</th>
                                                 <th>Groups's Name</th>
                                                 <th style="width : 60px"></th>
@@ -334,27 +335,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
-                                                <c:forEach varStatus="count"  items="${sessionScope.LIST_PROJECT_DETAILS}" var="list">
 
-                                                    <tr>
-
-                                                        <td>${count.count}</td>
-                                                        <td>${list.project.name}</td>
-                                                        <td>${list.group.name}</td>
-                                                        <td>
-                                                            <form action="AcceptGroupController">
-                                                                <input type="hidden" name="groupId" value="${list.group.groupId}"/>                                 
-                                                                <input type="hidden" name="projectId" value="${list.project.projectId}"/>                                 
-                                                                <input type="submit" name="accept" value="Accept"/>
-                                                                <input type="submit" name="deny" value="Deny"/>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
+                                            <c:forEach varStatus="count"  items="${sessionScope.LIST_PROJECT_DETAILS}" var="list">
+                                                <tr>
+                                                    <td >${count.count}</td>
+                                                    <td >${list.project.projectId}</td>
+                                                    <td >${list.project.name}</td>
+                                                    <td >${list.group.name}</td>
+                                                    <td >
+                                                        <form action="AcceptGroupController">
+                                                            <input type="hidden" name="groupId" value="${list.group.groupId}"/>                                 
+                                                            <input type="hidden" name="projectId" value="${list.project.projectId}"/>                                 
+                                                            <input type="submit" name="accept" value="Accept"/>
+                                                            <input type="submit" name="deny" value="Deny"/>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                             <c:if test="${sessionScope.LIST_PROJECT_DETAILS eq null}">
                                             <h3>Empty</h3>
-                                            </c:if>
+                                        </c:if>
                                         </tbody>
                                         ${requestScope.EMPTY_LIST}
                                     </table>

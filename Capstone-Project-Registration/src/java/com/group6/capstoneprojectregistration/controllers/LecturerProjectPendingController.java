@@ -35,7 +35,6 @@ public class LecturerProjectPendingController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            ProjectDAO prjDao = new ProjectDAO();
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
             ProjectDetailDAO prjdDao = new ProjectDetailDAO();

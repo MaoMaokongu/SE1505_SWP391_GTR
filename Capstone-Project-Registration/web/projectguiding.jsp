@@ -176,7 +176,7 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="pages/lecturer/admin.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Lecturer</span>
+                                    <span class="hidden-xs">${sessionScope.USER.userName}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
@@ -184,7 +184,7 @@
                                         <img src="admin.png" class="img-circle" alt="User Image">
 
                                         <p>
-                                            Lecturer
+                                            ${sessionScope.USER.userName}
                                             <small>Member since Feb. 2022</small>
                                         </p>
                                     </li>
@@ -193,16 +193,16 @@
                                         <div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
-                                    
-                                    <c:url var="logout" value="LogoutController">
 
-                                    </c:url>
-                                    <div class="pull-right">
-                                        <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
-                                    </div>
+                                        <c:url var="logout" value="LogoutController">
+
+                                        </c:url>
+                                        <div class="pull-right">
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
-                        </ul>
-                        </li>
                         </ul>
                     </div>
                 </nav>
@@ -217,7 +217,7 @@
                             <img src="pages/lecturer/admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Lecturer</p>
+                            <p>${sessionScope.USER.userName}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -316,17 +316,20 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">#</th>
+                                                <th>Projects's Id</th>
                                                 <th>Projects's Title</th>
                                                 <th>Groups's Name</th>                                             
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            ${requestScope.MESSAGE}
                                             <c:forEach varStatus="count" items="${sessionScope.LIST_PROJECT_GUIDING}" var="list">
-                                            <tr>
-                                                <td>${count.count}</td>
-                                                <td>${list.project.name}</td>
-                                                <td>${list.name}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>${count.count}</td>
+                                                    <td>${list.project.projectId}</td>
+                                                    <td>${list.project.name}</td>
+                                                    <td>${list.name}</td>
+                                                </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>

@@ -29,9 +29,8 @@ public class UserDAO {
     private static final String GET_USER_BY_ID = " SELECT * FROM [User] WHERE UserId = ?";
     private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? Where UserId = ?";
     private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
-
     private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
-
+    
     public int countStudentInGroup(int group) throws SQLException {
         int count = 0;
         Connection conn = null;
