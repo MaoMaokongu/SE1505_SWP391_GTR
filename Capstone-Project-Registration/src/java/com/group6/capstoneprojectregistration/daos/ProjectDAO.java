@@ -25,6 +25,7 @@ public class ProjectDAO {
     private static final String GET_PROJECT_BY_ID = " SELECT * FROM Project WHERE ProjectId = ?";
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
     private static final String UPDATE_PROJECT = " UPDATE project SET IsSelected = ? WHERE ProjectId =?";
+    private static final String UPDATE_DENY_PROJECT = " UPDATE ProjectDetail SET ProjectId = NULL,GroupId = NULL WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
     private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
@@ -163,8 +164,8 @@ public class ProjectDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-           if (rs != null) {
+        } finally {
+            if (rs != null) {
                 rs.close();
             }
             if (stm != null) {
@@ -172,7 +173,7 @@ public class ProjectDAO {
             }
             if (conn != null) {
                 conn.close();
-            } 
+            }
         }
         return list;
     }
@@ -262,28 +263,54 @@ public class ProjectDAO {
         }
         return list;
     }
-    public boolean updateProject(String projectId) throws SQLException{
+
+    public boolean updateProject(String projectId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_PROJECT;
+                stm = conn.prepareStatement(sql);
+                stm.setBoolean(1, true);
+                stm.setString(2, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean updateDenyProject(String projectId) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
         try {
             conn = DBUtils.getConnection();
             if (conn!=null) {
-                String sql = UPDATE_PROJECT;
+                String sql = UPDATE_DENY_PROJECT;
                 stm = conn.prepareStatement(sql);
-                stm.setBoolean(1, true);
-                stm.setString(2, projectId);
-                check = stm.executeUpdate() > 0 ?true:false;
+                stm.setString(1, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
-           if (stm != null) {
+            if (stm != null) {
                 stm.close();
             }
             if (conn != null) {
                 conn.close();
-            } 
+            }
         }
         return check;
     }

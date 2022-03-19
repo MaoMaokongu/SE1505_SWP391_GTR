@@ -1,12 +1,14 @@
 <%-- 
-    Document   : adminhasGroup
-    Created on : Mar 5, 2022, 11:19:08 PM
+    Document   : adminRandom
+    Created on : Mar 5, 2022, 11:36:29 PM
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -175,13 +177,13 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="pages/admin/admin.png" class="user-image" alt="User Image">
+                                    <img src="admin.png" class="user-image" alt="User Image">
                                     <span class="hidden-xs">Admin</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="pages/admin/admin.png" class="img-circle" alt="User Image">
+                                        <img src="admin.png" class="img-circle" alt="User Image">
 
                                         <p>
                                             Admin
@@ -210,7 +212,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="pages/admin/admin.png" class="img-circle" alt="User Image">
+                            <img src="admin.png" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p>Admin</p>
@@ -238,14 +240,36 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <!-- <li class="treeview">
+                                  <a href="#"><i class="fa fa-circle-o"></i> Manage Students
+                                    <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                  </a>
+                                  <ul class="treeview-menu">
+                                    <li class="active"><a href="adminHasGroup.html"><i class="fa fa-circle-o"></i> Group</a></li>
+                                    <li><a href="adminNoGroup.html"><i class="fa fa-circle-o"></i> No Group</a></li>
+                                  </ul>
+                                </li> -->
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Students</a></li>
-                                <li><a href="pages/admin/adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
-                                <li><a href="pages/admin/adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
-                                <li><a href="pages/admin/adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
+                                <li><a href="adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
+                                <li><a href="adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
+                                <li><a href="adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>/a>
                             </ul>
                         </li>
                     </ul>
                     </li>
+                    <!-- <li>
+                      <a href="../mailbox/mailbox.html">
+                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                        <span class="pull-right-container">
+                          <small class="label pull-right bg-yellow">12</small>
+                          <small class="label pull-right bg-green">16</small>
+                          <small class="label pull-right bg-red">5</small>
+                        </span>
+                      </a>
+                    </li> -->
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -262,12 +286,7 @@
                     <div class="list d-flex align-items-center justify-content-start">
                         <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
-
-                        <form method="post" action="ImportStudentController" enctype="multipart/form-data">
-                            <input type="file" name="file" size="60" hidden="true" class="btn btn-primary btn-sm btn-student"/>
-                            <input type="submit" value="Upload" />
-                        </form>
-
+                        <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
                     </div>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -284,8 +303,8 @@
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab_1" data-toggle="tab">Students <small>have Group</small></a></li>
-                                    <li><a onclick="showUserNoGroup()" href="#tab_2" data-toggle="tab">Students <small>have no Group</small></a></li>
-                                    <li class="disabled"><a href="#" data-toggle="tab">Random Students <small>for no Group</small></a></li>
+                                    <li><a href="#tab_2" data-toggle="tab">Students <small>have no Group</small></a></li>
+                                    <li><a href="#tab_3" data-toggle="tab">Random Students <small>for no Group</small></a></li>
                                     <!-- <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                             Dropdown <span class="caret"></span>
@@ -345,20 +364,34 @@
                                                     <div class="box-body table-responsive no-padding">
 
                                                         <table class="table table-hover">
-                                                            <tr>
-                                                                <th style="width : 10px">#</th>
-                                                                <th>Student Id</th>
-                                                                <th>Name</th>
-                                                                <th>Group Name</th>
-                                                            </tr>
+                                                            <c:forEach items="${sessionScope.SPLIT_GROUP}" varStatus="vs">
 
-                                                            <c:forEach var="student" varStatus="counter" items="${requestScope.LIST_STUDENT}">
-                                                                <tr>
-                                                                    <td>${counter.count}</td>
-                                                                                       
-                                                                <tr>
+
+
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="width : 10px">#</th>
+                                                                        <th>Student Id</th>
+                                                                        <th>Name</th>
+                                                                        <th>Group Name</th>
+                                                                        <th style="width : 120px">Semester</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                    <%--<c:forEach items="vs" var="list">--%>
+                                                                        <tr>
+                                                                            <td>${count.count}</td>
+                                                                            <td>${vs.index}</td>
+                                                                            <td>${vs.index}</td>
+
+                                                                        </tr>
+                                                                    <%--</c:forEach>--%>
+                                                                </tbody>
+
                                                             </c:forEach>
                                                         </table>
+
                                                     </div>
                                                     <!-- /.box-body -->
                                                     <div class="box-footer clearfix">
@@ -379,9 +412,8 @@
                                     </div>
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="tab_2">
-                                        
+                                        <p>No students</p>
                                     </div>
-                                    <!-- /.tab-pane -->
                                     <div class="tab-pane" id="tab_3">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -645,6 +677,9 @@
                                                         </table>
                                                     </div>
                                                     <!-- /.box-body -->
+                                                    <div class="box-footer clearfix">
+                                                        <button type="button" class="btn btn-primary btn-sm btn-student pull-right">Save</button> 
+                                                    </div>
                                                 </div>
                                                 <!-- /.box -->
                                             </div>
@@ -688,17 +723,6 @@
         <!-- AdminLTE for demo purposes -->
         <script src="dist1/js/demo.js"></script>
         <!-- page script -->
-        <script>
-            function showUserNoGroup() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onload = function () {
-                    document.getElementById("tab_2").innerHTML = this.responseText;
-                };
-                xhttp.open("GET", "ManageStudentNoGroupController");
-                xhttp.send();
-            }
-
-        </script>
     </body>
 
 </html>

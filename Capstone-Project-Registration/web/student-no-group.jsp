@@ -1,7 +1,7 @@
 <%-- 
-    Document   : messagee
-    Created on : Mar 15, 2022, 11:45:43 AM
-    Author     : admin
+    Document   : student-no-group
+    Created on : Mar 19, 2022, 4:15:46 PM
+    Author     : PC
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,10 +17,36 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Message</h3>
+                        <h3 class="box-title">Students</h3>
+                        <small>without group</small>
+                        <!-- <div class="box-tools">
+                        
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                          <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+        
+                          <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                          </div>
+                        </div>
+                      </div> -->
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-default btn-sm btn-student">
+                                <a href="StudentNoGroupRandomController">Random</a>
+                            </button>
+                        </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-left">
+                            <i>Show</i>
+                            <select class="select">
+                                <option><a href="#">10</a></option>
+                                <option><a href="#">15</a></option>
+                                <option><a href="#">25</a></option>
+                                <option><a href="#">30</a></option>
+                            </select>
+                            <i>entries</i>
+                        </ul>
                         <ul class="pagination pagination-sm no-margin pull-right">
                             <i class="fas fa-filter">Filter</i>
                             <select class="select">
@@ -33,41 +59,26 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-
                         <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th style="width : 10px">#</th>
-                                    <th>Sender</th>
-                                    <th>Invitation</th>
-                                    <th></th>
+                                    <th>Student Id</th>
+                                    <th>Name</th>
+                                    <th style="width : 120px">Semester</th>
                                 </tr>
                             </thead>
-                            <c:forEach var="event" items="${sessionScope.EVENT}" varStatus="count">
-                                <tbody>
+                            <tbody>
+                                <c:forEach items="${sessionScope.ADMIN_LIST_USER_NO_GROUP}" var="list" varStatus="count">
                                     <tr>
-                                        <td style="width: 50px">${count.count}</td>
-                                        <td style="width: 100px">${event.sender.userName}</td>
-                                        <td style="width: 200px">${event.event.messageContent}</td>
-                                        <c:if test="${event.event.messageEvent eq 'Invite'}">
-                                            <td style="width: 25px">
-                                                <form action="StudentDecisionController">
-                                                    <input type="hidden" name="sender" value="${event.sender.userId}"/>
-                                                    <input type="hidden" name="invitedUserId" value="${sessionScope.USER.userId}"/>
-                                                    <input type="hidden" name="emailReceiver" value="${sessionScope.USER.email}"/>
-                                                    <input type="submit" name="studentDecision" value="Accept"/>
-                                                    
-                                                </form>
-                                                    <form action="DenyInviteGroupController">                         
-                                                        <input type="submit" value="Deny"/>
-                                                    </form>
-                                            </td>
-                                        </c:if>
-                                        <td style="width: 25px">
-                                        </td>
+                                        <td>${count.count}</td>
+                                        <td>${list.userId}</td>
+                                        <td>${list.userName}</td>
+                                        <td></td>
+                                        
                                     </tr>
-                                </tbody>
-                            </c:forEach>
+                                </c:forEach>
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
