@@ -37,10 +37,11 @@ public class AcceptGroupController extends HttpServlet {
             boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId);
             boolean checkUpdateProject = prDao.updateProject(projectId);
             if (checkUpdateProject && checkUpdateGroup) {
+                
                 request.setAttribute("ACCEPTED", "Accept Successful!");
                 url = SUCCESS;
             }else{
-                request.setAttribute("ACCEPTED", "Accept Fail !");
+                request.setAttribute("ACCEPTED", "Accept Fail!");
                 url = ERROR;
             }
         } catch (Exception e) {

@@ -32,19 +32,23 @@ public class ListProjectGuidingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url= ERROR;
+        String url = ERROR;
         try {
             GroupDAO grDao = new GroupDAO();
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
             List<GroupDTO> list = grDao.getListGuiding(user.getUserId());
-            if (list.size()>0) {
+            if (list.size() > 0) {
                 session.setAttribute("LIST_PROJECT_GUIDING", list);
                 url = SUCCESS;
+            } else {
+                session.setAttribute("LIST_PROJECT_GUIDING", list);
+                request.setAttribute("MESSAGE", "Empty List");
+                url = ERROR;
             }
         } catch (Exception e) {
-            log("Error at ListProjectGuidingController" +e.toString());
-        }finally{
+            log("Error at ListProjectGuidingController" + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

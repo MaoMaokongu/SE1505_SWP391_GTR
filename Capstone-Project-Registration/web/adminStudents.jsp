@@ -262,7 +262,12 @@
                     <div class="list d-flex align-items-center justify-content-start">
                         <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
-                        <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
+
+                        <form method="post" action="ImportStudentController" enctype="multipart/form-data">
+                            <input type="file" name="file" size="60" hidden="true" class="btn btn-primary btn-sm btn-student"/>
+                            <input type="submit" value="Upload" />
+                        </form>
+
                     </div>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -338,77 +343,21 @@
                                                     </div>
                                                     <!-- /.box-header -->
                                                     <div class="box-body table-responsive no-padding">
+
                                                         <table class="table table-hover">
                                                             <tr>
                                                                 <th style="width : 10px">#</th>
                                                                 <th>Student Id</th>
                                                                 <th>Name</th>
                                                                 <th>Group Name</th>
-                                                                <th style="width : 120px">Semester</th>
                                                             </tr>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>SE151278</td>
-                                                                <td>Ngo Chi Bao</td>
-                                                                <td>Rose</td>
-                                                                <td>Spring 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Spring 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Spring 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Spring 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Summer 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>6</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Summer 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>7</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Summer 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>8</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Summer 2022</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>9</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                                <td>Rose</td>
-                                                                <td>Fall 2022</td>
-                                                            </tr>
+
+                                                            <c:forEach var="student" varStatus="counter" items="${requestScope.LIST_STUDENT}">
+                                                                <tr>
+                                                                    <td>${counter.count}</td>
+                                                                                       
+                                                                <tr>
+                                                            </c:forEach>
                                                         </table>
                                                     </div>
                                                     <!-- /.box-body -->

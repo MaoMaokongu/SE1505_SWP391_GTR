@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class UserDAO {
     private static final String GET_USER_BY_ID = " SELECT * FROM [User] WHERE UserId = ?";
     private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? Where UserId = ?";
     private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
-
+    private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    
     public int countStudentInGroup(int group) throws SQLException {
         int count = 0;
         Connection conn = null;
@@ -274,6 +276,43 @@ public class UserDAO {
                 stm.setBoolean(2, true);
                 stm.setString(3, user.getUserId());
                 check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
+    public boolean insert(ArrayList<String> student) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+
+            if (conn != null) {
+                String sql = INSERT_STUDENTS;
+                stm = conn.prepareStatement(sql);
+
+                stm.setString(1, student.get(1));
+                stm.setString(2, student.get(2));
+                stm.setString(3, student.get(3));
+                stm.setString(4, student.get(4));
+
+                stm.setInt(5, 1); //student
+                stm.setNull(6, Types.INTEGER);
+                stm.setBoolean(7, false);
+                check = stm.executeUpdate() > 0 ? true : false;
+
             }
         } catch (Exception e) {
             e.printStackTrace();
