@@ -42,6 +42,9 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
+        <c:url var="logout" value="LogoutController">
+
+        </c:url>
         <div class="wrapper">
 
             <header class="main-header">
@@ -196,7 +199,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="${logout}" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -364,10 +367,7 @@
                                                     <div class="box-body table-responsive no-padding">
 
                                                         <table class="table table-hover">
-                                                            <c:forEach items="${sessionScope.SPLIT_GROUP}" varStatus="vs">
-
-
-
+                                                            <c:forEach items="${sessionScope.SPLIT_GROUP}" var="list">
                                                                 <thead>
                                                                     <tr>
                                                                         <th style="width : 10px">#</th>
@@ -377,18 +377,15 @@
                                                                         <th style="width : 120px">Semester</th>
                                                                     </tr>
                                                                 </thead>
-
                                                                 <tbody>
-                                                                    <%--<c:forEach items="vs" var="list">--%>
+                                                                    <c:forEach items="${list}" var="list">
                                                                         <tr>
                                                                             <td>${count.count}</td>
-                                                                            <td>${vs.index}</td>
-                                                                            <td>${vs.index}</td>
-
+                                                                            <td>${list.userName}</td>
+                                                                            <td>${list.userId}</td>
                                                                         </tr>
-                                                                    <%--</c:forEach>--%>
+                                                                    </c:forEach>
                                                                 </tbody>
-
                                                             </c:forEach>
                                                         </table>
 

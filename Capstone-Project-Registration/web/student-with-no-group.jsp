@@ -39,6 +39,7 @@
                             <thead>
                                 <tr>
                                     <th style="width : 10px">#</th>
+                                    <th>Id</th>
                                     <th>Email</th>
                                     <th>UserName</th>
                                     <th></th>
@@ -48,16 +49,17 @@
                                 <tbody>
                                     <tr>
                                         <td style="width: 50px">${count.count}</td>
+                                        <td style="width: 100px">${user.userId}</td>
                                         <td style="width: 100px">${user.email}</td>
                                         <td style="width: 100px">${user.userName}</td>
                                         <td style="width: 100px"> 
                                             <%--<c:if test="${sessionScope.INVITATION.userInvited eq sessionScope}">--%>
-                                                <form action="InviteUserController">
-                                                    <input type="hidden" name="receiver" value="${user.email}"/>
-                                                    <input type="hidden" name="sender" value="${sessionScope.USER.email}"/>
-                                                    <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
-                                                    <input type="submit" value="Invite"/>
-                                                </form>
+                                            <form action="InviteUserController">
+                                                <input type="hidden" name="receiver" value="${user.email}"/>
+                                                <input type="hidden" name="sender" value="${sessionScope.USER.email}"/>
+                                                <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
+                                                <input type="submit" value="Invite"/>
+                                            </form>
                                             <%--</c:if>--%>
                                         </td>                                       
                                     </tr>
