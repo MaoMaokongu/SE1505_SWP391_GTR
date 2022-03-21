@@ -25,7 +25,6 @@ public class ProjectDAO {
     private static final String GET_PROJECT_BY_ID = " SELECT * FROM Project WHERE ProjectId = ?";
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
     private static final String UPDATE_PROJECT = " UPDATE project SET IsSelected = ? WHERE ProjectId =?";
-    private static final String UPDATE_DENY_PROJECT = " UPDATE ProjectDetail SET ProjectId = NULL,GroupId = NULL WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
     private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
@@ -290,28 +289,4 @@ public class ProjectDAO {
         return check;
     }
 
-    public boolean updateDenyProject(String projectId) throws SQLException {
-        boolean check = false;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn!=null) {
-                String sql = UPDATE_DENY_PROJECT;
-                stm = conn.prepareStatement(sql);
-                stm.setString(1, projectId);
-                check = stm.executeUpdate() > 0 ? true : false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return check;
-    }
 }

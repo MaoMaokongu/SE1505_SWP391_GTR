@@ -5,11 +5,8 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.ProjectDAO;
-import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
-import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
-import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
+import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.dtos.EventDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,39 +19,40 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author PC
+ * @author admin
  */
-@WebServlet(name = "LecturerProjectPendingController", urlPatterns = {"/LecturerProjectPendingController"})
-public class LecturerProjectPendingController extends HttpServlet {
+@WebServlet(name = "DeleteMessageController", urlPatterns = {"/DeleteMessageController"})
+public class DeleteMessageController extends HttpServlet {
 
-    private static final String ERROR = "projectlist.jsp";
-    private static final String SUCCESS = "projectlist.jsp";
+    public static final String ERROR = "group.jsp";
+    public static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
+
+        String sender = request.getParameter("sender");
+        String receiver = request.getParameter("receiver");
+        String loginedUserEmail = request.getParameter("loginedUserEmail");
+        HttpSession session = request.getSession();
+
         try {
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            ProjectDetailDAO prjdDao = new ProjectDetailDAO();
-            List<ProjectDetailsDTO> listprojectdetail = prjdDao.getProjectDetailsByMentorId(user.getUserId());
-            if (listprojectdetail.size() >= 0) {
-                if (!listprojectdetail.isEmpty()) {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
-                    url = SUCCESS;
-                } else {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
-                    request.setAttribute("EMPTY_LIST", "The list is empty");
-                    url = ERROR;
-                }
+            EventDAO evDao = new EventDAO();
+            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(receiver, sender);
+            EventDAO dao = new EventDAO();
+            if (checkDeleteEvent) {
+                List<EventDTO> listEvent = dao.getAllEventByReceiverEmail(loginedUserEmail);
+                session.setAttribute("EVENT", listEvent);
+                request.setAttribute("MESSAGE", "Delete message successful");
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at LecturerProjectPendingController " + e.toString());
+            log("Error at ClearMessageController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

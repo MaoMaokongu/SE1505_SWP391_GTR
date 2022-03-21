@@ -27,10 +27,39 @@ public class UserDAO {
     private static final String GET_LIST_USER_BY_GROUP_ID = " SELECT * FROM [User] WHERE [Group] = ?";
     private static final String GET_LIST_NO_GROUP_USER = " SELECT * FROM [User] WHERE [Group] is null AND [Role] = ?";
     private static final String GET_USER_BY_ID = " SELECT * FROM [User] WHERE UserId = ?";
-    private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? Where UserId = ?";
+    private static final String ADD_USER_INTO_GROUP = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
     private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
     private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String REMOVE_STUDENT_FROM_GROUP = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
     
+    public boolean removeStudentFromGroupByUserId(String userId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = REMOVE_STUDENT_FROM_GROUP;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, null);
+                stm.setString(2, userId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public int countStudentInGroup(int group) throws SQLException {
         int count = 0;
         Connection conn = null;
@@ -117,7 +146,7 @@ public class UserDAO {
                     boolean isLeader = rs.getBoolean("Isleader");
                     RoleDAO dao = new RoleDAO();
                     GroupDAO grdao = new GroupDAO();
-                    user = new UserDTO(strUserId, email, userName, gender, dao.getRole(role), grdao.getGroupById(group), isLeader);
+                    user = new UserDTO(strUserId, email, userName, gender, dao.getRole(role), grdao.getGroupNameById(group), isLeader);
                 }
             }
         } catch (Exception e) {
@@ -160,7 +189,7 @@ public class UserDAO {
                     boolean isLeader = rs.getBoolean("IsLeader");
                     RoleDAO rlDao = new RoleDAO();
                     GroupDAO grDao = new GroupDAO();
-                    listUser.add(new UserDTO(userId, email, userName, gender, rlDao.getRole(role), grDao.getGroupById(group), isLeader));
+                    listUser.add(new UserDTO(userId, email, userName, gender, rlDao.getRole(role), grDao.getGroupNameById(group), isLeader));
                 }
             }
         } catch (Exception e) {
@@ -202,7 +231,7 @@ public class UserDAO {
                     boolean isLeader = rs.getBoolean("IsLeader");
                     RoleDAO rlDao = new RoleDAO();
                     GroupDAO grDao = new GroupDAO();
-                    listUser.add(new UserDTO(userId, email, userName, gender, rlDao.getRole(role), grDao.getGroupById(groupId), isLeader));
+                    listUser.add(new UserDTO(userId, email, userName, gender, rlDao.getRole(role), grDao.getGroupNameById(groupId), isLeader));
                 }
             }
         } catch (Exception e) {
@@ -243,7 +272,7 @@ public class UserDAO {
                 boolean isLeader = rs.getBoolean("Isleader");
                 int group = rs.getInt("Group");
                 GroupDAO grdao = new GroupDAO();
-                user = new UserDTO(userId, email, userName, gender, dao.getRole(role), grdao.getGroupById(group), isLeader);
+                user = new UserDTO(userId, email, userName, gender, dao.getRole(role), grdao.getGroupNameById(group), isLeader);
             }
         } catch (Exception e) {
             e.printStackTrace();

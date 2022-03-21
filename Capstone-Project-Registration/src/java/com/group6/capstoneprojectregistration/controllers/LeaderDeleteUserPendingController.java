@@ -5,48 +5,56 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.GroupDAO;
-import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
+import com.group6.capstoneprojectregistration.dtos.EventDTO;
+import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author PC
+ * @author admin
  */
-@WebServlet(name = "AcceptGroupController", urlPatterns = {"/AcceptGroupController"})
-public class AcceptGroupController extends HttpServlet {
+@WebServlet(name = "LeaderDeleteUserPendingController", urlPatterns = {"/LeaderDeleteUserPendingController"})
+public class LeaderDeleteUserPendingController extends HttpServlet {
 
-    private static final String ERROR = "projectlist.jsp";
-    private static final String SUCCESS = "LecturerProjectPendingController";
+    private static final String ERROR = "group.jsp";
+    private static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
+        
+        HttpSession session = request.getSession();
+        String userInvited = request.getParameter("userInvited");
+        String currentUser = request.getParameter("userId");
+        
         try {
-            int groupId = Integer.parseInt(request.getParameter("groupId"));
-            String projectId = request.getParameter("projectId").trim();
-            GroupDAO grDao = new GroupDAO();
-            ProjectDAO prDao = new ProjectDAO();
-            boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId);
-            boolean checkUpdateProject = prDao.updateProject(projectId);
-            if (checkUpdateProject && checkUpdateGroup) {
-                
-                request.setAttribute("ACCEPTED", "Accept Successful!");
+            EventDAO evDao = new EventDAO();
+            InvitationPendingDAO dao = new InvitationPendingDAO();
+            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(userInvited, currentUser);
+            boolean checkDeleteUserPending = dao.deleteUserPendingByUserInvited(userInvited);
+            List<InvitationPendingDTO> listInvitationPending = dao.getUserPedingByLoginUserAndStatus(currentUser, 1);
+            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userInvited);
+            if (checkDeleteUserPending && checkDeleteEvent) {
+                session.setAttribute("EVENT", listEvent);
+                session.setAttribute("INVITATION", listInvitationPending);
+                request.setAttribute("MESSAGE_DELETE_USER_PENDING", "Delete user pending successful");
                 url = SUCCESS;
-            }else{
-                request.setAttribute("ACCEPTED", "Accept Fail!");
-                url = ERROR;
             }
         } catch (Exception e) {
-            log("Error at AcceptGroupController "+e.toString());
-        }finally{
+            log("Error at LeaderDeleteUserPendingController " + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

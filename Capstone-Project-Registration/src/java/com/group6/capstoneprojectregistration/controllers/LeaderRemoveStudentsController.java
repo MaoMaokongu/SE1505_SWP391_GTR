@@ -5,8 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
+import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
@@ -22,39 +23,50 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author PC
+ * @author admin
  */
-@WebServlet(name = "LecturerProjectPendingController", urlPatterns = {"/LecturerProjectPendingController"})
-public class LecturerProjectPendingController extends HttpServlet {
+@WebServlet(name = "LeaderRemoveStudentsController", urlPatterns = {"/LeaderRemoveStudentsController"})
+public class LeaderRemoveStudentsController extends HttpServlet {
 
-    private static final String ERROR = "projectlist.jsp";
-    private static final String SUCCESS = "projectlist.jsp";
+    private static final String ERROR = "group.jsp";
+    private static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
+        HttpSession session = request.getSession();
+        String userId = request.getParameter("receiverId");
+        String receiverEmail = request.getParameter("receiverEmail");
+        String sender = request.getParameter("sender");
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
+        EventDAO evDao = new EventDAO();
+        UserDAO usDao = new UserDAO();
+
         try {
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            ProjectDetailDAO prjdDao = new ProjectDetailDAO();
-            List<ProjectDetailsDTO> listprojectdetail = prjdDao.getProjectDetailsByMentorId(user.getUserId());
-            if (listprojectdetail.size() >= 0) {
-                if (!listprojectdetail.isEmpty()) {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
+            UserDTO currentUser = usDao.getStrUserById(sender);
+            UserDTO receiveUser = usDao.getUserByEmail(receiverEmail);
+            ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(groupId);
+            if (projectDetail == null) {
+                boolean checkRemoveStudent = usDao.removeStudentFromGroupByUserId(userId);
+                if (checkRemoveStudent) {
+                    evDao.insertEvent(receiveUser, currentUser, "LeaderRemove");
+                    List<UserDTO> listUserInGroup = usDao.getListUserByGroupId(currentUser.getGroup().getGroupId());
+                    session.setAttribute("LIST_USER_IN_GROUP", listUserInGroup);
+                    request.setAttribute("REMOVE", "Remove Successfully");
                     url = SUCCESS;
-                } else {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
-                    request.setAttribute("EMPTY_LIST", "The list is empty");
-                    url = ERROR;
                 }
+            } else {
+                request.setAttribute("USER_HAVE_GROUP", "Your group has already registered the project, so you can't remove this member ");
             }
         } catch (Exception e) {
-            log("Error at LecturerProjectPendingController " + e.toString());
+            log("Error at LeaderRemoveStudentsController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

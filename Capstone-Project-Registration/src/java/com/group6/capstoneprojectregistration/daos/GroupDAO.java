@@ -28,6 +28,9 @@ public class GroupDAO {
     private static final String CHECK_DUPLICATE = " SELECT Name FROM [Group] WHERE Name=? ";
     private static final String UPDATE_GROUP = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";
 
+    
+    
+    
     public boolean isDuplicateGroupName(String groupName) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -59,7 +62,7 @@ public class GroupDAO {
         return check;
     }
 
-    public GroupDTO getGroupById(int groupId) throws SQLException {
+    public GroupDTO getGroupNameById(int groupId) throws SQLException {
         GroupDTO group = null;
         Connection conn = null;
         PreparedStatement stm = null;

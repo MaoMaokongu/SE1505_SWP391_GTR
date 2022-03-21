@@ -240,8 +240,8 @@
                         <div class="col-xs-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">List of Projects</h3>
-                                    ${requestScope.INSERT_PROJECTID}
+                                    <h3 class="box-title">List of Projects</h3></br>
+                                    <h4 style="color: red">${requestScope.INSERT_PROJECTID}</h4>
 
                                     <!-- <div class="box-tools">
                     

@@ -5,6 +5,7 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PC
  */
-@WebServlet(name = "DenyGroupController", urlPatterns = {"/DenyGroupController"})
-public class DenyGroupController extends HttpServlet {
+@WebServlet(name = "AcceptGroupController", urlPatterns = {"/AcceptGroupController"})
+public class LecturerAcceptGroupController extends HttpServlet {
 
     private static final String ERROR = "projectlist.jsp";
     private static final String SUCCESS = "LecturerProjectPendingController";
@@ -29,22 +30,25 @@ public class DenyGroupController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
+            int groupId = Integer.parseInt(request.getParameter("groupId"));
             String projectId = request.getParameter("projectId").trim();
+            GroupDAO grDao = new GroupDAO();
             ProjectDAO prDao = new ProjectDAO();
-            boolean checkUpdateDenyProject = prDao.updateDenyProject(projectId);
-            if (checkUpdateDenyProject) {
-                request.setAttribute("DENY", "DENY Successful!");
+            boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId);
+            boolean checkUpdateProject = prDao.updateProject(projectId);
+            if (checkUpdateProject && checkUpdateGroup) {
+                
+                request.setAttribute("ACCEPTED", "Accept Successful!");
                 url = SUCCESS;
             }else{
-                request.setAttribute("DENY", "DENY Fail!");
+                request.setAttribute("ACCEPTED", "Accept Fail!");
                 url = ERROR;
             }
         } catch (Exception e) {
-            log("Error at DenyGroupController: " +e.toString());
+            log("Error at AcceptGroupController "+e.toString());
         }finally{
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

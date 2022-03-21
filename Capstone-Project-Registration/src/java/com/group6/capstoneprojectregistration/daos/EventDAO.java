@@ -27,7 +27,65 @@ public class EventDAO {
 //    private static final String GET_ALL_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event]";
     private static final String CHECK_DUPLICATE = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ? AND Sender = ? AND [Event] = ? ";
     private static final String DELETE_MESSAGE = " DELETE FROM [Event] WHERE Receiver = ? AND Sender =? AND [Event] = ?";
-    
+    private static final String DELETE_MESSAGE_BY_CLICK = " DELETE FROM [Event] WHERE Receiver = ? AND Sender = ?";
+
+    public boolean deleteMessageByReceiverAndSender(String receiver, String sender) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_MESSAGE_BY_CLICK;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, receiver);
+                stm.setString(2, sender);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
+    public boolean insertMessageDenyOfLecturer(String sender, String receiverEmail) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = INSERT_EVENT;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, receiverEmail);
+                stm.setString(2, sender);
+                stm.setString(3, "DenyProject");
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public boolean deleteMessage(String emailReceiver, UserDTO user) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -130,7 +188,7 @@ public class EventDAO {
         return event;
     }
 
-    public List<EventDTO> getAllEventByReceiverEmail(String receiverEmail) throws SQLException {
+    public List<EventDTO> getAllEventByReceiverEmail(String userId) throws SQLException {
         List<EventDTO> listEvent = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
@@ -141,14 +199,14 @@ public class EventDAO {
             if (conn != null) {
                 String sql = GET_ALL_EVENT_BY_EMAIL;
                 stm = conn.prepareStatement(sql);
-                stm.setString(1, receiverEmail);
+                stm.setString(1, userId);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String sender = rs.getString("Sender");
                     String event = rs.getString("Event");
                     MessageEventDAO meDao = new MessageEventDAO();
                     UserDAO usDao = new UserDAO();
-                    listEvent.add(new EventDTO(receiverEmail, usDao.getStrUserById(sender), meDao.getMessageContentByEvent(event)));
+                    listEvent.add(new EventDTO(userId, usDao.getStrUserById(sender), meDao.getMessageContentByEvent(event)));
                 }
             }
         } catch (Exception e) {
@@ -196,8 +254,8 @@ public class EventDAO {
 
         return check;
     }
-    
-    public boolean insertAcceptEvent(UserDTO receiver, String sender) throws SQLException {
+
+    public boolean insertEvent(UserDTO receiver, UserDTO sender, String event) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -208,8 +266,8 @@ public class EventDAO {
                 String sql = INSERT_EVENT;
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, receiver.getEmail());
-                stm.setString(2, sender);
-                stm.setString(3, "Accept");
+                stm.setString(2, sender.getUserId());
+                stm.setString(3, event);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {

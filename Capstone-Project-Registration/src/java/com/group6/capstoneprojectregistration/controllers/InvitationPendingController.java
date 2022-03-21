@@ -36,31 +36,18 @@ public class InvitationPendingController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            String userEmail = user.getUserId();
+            String userId = user.getUserId();
             
-
             InvitationPendingDAO ivDao = new InvitationPendingDAO();
-            List<InvitationPendingDTO> invitation = ivDao.getUserPedingByLoginUserAndStatus(userEmail,1);
+            List<InvitationPendingDTO> listInvitation = ivDao.getUserPedingByLoginUserAndStatus(userId,1);
             
-            if (invitation.size() > 0) {
-                session.setAttribute("INVITATION", invitation);
+            if (listInvitation.size() > 0) {
+                session.setAttribute("INVITATION", listInvitation);
                 url = SUCCESS;
             } else {
                 request.setAttribute("INVITATION", "Nothing here");
                 url = SUCCESS;
             }
-//            EventDAO evDao = new EventDAO();
-//            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userEmail);
-//            String event = evDao.getEventOf(userEmail).getEvent().getMessageEvent();
-//            if (!listEvent.isEmpty()) {
-//                if ("Invite".equals(event)) request.setAttribute("INVITE", "You received an invitation to join the group by");
-//                if ("Accept".equals(event)) request.setAttribute("ACCEPT", "Your invitation has been accepted by");
-//                session.setAttribute("MESSAGE_USER", listEvent);
-//                url = SUCCESS;
-//            } else {
-//                request.setAttribute("MESSAGE_USER", "You don't have any messages");
-//            }
-
         } catch (Exception e) {
             log("Error at MessageController" + e.toString());
         

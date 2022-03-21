@@ -5,10 +5,10 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.ProjectDAO;
-import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
-import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
-import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
+import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
+import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,39 +22,45 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author PC
+ * @author admin
  */
-@WebServlet(name = "LecturerProjectPendingController", urlPatterns = {"/LecturerProjectPendingController"})
-public class LecturerProjectPendingController extends HttpServlet {
+@WebServlet(name = "StudentDenyGroupInvitationController", urlPatterns = {"/StudentDenyGroupInvitationController"})
+public class StudentDenyGroupInvitationController extends HttpServlet {
 
-    private static final String ERROR = "projectlist.jsp";
-    private static final String SUCCESS = "projectlist.jsp";
+    private static final String ERROR = "group.jsp";
+    private static final String SUCCESS = "group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
+
+        HttpSession session = request.getSession();
+        String sender = request.getParameter("sender");
+        String receiver = request.getParameter("receiver");
+        EventDAO evDao = new EventDAO();
+        UserDAO usDao = new UserDAO();
+
         try {
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            ProjectDetailDAO prjdDao = new ProjectDetailDAO();
-            List<ProjectDetailsDTO> listprojectdetail = prjdDao.getProjectDetailsByMentorId(user.getUserId());
-            if (listprojectdetail.size() >= 0) {
-                if (!listprojectdetail.isEmpty()) {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
-                    url = SUCCESS;
-                } else {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
-                    request.setAttribute("EMPTY_LIST", "The list is empty");
-                    url = ERROR;
-                }
+            UserDTO user = usDao.getStrUserById(sender);
+            UserDTO currentUser = usDao.getUserByEmail(receiver);
+            InvitationPendingDAO dao = new InvitationPendingDAO();
+            InvitationPendingDTO invitationPending = dao.getUserPendingByEmail(receiver, sender);
+            boolean checkUpdateStatus = dao.updateStatus(invitationPending, 3);
+            List<InvitationPendingDTO> listInvitationPending = dao.getUserPedingByLoginUserAndStatus(sender, 1);
+            if (checkUpdateStatus) {
+                evDao.deleteMessage(receiver, user);
+                evDao.insertEvent(user, currentUser, "Deny");// bug
+                session.setAttribute("EVENT", listInvitationPending);
+                request.setAttribute("UPDATE_STATUS", "Deny invitation successful");
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at LecturerProjectPendingController " + e.toString());
+            log("Error at StudentDenyGroupInvitationController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

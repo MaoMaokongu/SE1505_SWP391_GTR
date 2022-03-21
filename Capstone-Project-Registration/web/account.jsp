@@ -209,7 +209,7 @@
                             <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Account</a></li>
                             <li><a href="group.jsp"><i class="fa fa-circle-o"></i> Groups</a></li>
                             <li><a href="projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
-                            <li><a href="ProjectHadSign.jsp"><i class="fa fa-circle-o"></i> Projects Had Signed</a>
+                            <li><a href="StudentProjectPendingController"><i class="fa fa-circle-o"></i> Projects Had Signed</a>
                             </li>
                         </ul>
                     </li>

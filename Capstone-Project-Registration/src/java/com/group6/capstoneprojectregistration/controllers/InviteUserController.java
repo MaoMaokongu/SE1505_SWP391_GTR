@@ -9,9 +9,12 @@ import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
 import com.group6.capstoneprojectregistration.daos.MessageEventDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -43,37 +46,44 @@ public class InviteUserController extends HttpServlet {
 
         UserDAO usDao = new UserDAO();
         GroupDAO grDao = new GroupDAO();
-        InvitationPendingDAO peDao = new InvitationPendingDAO();
         EventDAO evDao = new EventDAO();
-        MessageEventDAO meDao = new MessageEventDAO();
+        ProjectDAO prDao = new ProjectDAO();
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
+        InvitationPendingDAO peDao = new InvitationPendingDAO();
+
+        HttpSession session = request.getSession();
 
         try {
             UserDTO sender = usDao.getUserByEmail(senderEmail);
             GroupDTO group = grDao.getGroupByName(groupName);
-
-            HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
             int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
             UserDTO receiver = usDao.getUserByEmail(receiverEmail);
             EventDTO event = evDao.getEventOf(receiverEmail);
-            if (event == null) {
-                if (numOfStudent < 5) {
-                    boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
-                    boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
-                    if (checkUserPending && checkInviteEvent) {
-                        request.setAttribute("INVITE", "Invite " + receiver.getUserName() + " successfully!");
-                        url = SUCCESS;
+            ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(group.getGroupId());
+            if (projectDetail == null) {
+                if (event == null) {
+                    if (numOfStudent < 5) {
+                        boolean checkUserPending = peDao.insertPendingUser(sender, group, receiverEmail);
+                        boolean checkInviteEvent = evDao.insertInviteEvent(receiverEmail, sender);
+                        if (checkUserPending && checkInviteEvent) {
+                            request.setAttribute("INVITE", "Invite " + receiver.getUserName() + " successfully!");
+                            url = SUCCESS;
+                        } else {
+                            request.setAttribute("INVITE", "Invitation failed!");
+                            url = ERROR;
+                        }
                     } else {
-                        request.setAttribute("INVITE", "Invitation failed!");
+                        request.setAttribute("INVITE", "Your team have enough member!");
                         url = ERROR;
                     }
                 } else {
-                    request.setAttribute("INVITE", "Your team have enough member!");
-                    url = ERROR;
+                    request.setAttribute("INVITE", "This user already invited");
                 }
             } else {
-                request.setAttribute("INVITE", "This user already invited");
+                request.setAttribute("INVITE", "This member cannot be invited because your group has already registered the project ");
             }
+
         } catch (Exception e) {
             log("Error at InviteUserController" + e.toString());
         } finally {

@@ -47,21 +47,19 @@ public class StudentDecisionController extends HttpServlet {
             UserDAO usDao = new UserDAO();
             UserDTO user = usDao.getStrUserById(sender);
             EventDAO evDao = new EventDAO();
-            EventDTO event = evDao.getEventOf(sender);
             UserDTO userBack = usDao.getUserByEmail(emailReceiver);
             InvitationPendingDAO ipDao = new InvitationPendingDAO();
-            InvitationPendingDTO invite = ipDao.getUserPendingByUserId(sender);
-            GroupDAO grDao = new GroupDAO();
-
+            InvitationPendingDTO invite = ipDao.getUserPendingByEmail(emailReceiver, sender);
             HttpSession session = request.getSession();
+            UserDTO currentUser = usDao.getUserByEmail(emailReceiver);
 
             if (studentDecision.equals("Accept")) {
                 boolean checkAddUserIntoGroup = usDao.addUserIntoGroup(user, invitedUserId);
                 if (checkAddUserIntoGroup) {
                     boolean checkDeleteMessage = evDao.deleteMessage(emailReceiver, user);
-                    boolean checkUserPending = ipDao.updateStatusWhenAccept(invite);
+                    boolean checkUserPending = ipDao.updateStatus(invite, 2);
                     if (checkDeleteMessage && checkUserPending) {
-                        boolean checkInsertAcceptEvnet = evDao.insertAcceptEvent(user, userBack.getUserId());
+                        boolean checkInsertAcceptEvnet = evDao.insertEvent(user, currentUser, "Accept");
                         if (checkInsertAcceptEvnet) {
                             //user da co nhom, nen update lai USER tren session de dung
                             UserDTO userLogin = usDao.getUserByEmail(emailReceiver);

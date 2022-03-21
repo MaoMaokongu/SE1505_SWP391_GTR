@@ -18,6 +18,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Pending</h3>
+                        <h4 style="color: red">${requestScope.INVITE}</h4>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header clearfix">

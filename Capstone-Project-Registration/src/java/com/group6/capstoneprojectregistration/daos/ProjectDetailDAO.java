@@ -26,11 +26,75 @@ public class ProjectDetailDAO {
     private static final String GET_LIST_PROJECT_PENDING = " SELECT ProjectId,GroupId FROM ProjectDetail WHERE ProjectId=? AND GroupId=? ";
     private static final String GET_LIST_PROJECT_GUIDING = " SElect p.ProjectId, g.GroupId, MentorId, IsSelected,g.Name, g.IsApproved from ProjectDetail pjd inner join Project p  on p.ProjectId=pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId where MentorId = ? AND g.IsApproved = 1 AND p.IsSelected = 1 ";
     private static final String GET_PROJECTDETAILS_BY_MENTORID = " SElect p.ProjectId, g.GroupId, MentorId, IsSelected\n"
-                                                                +" FROM ProjectDetail pjd inner join Project p  on p.ProjectId = pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId\n"
-                                                                +" WHERE MentorId = ? AND IsSelected = 0  AND IsApproved = 0";
+            + " FROM ProjectDetail pjd inner join Project p  on p.ProjectId = pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId\n"
+            + " WHERE MentorId = ? AND IsSelected = 0  AND IsApproved = 0";
     private static final String GET_PROJECT_PENDING_BY_USERID = " SELECT g.GroupId, pd.ProjectId, u.UserId\n"
-                                                               +" FROM [User] u  join [Group] g on u.[Group] = g.GroupId  join ProjectDetail pd on g.GroupId = pd.GroupId\n"
-                                                               +" Where u.UserId = ?";
+            + " FROM [User] u  join [Group] g on u.[Group] = g.GroupId  join ProjectDetail pd on g.GroupId = pd.GroupId\n"
+            + " Where u.UserId = ?";
+    private static final String UPDATE_DENY_PROJECT = " DELETE FROM ProjectDetail WHERE ProjectId = ?";
+    private static final String GET_PROJECT_DETAIL_BY_GROUP_ID = " SELECT * FROM ProjectDetail WHERE GroupId = ?";
+
+    public ProjectDetailsDTO getProjectDetailByGroupId(int groupId) throws SQLException {
+        ProjectDetailsDTO projectDetail = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_PROJECT_DETAIL_BY_GROUP_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    String projectId = rs.getString("ProjectId");
+                    ProjectDAO prDao = new ProjectDAO();
+                    GroupDAO grDao = new GroupDAO();
+                    projectDetail = new ProjectDetailsDTO(prDao.getProjectById(projectId), grDao.getGroupByGroupId(groupId));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return projectDetail;
+    }
+
+    public boolean denyProject(String projectId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_DENY_PROJECT;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
 
     public List<ProjectDetailsDTO> getProjectPendingByUserId(String userId) throws SQLException {
         List<ProjectDetailsDTO> listProjectPending = new ArrayList<>();
@@ -45,7 +109,7 @@ public class ProjectDetailDAO {
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, userId);
                 rs = stm.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     int groupId = rs.getInt("GroupId");
                     String projectId = rs.getString("ProjectId");
                     GroupDAO grDao = new GroupDAO();
@@ -112,7 +176,7 @@ public class ProjectDetailDAO {
                 if (rs.next()) {
                     ProjectDAO pdao = new ProjectDAO();
                     GroupDAO gdao = new GroupDAO();
-                    projectDetail = new ProjectDetailsDTO(pdao.getProjectById(projectId), gdao.getGroupById(groupId));
+                    projectDetail = new ProjectDetailsDTO(pdao.getProjectById(projectId), gdao.getGroupNameById(groupId));
                 }
             }
         } catch (Exception e) {
@@ -149,7 +213,7 @@ public class ProjectDetailDAO {
                     String mentorID = rs.getString("MentorId");
                     ProjectDAO prjDao = new ProjectDAO();
                     GroupDAO grDao = new GroupDAO();
-                    list.add(new ProjectDetailsDTO(prjDao.getProjectById(projectId), grDao.getGroupById(groupId)));
+                    list.add(new ProjectDetailsDTO(prjDao.getProjectById(projectId), grDao.getGroupNameById(groupId)));
                 }
             }
         } catch (Exception e) {

@@ -135,7 +135,7 @@
                                                                 </form>-->
                                 <%--<jsp:useBean id="menu" class="com.group6.capstoneprojectregistration.daos.InvitationPendingDAO" scope="session">                                </jsp:useBean>--%>
                                 <%--<c:forEach items="${menu.getUserPending(sessionScope.USER.email)}" var="list">--%>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" id="notification">
                                     <li class="header">You have 6 notifications</li>
                                     <li>
                                         <!-- inner menu: contains the actual data -->
@@ -219,7 +219,7 @@
                                 <li><a href="account.jsp"><i class="fa fa-circle-o"></i> Account</a></li>
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Groups</a></li>
                                 <li><a href="projects.jsp"><i class="fa fa-circle-o"></i> Projects</a></li>
-                                <li><a href="ProjectHadSign.jsp"><i class="fa fa-circle-o"></i> Projects Had Signed</a></li>
+                                <li><a href="StudentProjectPendingController"><i class="fa fa-circle-o"></i> Projects Had Signed</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -283,7 +283,7 @@
                                 <!-- Custom Tabs -->
                                 <div class="nav-tabs-custom">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab_1" data-toggle="tab">Group</a></li>
+                                        <li><a href="#tab_1" data-toggle="tab">Group</a></li>
                                         <li><a href="#tab_2" data-toggle="tab" id="tab2" onclick="showMessage()">Message</a></li>
                                             <c:if  test="${sessionScope.USER.leader eq true}">
                                             <li><a href="#tab_3" data-toggle="tab" onclick="showUserPending()">User Pending</a></li>
@@ -296,24 +296,20 @@
                                                 <div class="col-xs-12">
                                                     <div class="box">
                                                         <div class="box-header">
-                                                            <h3 class="box-title">Your Group</h3>
+                                                            <h3 class="box-title">Your Group</h3></br>
                                                             <h4 style="color: red">${requestScope.INVITE}</h4>
                                                             <h4 style="color: red">${requestScope.BUG}</h4>
                                                             <h4 style="color: red">${requestScope.DUPLICATE}</h4>
                                                             <h4 style="color: red">${requestScope.ACCEPT}</h4>
                                                             <h4 style="color: red">${requestScope.MESSAGE}</h4>
+                                                            <h4 style="color: red">${requestScope.REMOVE}</h4>
+                                                            <h4 style="color: red">${requestScope.MESSAGE_DELETE_USER_PENDING}</h4>
+                                                            <h4 style="color: red">${requestScope.UPDATE_STATUS}</h4>
+                                                            <h4 style="color: red">${requestScope.USER_HAVE_GROUP}</h4>
                                                         </div>
                                                         <!-- /.box-header -->
                                                         <div class="box-header clearfix">
-                                                            <ul class="pagination pagination-sm no-margin pull-right">
-                                                                <i class="fas fa-filter">Filter</i>
-                                                                <select class="select">
-                                                                    <option><a href="#">Spring 2022</a></option>
-                                                                    <option><a href="#">Fall 2021</a></option>
-                                                                    <option><a href="#">Summer 2021</a></option>
-                                                                    <option><a href="#">Spring 2021</a></option>
-                                                                </select>
-                                                            </ul>
+
                                                         </div>
                                                         <!-- /.box-header -->
                                                         <div class="box-body table-responsive no-padding">
@@ -337,6 +333,17 @@
                                                                             <td style="width: 100px">${user.gender}</td>
                                                                             <td style="width: 100px">${user.leader}</td>
                                                                             <td style="width: 100px">${user.email}</td>
+                                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName}">
+                                                                                <td style="width: 100px">
+                                                                                    <form action="LeaderRemoveStudentsController"> 
+                                                                                        <input type="hidden" name="groupId" value="${user.group.groupId}"/>
+                                                                                        <input type="hidden" name="receiverId" value="${user.userId}"/>
+                                                                                        <input type="hidden" name="receiverEmail" value="${user.email}"/>
+                                                                                        <input type="hidden" name="sender" value="${sessionScope.USER.userId}"/>
+                                                                                        <input type="submit" name="remove" value="Remove"/>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </c:if>
                                                                         </tr>
                                                                     </c:forEach>
                                                                 </tbody>
@@ -344,15 +351,17 @@
                                                         </div>
                                                         <!-- /.box-body -->
                                                         <div class="box-footer clearfix">
-                                                            <ul class="pagination pagination-sm no-margin pull-right">
-                                                                <!-- <li><a href="#">&laquo;</a></li> -->
-                                                                <li><a href="#">Previous</a></li>
-                                                                <li><a href="#">1</a></li>
-                                                                <li><a href="#">2</a></li>
-                                                                <li><a href="#">3</a></li>
-                                                                <li><a href="#">Next</a></li>
-                                                                <!-- <li><a href="#">&raquo;</a></li> -->
-                                                            </ul>
+                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.USER.group.groupId ne null}">
+                                                                <form class="pull-right" action="LeaderDisbandGroupController">
+                                                                    
+                                                                    <input type="submit" value="Disband"/>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${sessionScope.USER.leader ne true && sessionScope.USER.group.groupId ne null}">
+                                                                <form class="pull-right">
+                                                                    <input type="submit" value="Leave"/>
+                                                                </form>
+                                                            </c:if>
                                                         </div>
                                                     </div>
                                                     <!-- /.box -->
@@ -456,6 +465,8 @@
                 xhttp.open("GET", "StudentNoGroupController");
                 xhttp.send();
             }
+        </script>
+        <script>
         </script>
     </body>
 

@@ -344,14 +344,17 @@
                                                     <td >${list.project.name}</td>
                                                     <td >${list.group.name}</td>
                                                     <td >
-                                                        <form action="AcceptGroupController">
+                                                        <form action="LecturerAcceptGroupController">
                                                             <input type="hidden" name="groupId" value="${list.group.groupId}"/>                                 
                                                             <input type="hidden" name="projectId" value="${list.project.projectId}"/>                                 
                                                             <input type="submit" name="accept" value="Accept"/>
-
                                                         </form>
-                                                        <form action="DenyGroupController">
-                                                            <input type="hidden" name="projectId" value="${list.project.projectId}"/> 
+                                                    </td>
+                                                    <td>
+                                                        <form action="LecturerDenyGroupController">
+                                                            <input type="hidden" name="projectId" value="${list.project.projectId}"/>
+                                                            <input type="hidden" name="sender" value="${sessionScope.USER.userId}"/>
+                                                            <input type="hidden" name="groupId" value="${list.group.groupId}"/>
                                                             <input type="submit" name="deny" value="Deny"/>
                                                         </form>
                                                     </td>
