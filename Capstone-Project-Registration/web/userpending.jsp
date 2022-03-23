@@ -47,6 +47,7 @@
                                             <form action="LeaderDeleteUserPendingController">
                                                 <input type="hidden" name="userId" value="${invi.user.userId}"/>
                                                 <input type="hidden" name="userInvited" value="${invi.userInvited}"/>
+                                                <input type="hidden" name="leaderId" value="${sessionScope.USER.userId}"/>
                                                 <input type="submit" value="Delete"/>
                                             </form>
                                         </td>

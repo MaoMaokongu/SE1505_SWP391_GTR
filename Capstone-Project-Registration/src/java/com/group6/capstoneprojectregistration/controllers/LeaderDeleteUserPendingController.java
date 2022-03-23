@@ -34,20 +34,21 @@ public class LeaderDeleteUserPendingController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String url = ERROR;
-        
+
         HttpSession session = request.getSession();
         String userInvited = request.getParameter("userInvited");
         String currentUser = request.getParameter("userId");
-        
+        String leaderId = request.getParameter("leaderId");
+
         try {
             EventDAO evDao = new EventDAO();
             InvitationPendingDAO dao = new InvitationPendingDAO();
-            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(userInvited, currentUser);
-            boolean checkDeleteUserPending = dao.deleteUserPendingByUserInvited(userInvited);
+//            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(userInvited, currentUser, event);
+            boolean checkDeleteUserPending = dao.deleteUserPendingByUserInvitedAndLeaderId(userInvited, leaderId);
             List<InvitationPendingDTO> listInvitationPending = dao.getUserPedingByLoginUserAndStatus(currentUser, 1);
-            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userInvited);
-            if (checkDeleteUserPending && checkDeleteEvent) {
-                session.setAttribute("EVENT", listEvent);
+//            List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(userInvited);
+            if (checkDeleteUserPending) {
+//                session.setAttribute("EVENT", listEvent);
                 session.setAttribute("INVITATION", listInvitationPending);
                 request.setAttribute("MESSAGE_DELETE_USER_PENDING", "Delete user pending successful");
                 url = SUCCESS;

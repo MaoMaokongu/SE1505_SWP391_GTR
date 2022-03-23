@@ -30,7 +30,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Invitation</th>
+                                    <th>Message</th>
                                     <th></th>
                                     <th>Sender</th>
                                     <th></th>
@@ -67,6 +67,7 @@
                                                 <input type="hidden" name="loginedUserEmail" value="${sessionScope.USER.email}"/>
                                                 <input type="hidden" name="sender" value="${event.sender.userId}"/>
                                                 <input type="hidden" name="receiver" value="${event.receiver}"/>
+                                                <input type="hidden" name="event" value="${event.event.messageEvent}"/>
                                                 <input type="submit" value="Delete"/>
                                             </form>
                                         </td>
@@ -78,7 +79,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <c:if test="${sessionScope.EVENT ne null}">
-                            <c:if test="${sessionScope.EVENT == null}">
+                            <c:if test="${sessionScope.EVENT != null}">
                                 <form class="pull-right">
                                     <input type="submit" value="Delete All"/>
                                 </form>                        

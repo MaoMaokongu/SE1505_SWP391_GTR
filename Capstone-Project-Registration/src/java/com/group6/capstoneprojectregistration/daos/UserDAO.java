@@ -8,6 +8,7 @@ package com.group6.capstoneprojectregistration.daos;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.sun.xml.internal.ws.org.objectweb.asm.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +32,37 @@ public class UserDAO {
     private static final String COUNT_STUDENT_IN_GROUP = " SELECT count(*) as Students FROM [User] WHERE [Group] = ? ";
     private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String REMOVE_STUDENT_FROM_GROUP = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
-    
+    private static final String UPDATE_GROUP_ISLEADER_BY_USER_ID = " UPDATE [USER] SET [Group] = ?, Isleader = ? WHERE UserId = ?";
+
+    public boolean updateGroupAndIsLeaderByUserId(String userId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_GROUP_ISLEADER_BY_USER_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setNull(1, Type.INT);
+                stm.setNull(2, Type.BOOLEAN);
+                stm.setString(3, userId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public boolean removeStudentFromGroupByUserId(String userId) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -124,7 +155,7 @@ public class UserDAO {
         return check;
     }
 
-    public UserDTO getStrUserById(String strUserId) throws SQLException {
+    public UserDTO getUserById(String strUserId) throws SQLException {
         UserDTO user = null;
         Connection conn = null;
         PreparedStatement stm = null;

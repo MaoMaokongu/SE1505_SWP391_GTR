@@ -36,15 +36,20 @@ public class DeleteMessageController extends HttpServlet {
         String sender = request.getParameter("sender");
         String receiver = request.getParameter("receiver");
         String loginedUserEmail = request.getParameter("loginedUserEmail");
+        String event = request.getParameter("event");
         HttpSession session = request.getSession();
 
         try {
             EventDAO evDao = new EventDAO();
-            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(receiver, sender);
+            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(receiver, sender, event);
             EventDAO dao = new EventDAO();
             if (checkDeleteEvent) {
                 List<EventDTO> listEvent = dao.getAllEventByReceiverEmail(loginedUserEmail);
-                session.setAttribute("EVENT", listEvent);
+                if (!listEvent.isEmpty()) {
+                    session.setAttribute("EVENT", listEvent);
+                } else {
+                    session.setAttribute("EVENT", null);
+                }
                 request.setAttribute("MESSAGE", "Delete message successful");
                 url = SUCCESS;
             }

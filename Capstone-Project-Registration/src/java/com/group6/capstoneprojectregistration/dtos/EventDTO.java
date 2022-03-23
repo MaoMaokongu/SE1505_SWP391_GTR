@@ -5,6 +5,7 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class EventDTO {
+public class EventDTO implements Serializable{
 
     private int eventId;
     private String receiver;

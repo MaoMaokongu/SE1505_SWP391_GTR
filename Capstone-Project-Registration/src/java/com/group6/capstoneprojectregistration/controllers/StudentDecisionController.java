@@ -45,28 +45,28 @@ public class StudentDecisionController extends HttpServlet {
             String emailReceiver = request.getParameter("emailReceiver");
 
             UserDAO usDao = new UserDAO();
-            UserDTO user = usDao.getStrUserById(sender);
+            UserDTO SendUser = usDao.getUserById(sender);
+            UserDTO currentUser = usDao.getUserByEmail(emailReceiver);
             EventDAO evDao = new EventDAO();
             UserDTO userBack = usDao.getUserByEmail(emailReceiver);
             InvitationPendingDAO ipDao = new InvitationPendingDAO();
             InvitationPendingDTO invite = ipDao.getUserPendingByEmail(emailReceiver, sender);
             HttpSession session = request.getSession();
-            UserDTO currentUser = usDao.getUserByEmail(emailReceiver);
 
             if (studentDecision.equals("Accept")) {
-                boolean checkAddUserIntoGroup = usDao.addUserIntoGroup(user, invitedUserId);
+                boolean checkAddUserIntoGroup = usDao.addUserIntoGroup(SendUser, invitedUserId);
                 if (checkAddUserIntoGroup) {
-                    boolean checkDeleteMessage = evDao.deleteMessage(emailReceiver, user);
-                    boolean checkUserPending = ipDao.updateStatus(invite, 2);
-                    if (checkDeleteMessage && checkUserPending) {
-                        boolean checkInsertAcceptEvnet = evDao.insertEvent(user, currentUser, "Accept");
+                    boolean checkDeleteMessage = evDao.deleteMessage(emailReceiver, SendUser);
+                    boolean checkDeleteUserPending = ipDao.deleteUserPendingByUserInvitedAndLeaderId(emailReceiver, sender);
+                    if (checkDeleteMessage && checkDeleteUserPending) {
+                        boolean checkInsertAcceptEvnet = evDao.insertEvent(SendUser, currentUser, "Accept");
                         if (checkInsertAcceptEvnet) {
                             //user da co nhom, nen update lai USER tren session de dung
                             UserDTO userLogin = usDao.getUserByEmail(emailReceiver);
                             session.setAttribute("USER", userLogin);
                             List<EventDTO> listEvent = evDao.getAllEventByReceiverEmail(emailReceiver);
                             session.setAttribute("EVENT", listEvent);
-                            request.setAttribute("ACCEPT", "Welcome to group " + user.getGroup().getName());
+                            request.setAttribute("ACCEPT", "Welcome to group " + SendUser.getGroup().getName());
                             url = SUCCESS;
                         }
                     }

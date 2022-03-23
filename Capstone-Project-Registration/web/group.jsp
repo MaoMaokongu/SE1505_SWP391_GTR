@@ -243,6 +243,8 @@
                         <form action="CreateGroupController">
                             Group Name: <input type="text" name="groupName" value="" required="">
                             <input type="hidden" name="email" value="${sessionScope.USER.email}"/>
+                            <input type="submit" name="action" value="Join" style="border-radius: 50px"/>
+                                Or
                             <input type="submit" name="action" value="Create" style="border-radius: 50px"/>
 
                             <c:if test="${sessionScope.LIST_USER_IN_GROUP eq null}">
@@ -353,7 +355,8 @@
                                                         <div class="box-footer clearfix">
                                                             <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.USER.group.groupId ne null}">
                                                                 <form class="pull-right" action="LeaderDisbandGroupController">
-                                                                    
+                                                                    <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
+                                                                    <input type="hidden" name="currentUserId" value="${sessionScope.USER.userId}"/>
                                                                     <input type="submit" value="Disband"/>
                                                                 </form>
                                                             </c:if>

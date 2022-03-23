@@ -5,10 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.EventDAO;
-import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "StudentDenyGroupInvitationController", urlPatterns = {"/StudentDenyGroupInvitationController"})
-public class StudentDenyGroupInvitationController extends HttpServlet {
+@WebServlet(name = "LeaderDisbandGroupController", urlPatterns = {"/LeaderDisbandGroupController"})
+public class LeaderDisbandGroupController extends HttpServlet {
 
     private static final String ERROR = "group.jsp";
     private static final String SUCCESS = "group.jsp";
@@ -36,31 +35,34 @@ public class StudentDenyGroupInvitationController extends HttpServlet {
 
         String url = ERROR;
 
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+        String currentUserId = request.getParameter("currentUserId");
+
         HttpSession session = request.getSession();
-        String sender = request.getParameter("sender");
-        String receiver = request.getParameter("receiver");
-        EventDAO evDao = new EventDAO();
         UserDAO usDao = new UserDAO();
+        GroupDAO grDao = new GroupDAO();
 
         try {
-            UserDTO user = usDao.getUserById(sender);
-            UserDTO currentUser = usDao.getUserByEmail(receiver);
-            InvitationPendingDAO dao = new InvitationPendingDAO();
-            InvitationPendingDTO invitationPending = dao.getUserPendingByEmail(receiver, sender);
-            boolean checkUpdateStatus = dao.updateStatus(invitationPending, 3);
-            List<InvitationPendingDTO> listInvitationPending = dao.getUserPedingByLoginUserAndStatus(sender, 1);
-            if (checkUpdateStatus) {
-                evDao.deleteMessage(receiver, user);
-                evDao.insertEvent(user, currentUser, "Deny");
-                session.setAttribute("EVENT", listInvitationPending);
-                request.setAttribute("UPDATE_STATUS", "Deny invitation successful");
+            List<UserDTO> listUserInGroup = usDao.getListUserByGroupId(groupId);
+            GroupDTO group = grDao.getGroupByGroupId(groupId);
+
+            if (group != null) {
+                for (UserDTO user : listUserInGroup) {
+                    usDao.updateGroupAndIsLeaderByUserId(user.getUserId());
+                }
+                grDao.deleteGroupById(groupId);
+                UserDTO user = usDao.getUserById(currentUserId);
+                session.setAttribute("USER", user);
+                session.setAttribute("LIST_USER_IN_GROUP", null);
                 url = SUCCESS;
             }
+
         } catch (Exception e) {
-            log("Error at StudentDenyGroupInvitationController " + e.toString());
+            log("ERROR at LeaderDisbandGroupController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

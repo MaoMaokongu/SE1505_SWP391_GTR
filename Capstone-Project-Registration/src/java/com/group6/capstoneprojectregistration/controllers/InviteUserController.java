@@ -59,7 +59,7 @@ public class InviteUserController extends HttpServlet {
             UserDTO user = (UserDTO) session.getAttribute("USER");
             int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
             UserDTO receiver = usDao.getUserByEmail(receiverEmail);
-            EventDTO event = evDao.getEventOf(receiverEmail);
+            EventDTO event = evDao.getEventByReceiverAndEvent(receiverEmail);
             ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(group.getGroupId());
             if (projectDetail == null) {
                 if (event == null) {

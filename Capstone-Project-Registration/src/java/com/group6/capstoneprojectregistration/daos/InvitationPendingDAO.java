@@ -29,9 +29,10 @@ public class InvitationPendingDAO {
     private static final String GET_USER_PENDING = " SELECT Status, [User], [Group], UserInvited FROM [Invitation Pending] WHERE [User] = ? AND Status = ?";
     private static final String UPDATE_STATUS_ACCEPT = " UPDATE [Invitation Pending] SET Status = ? WHERE [User] = ? AND UserInvited =?";
     private static final String GET_USER_PENDING_BY_EMAIL = " SELECT * FROM [Invitation Pending] WHERE UserInvited = ?";
-    private static final String DELETE_USER_PENDING_BY_USER_INVITED = " DELETE FROM [Invitation Pending] WHERE UserInvited = ?";
+    private static final String DELETE_USER_PENDING_BY_USER_INVITED = " DELETE FROM [Invitation Pending] WHERE UserInvited = ? AND [User] = ?";
 
-    public boolean deleteUserPendingByUserInvited(String userInvited) throws SQLException {
+    
+    public boolean deleteUserPendingByUserInvitedAndLeaderId(String userInvited, String leaderId) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -42,6 +43,7 @@ public class InvitationPendingDAO {
                 String sql = DELETE_USER_PENDING_BY_USER_INVITED;
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, userInvited);
+                stm.setString(2, leaderId);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
@@ -109,7 +111,7 @@ public class InvitationPendingDAO {
                     UserStatusDAO ustDao = new UserStatusDAO();
                     UserDAO usDao = new UserDAO();
                     GroupDAO grDao = new GroupDAO();
-                    listUserPending.add(new InvitationPendingDTO(ustDao.getStatusById(status), usDao.getStrUserById(user), grDao.getGroupNameById(group), receiverEmail));
+                    listUserPending.add(new InvitationPendingDTO(ustDao.getStatusById(status), usDao.getUserById(user), grDao.getGroupNameById(group), receiverEmail));
                 }
             }
 
@@ -152,7 +154,7 @@ public class InvitationPendingDAO {
                     UserStatusDAO ustDao = new UserStatusDAO();
                     UserDAO usDao = new UserDAO();
                     GroupDAO grDao = new GroupDAO();
-                    list.add(new InvitationPendingDTO(ustDao.getStatusById(status), usDao.getStrUserById(user), grDao.getGroupNameById(group), userInvited));
+                    list.add(new InvitationPendingDTO(ustDao.getStatusById(status), usDao.getUserById(user), grDao.getGroupNameById(group), userInvited));
 
                 }
             }
@@ -193,7 +195,7 @@ public class InvitationPendingDAO {
                     UserStatusDAO ussDao = new UserStatusDAO();
                     GroupDAO grDao = new GroupDAO();
                     UserDAO usDao = new UserDAO();
-                    invite = new InvitationPendingDTO(ussDao.getStatusById(status), usDao.getStrUserById(sender), grDao.getGroupNameById(group), userInvited);
+                    invite = new InvitationPendingDTO(ussDao.getStatusById(status), usDao.getUserById(sender), grDao.getGroupNameById(group), userInvited);
                 }
             }
         } catch (Exception e) {

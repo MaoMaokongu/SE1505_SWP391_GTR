@@ -26,11 +26,36 @@ public class GroupDAO {
     private static final String GET_LIST_PROJECT_GUIDING = " SElect p.ProjectId, g.GroupId, MentorId,g.Name, IsSelected, g.IsApproved from ProjectDetail pjd inner join Project p  on p.ProjectId=pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId where MentorId = ? AND g.IsApproved = 1 AND p.IsSelected = 1 ";
     private static final String GET_GROUP_BY_ID = " SELECT * FROM [Group] WHERE GroupId=?";
     private static final String CHECK_DUPLICATE = " SELECT Name FROM [Group] WHERE Name=? ";
-    private static final String UPDATE_GROUP = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";
+    private static final String UPDATE_ISAPPROVED_PROJECTID_BY_GROUP_ID = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";
+    private static final String DELETE_GROUP_BY_GROUP_ID = " DELETE FROM [Group] WHERE GroupId = ?";
 
-    
-    
-    
+    public boolean deleteGroupById(int groupId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_GROUP_BY_GROUP_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public boolean isDuplicateGroupName(String groupName) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -170,7 +195,7 @@ public class GroupDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = UPDATE_GROUP;
+                String sql = UPDATE_ISAPPROVED_PROJECTID_BY_GROUP_ID;
                 stm = conn.prepareStatement(sql);
                 stm.setBoolean(1, true);
                 stm.setString(2, projectId);

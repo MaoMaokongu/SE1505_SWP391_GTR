@@ -5,6 +5,7 @@
  */
 package com.group6.capstoneprojectregistration.dtos;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectDetailsDTO {
+public class ProjectDetailsDTO implements Serializable{
     
     private int id;
     private ProjectDTO project;

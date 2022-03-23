@@ -53,7 +53,7 @@ public class ProjectDAO {
                     int semester = rs.getInt("semester");
                     SemesterDAO seDao = new SemesterDAO();
                     UserDAO usDao = new UserDAO();
-                    project = new ProjectDTO(projectId, projectName, usDao.getStrUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester));
+                    project = new ProjectDTO(projectId, projectName, usDao.getUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester));
                 }
             }
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class ProjectDAO {
                     String discription = rs.getString("Discription");
                     int semester = rs.getInt("Semester");
                     UserDAO usDao = new UserDAO();
-                    list.add(new ProjectDTO(projectId, name, usDao.getStrUserById(mentor), coMentor, num, isSelected,
+                    list.add(new ProjectDTO(projectId, name, usDao.getUserById(mentor), coMentor, num, isSelected,
                             discription, dao.getSemesterById(semester)));
                 }
             }
@@ -157,7 +157,7 @@ public class ProjectDAO {
                     String discription = rs.getString("Discription");
                     int semester = rs.getInt("Semester");
                     UserDAO usDao = new UserDAO();
-                    list.add(new ProjectDTO(projectId, name, usDao.getStrUserById(mentor), coMentor, num, isSelected,
+                    list.add(new ProjectDTO(projectId, name, usDao.getUserById(mentor), coMentor, num, isSelected,
                             discription, dao.getSemesterById(semester)));
                 }
             }
@@ -200,7 +200,7 @@ public class ProjectDAO {
                     int semester = rs.getInt("semester");
                     SemesterDAO seDao = new SemesterDAO();
                     UserDAO usDao = new UserDAO();
-                    project = new ProjectDTO(projectId, projectName, usDao.getStrUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester));
+                    project = new ProjectDTO(projectId, projectName, usDao.getUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester));
                 }
             }
         } catch (Exception e) {
@@ -244,7 +244,7 @@ public class ProjectDAO {
                     int semester = rs.getInt("semester");
                     SemesterDAO seDao = new SemesterDAO();
                     UserDAO usDao = new UserDAO();
-                    list.add(new ProjectDTO(projectId, projectName, usDao.getStrUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester)));
+                    list.add(new ProjectDTO(projectId, projectName, usDao.getUserById(projectMentor), projectCoMentor, projectNumOfStudent, isSelected, discription, seDao.getSemesterById(semester)));
                 }
             }
         } catch (Exception e) {

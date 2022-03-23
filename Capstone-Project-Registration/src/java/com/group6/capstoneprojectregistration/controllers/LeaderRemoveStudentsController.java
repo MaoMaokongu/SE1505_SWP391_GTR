@@ -47,7 +47,7 @@ public class LeaderRemoveStudentsController extends HttpServlet {
         UserDAO usDao = new UserDAO();
 
         try {
-            UserDTO currentUser = usDao.getStrUserById(sender);
+            UserDTO currentUser = usDao.getUserById(sender);
             UserDTO receiveUser = usDao.getUserByEmail(receiverEmail);
             ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(groupId);
             if (projectDetail == null) {

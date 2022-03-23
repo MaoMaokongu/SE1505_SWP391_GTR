@@ -45,7 +45,7 @@ public class GroupController extends HttpServlet {
                     url = SUCCESS;
                 }
             } else {
-                session.setAttribute("LIST_USER_IN_GROUP", listUser);
+                session.setAttribute("LIST_USER_IN_GROUP", null);
                 request.setAttribute("MESSAGE", "Empty Group!");
                 url = ERROR;
             }

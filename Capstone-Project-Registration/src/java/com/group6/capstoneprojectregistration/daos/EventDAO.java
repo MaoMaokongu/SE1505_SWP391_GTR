@@ -23,13 +23,13 @@ public class EventDAO {
 
     private static final String INSERT_EVENT = " INSERT INTO [Event] (Receiver, Sender, [Event]) VALUES (?, ?, ?)";
     private static final String GET_ALL_EVENT_BY_EMAIL = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ?";
-    private static final String GET_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ?";
+    private static final String GET_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ? AND [Event] = ?";
 //    private static final String GET_ALL_EVENT = " SELECT Receiver, Sender, [Event] FROM [Event]";
     private static final String CHECK_DUPLICATE = " SELECT Receiver, Sender, [Event] FROM [Event] WHERE Receiver = ? AND Sender = ? AND [Event] = ? ";
     private static final String DELETE_MESSAGE = " DELETE FROM [Event] WHERE Receiver = ? AND Sender =? AND [Event] = ?";
-    private static final String DELETE_MESSAGE_BY_CLICK = " DELETE FROM [Event] WHERE Receiver = ? AND Sender = ?";
+    private static final String DELETE_MESSAGE_BY_CLICK = " DELETE FROM [Event] WHERE Receiver = ? AND Sender = ?  AND [Event] = ?";
 
-    public boolean deleteMessageByReceiverAndSender(String receiver, String sender) throws SQLException {
+    public boolean deleteMessageByReceiverAndSender(String receiver, String sender, String event) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -41,6 +41,7 @@ public class EventDAO {
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, receiver);
                 stm.setString(2, sender);
+                stm.setString(3, event);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
@@ -148,7 +149,7 @@ public class EventDAO {
         return check;
     }
 
-    public EventDTO getEventOf(String argReceiver) throws SQLException {
+    public EventDTO getEventByReceiverAndEvent(String argReceiver) throws SQLException {
         EventDTO event = null;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -160,6 +161,7 @@ public class EventDAO {
                 String sql = GET_EVENT;
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, argReceiver);
+                stm.setString(2, "Invite");
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     String receiver = rs.getString("Receiver");
@@ -168,7 +170,7 @@ public class EventDAO {
                     UserDAO usDao = new UserDAO();
                     MessageEventDAO meDao = new MessageEventDAO();
 
-                    event = new EventDTO(receiver, usDao.getStrUserById(sender), meDao.getMessageContentByEvent(getEvent));
+                    event = new EventDTO(receiver, usDao.getUserById(sender), meDao.getMessageContentByEvent(getEvent));
                 }
             }
         } catch (Exception e) {
@@ -206,7 +208,7 @@ public class EventDAO {
                     String event = rs.getString("Event");
                     MessageEventDAO meDao = new MessageEventDAO();
                     UserDAO usDao = new UserDAO();
-                    listEvent.add(new EventDTO(userId, usDao.getStrUserById(sender), meDao.getMessageContentByEvent(event)));
+                    listEvent.add(new EventDTO(userId, usDao.getUserById(sender), meDao.getMessageContentByEvent(event)));
                 }
             }
         } catch (Exception e) {

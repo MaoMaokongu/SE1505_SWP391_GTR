@@ -306,30 +306,34 @@
                                                         <!-- Modal -->
                                                         <div id="myModal${vs.index}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
-
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content modal-lg">
                                                                     <div class="modal-header" style="background: #3c8dbc" >
                                                                         <h3 id="sampleId1" style="color: blanchedalmond"></h3>
-
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <div class="row">
                                                                             ${project.discription}
                                                                         </div>
-
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader }"> 
-
-                                                                            <form action="RegisterProjectController">
-
-                                                                                <input id="sampleId5" type="submit" value="Register" class="btn btn-primary" />
-                                                                                <input type="hidden" name="projectId" value="${project.projectId}"/>
-                                                                                <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
-                                                                            </form>
-                                                                        </c:if>
-                                                                        <a class="btn btn-primary btn-sm" href="" id="actualDeleteBtn">Back</a>
+                                                                        <%--<c:if test="${sessionScope.USER.leader}">--%> 
+                                                                        <form action="RegisterProjectController">
+                                                                            <c:if test="${sessionScope.USER.group.groupId eq null}">
+                                                                                Oops! Look like, you are not in any group,
+                                                                                <a href="group.jsp">Click me</a> to create/john group first 
+                                                                                <input id="sampleId5" type="submit" value="Register" class="btn btn-primary" disabled/>
+                                                                            </c:if>
+                                                                            <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader eq true}">
+<!--                                                                                Oops! Look like, you are not in any group,
+                                                                                <a href="group.jsp">Click me</a> to create/john group first -->
+                                                                                <input id="sampleId5" type="submit" value="Register" class="btn btn-primary"/>
+                                                                            </c:if>
+                                                                            <input type="hidden" name="projectId" value="${project.projectId}"/>
+                                                                            <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
+                                                                        </form>
+                                                                        <%--</c:if>--%>
+                                                                        <!--<a class="btn btn-primary btn-sm" href="" id="actualDeleteBtn">Back</a>-->
                                                                     </div>
                                                                 </div>
 
@@ -421,6 +425,11 @@
         <!-- page script -->
         <!-- Modal ?? án -->
         <!--<script src="pages/account/modal.js"></script>-->
+        <script>
+            $(window).on('load', function (){
+               $('#myModal').modal('show');
+            });
+        </script>
     </body>
 
 </html>

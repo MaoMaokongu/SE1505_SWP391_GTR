@@ -32,31 +32,34 @@ public class InvitationPendingController extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String url = ERROR;
-        
+
         try {
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
             String userId = user.getUserId();
-            
+
             InvitationPendingDAO ivDao = new InvitationPendingDAO();
-            List<InvitationPendingDTO> listInvitation = ivDao.getUserPedingByLoginUserAndStatus(userId,1);
-            
+            List<InvitationPendingDTO> listInvitation = ivDao.getUserPedingByLoginUserAndStatus(userId, 1);
+
             if (listInvitation.size() > 0) {
                 session.setAttribute("INVITATION", listInvitation);
                 url = SUCCESS;
             } else {
+                session.setAttribute("INVITATION", null);
                 request.setAttribute("INVITATION", "Nothing here");
                 url = SUCCESS;
             }
         } catch (Exception e) {
             log("Error at MessageController" + e.toString());
-        
-      } finally {
-           request.getRequestDispatcher(url).forward(request, response);
-        }  
+
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
+        }
 
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
