@@ -7,7 +7,7 @@ package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

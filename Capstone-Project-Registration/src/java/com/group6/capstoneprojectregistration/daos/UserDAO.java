@@ -7,7 +7,7 @@ package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -303,16 +303,45 @@ public class UserDAO {
                 String sql = INSERT_STUDENTS;
                 stm = conn.prepareStatement(sql);
 
-                stm.setString(1, student.get(1));
-                stm.setString(2, student.get(2));
-                stm.setString(3, student.get(3));
-                stm.setString(4, student.get(4));
+                stm.setString(1, student.get(1)); //UserId
+                stm.setString(2, student.get(2)); //Email
+                stm.setString(3, student.get(3)); //Username
+                stm.setString(4, student.get(4)); //Gender
 
-                stm.setInt(5, 1); //student
-                stm.setNull(6, Types.INTEGER);
-                stm.setBoolean(7, false);
+                stm.setInt(5, 1); //Role = 1 = Student
+                stm.setNull(6, Types.INTEGER); //Group = Null
+                stm.setBoolean(7, false); //isLeader = false
                 check = stm.executeUpdate() > 0 ? true : false;
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+    
+     public boolean updateGroupFromExcel(String userId, GroupDTO group, boolean isLeader) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_GROUP_USER;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, group.getGroupId());
+                stm.setBoolean(2, isLeader);
+                stm.setString(3, userId);
+                check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : adminGroups
-    Created on : Mar 5, 2022, 11:17:47 PM
+    Document   : adminProject
+    Created on : Mar 5, 2022, 11:35:14 PM
     Author     : Admin
 --%>
 
@@ -11,25 +11,22 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Admin | Groups</title>
+        <title>Admin | Project</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
-        <link rel="stylesheet" href="../../bower_components/bootstrap/dist1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist1/css/bootstrap.min.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
         <!-- DataTables -->
-        <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="../../dist1/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">
-
-        <!-- <link rel="stylesheet" href="style.css">  -->
-        <!-- css about accept deny -->
+        <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -242,12 +239,14 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="../../adminStudents.jsp"><i class="fa fa-circle-o"></i> Manage Students</a></li>
-                                <li  class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
-                                <li><a href="adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
+                                <li><a href="adminStudents.jsp"><i class="fa fa-circle-o"></i> Manage Students</a></li>
+                                <li><a href="adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
+                                <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
                                 <li><a href="adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
-                            </ul>
                         </li>
+                    </ul>
+                    </li>
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -258,16 +257,25 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Manage Students
+                        Manage Projects
                         <!-- <small>without group</small> -->
                     </h1>
                     <div class="list d-flex align-items-center justify-content-start">
+                        <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
-                        <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
+                        <form method="post" action="ImportProjectController" enctype="multipart/form-data">
+                            <label for="avatar">Choose Project.xls:</label>
+                            <input type="file" name="files" multiple size="60" class="btn btn-primary btn-sm btn-student"/>
+
+                            <form method="post" action="ImportProjectDocumentController" enctype="multipart/form-data">
+                                <label for="avatar">Choose ProjectId.docx:</label>
+                                <input type="file" name="files" multiple size="60" class="btn btn-primary btn-sm btn-student"/>
+                                <input type="submit" value="Upload" />
+                            </form>
                     </div>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active"><a href="#">Manage Groups</a></li>
+                        <li class="active">Manage Projects</li>
                     </ol>
                 </section>
 
@@ -277,18 +285,18 @@
                         <div class="col-xs-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Students</h3>
-                                    <small>with group</small>
+                                    <h3 class="box-title">Project</h3>
+                                    <small>management</small>
                                     <!-- <div class="box-tools">
-                                      
-                                      <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                      
-                                        <div class="input-group-btn">
-                                          <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                        </div>
+                                    
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                      <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                    
+                                      <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                       </div>
-                                    </div> -->
+                                    </div>
+                                  </div> -->
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-header clearfix">
@@ -317,108 +325,80 @@
                                     <table class="table table-hover">
                                         <tr>
                                             <th style="width : 10px">#</th>
-                                            <th>Student Id</th>
-                                            <th>Name</th>
-                                            <th>Group Name</th>
-                                            <th style="width : 120px">Semester</th>
+                                            <th>Project Name</th>
+                                            <th>Mentor</th>
+                                            <th>Co-Mentor</th>
+                                            <th>Quantity</th>
                                         </tr>
                                         <tr>
-                                            <td>1</td>
-                                            <td>SE151278</td>
-                                            <td>Ngo Chi Bao</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2022</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2022</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2022</td>
-                                        </tr>
-                                        <tr>
+                                            <th>1</th>
+                                            <td>Đồ án...</td>
+                                            <td>Nguyễn Thế Hoàng</td>
+                                            <td></td>
                                             <td>4</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2022</td>
                                         </tr>
                                         <tr>
-                                            <td>5</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Summer 2022</td>
+                                            <th>2</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td>Daniela Charles</td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>6</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Summer 2022</td>
+                                            <th>3</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td></td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>7</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Summer 2022</td>
+                                            <th>4</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td>Musab Marshall</td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>8</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Summer 2022</td>
+                                            <th scope="row">5</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td></td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>9</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Fall 2022</td>
+                                            <th>6</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td>Shelley Mclaughlin</td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>10</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Fall 2022</td>
+                                            <th>7</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td></td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>11</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Fall 2022</td>
+                                            <th>8</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td>Ella-Mae Wise</td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>12</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Fall 2022</td>
+                                            <th>9</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td>Levi Eastwood</td>
+                                            <td>4</td>
                                         </tr>
                                         <tr>
-                                            <td>13</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2023</td>
-                                        </tr>
-                                        <tr>
-                                            <td>14</td>
-                                            <td>SE15xxxx</td>
-                                            <td>xxxxxxx</td>
-                                            <td>Rose</td>
-                                            <td>Spring 2023</td>
+                                            <th>10</th>
+                                            <td>Đồ án...</td>
+                                            <td>xxx</td>
+                                            <td></td>
+                                            <td>4</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -442,6 +422,13 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
+            <!-- <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+              <b>Version</b> 2.4.0
+            </div>
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+            reserved.
+          </footer> -->
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
                     <b>Version</b> 26.02
@@ -456,18 +443,18 @@
         <!-- ./wrapper -->
 
         <!-- jQuery 3 -->
-        <script src="../../bower_components/jquery/dist1/jquery.min.js"></script>
+        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
-        <script src="../../bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
-        <script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
+        <!-- SlimScroll -->
+        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="../../dist1/js/adminlte.min.js"></script>
+        <script src="dist1/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist1/js/demo.js"></script>
+        <script src="dist1/js/demo.js"></script>
         <!-- page script -->
-        <script src="AcceptDenyBtn.js"></script>
     </body>
 
 </html>

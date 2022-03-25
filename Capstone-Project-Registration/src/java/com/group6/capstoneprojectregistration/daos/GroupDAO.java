@@ -6,7 +6,7 @@
 package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class GroupDAO {
     private static final String INSERT = " INSERT INTO [Group] (Name, IsApproved) VALUES (?,?)";
     private static final String GET_GROUP_BY_NAME = " SELECT * FROM [Group] WHERE Name=?";
     private static final String GET_GROUP_NAME = " SELECT Name FROM [Group] WHERE GroupId=?";
-    private static final String GET_LIST_PROJECT_GUIDING = " SElect p.ProjectId, g.GroupId, MentorId,g.Name, IsSelected, g.IsApproved from ProjectDetail pjd inner join Project p  on p.ProjectId=pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId where MentorId = ? AND g.IsApproved = 1 AND p.IsSelected = 1 ";
+    private static final String GET_LIST_PROJECT_GUIDING = " SELECT p.ProjectId, g.GroupId, MentorId,g.Name, IsSelected, g.IsApproved from ProjectDetail pjd inner join Project p  on p.ProjectId=pjd.ProjectId left join [Group] g on g.GroupId = pjd.GroupId where MentorId = ? AND g.IsApproved = 1 AND p.IsSelected = 1 ";
     private static final String GET_GROUP_BY_ID = " SELECT * FROM [Group] WHERE GroupId=?";
     private static final String CHECK_DUPLICATE = " SELECT Name FROM [Group] WHERE Name=? ";
     private static final String UPDATE_GROUP = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";

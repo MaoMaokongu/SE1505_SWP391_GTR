@@ -5,7 +5,9 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.utils.ImportDocumentUtils;
 import com.group6.capstoneprojectregistration.utils.ImportExcelUtils;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.ServletException;
@@ -16,18 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *
  * @author haitu
  */
-@WebServlet(name = "ImportStudentController", urlPatterns = {"/ImportStudentController"})
+@WebServlet(name = "ImportProjectController", urlPatterns = {"/ImportProjectController"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 50, // 50MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB
-public class ImportStudentController extends HttpServlet {
+public class ImportProjectController extends HttpServlet {
 
-    private static final String SUCCESS = "adminStudents.jsp"; //load page
+    private static final String SUCCESS = "adminProject.jsp"; //load page
     //Dont have ERROR -> return message only
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -36,16 +39,30 @@ public class ImportStudentController extends HttpServlet {
 
         String url = SUCCESS;
         HttpSession session = request.getSession();
-
         try {
+
             for (Part part : request.getParts()) {
                 InputStream inputStream = null;
+
+                String fileName = extractFileName(part);
+                // refines the fileName in case it is an absolute path
+                fileName = new File(fileName).getName();
                 try {
                     inputStream = part.getInputStream();
-                    ImportExcelUtils.ImportStudent(inputStream);
+                    String dataDir = this.getFolderUpload().getAbsolutePath() + File.separator;
+                    
+                    String ext = FilenameUtils.getExtension(fileName);
+                    String fileNameWithOutExt = FilenameUtils.removeExtension(fileName);
 
+                    switch(ext){
+                        case "xls": ImportExcelUtils.ImportProject(inputStream);
+                            break;
+                        case "docx": part.write(dataDir + fileName);
+                            ImportDocumentUtils.ImportProjectDocument(dataDir, fileNameWithOutExt);
+                            break;
+                    }
                 } catch (Exception e) {
-                     log("Error at ImportExcelController -> Part" + e.toString());
+                    log("Error at ImportProjectController -> Part" + e.toString());
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();
@@ -53,10 +70,31 @@ public class ImportStudentController extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            log("Error at ImportExcelController" + e.toString());
+            log("Error at ImportProjectController" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
+
+    //create file in server storage
+    // C:\Users\haitu\Uploads
+    public File getFolderUpload() {
+        File folderUpload = new File(System.getProperty("user.home") + "/Uploads");
+        if (!folderUpload.exists()) {
+            folderUpload.mkdirs();
+        }
+        return folderUpload;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

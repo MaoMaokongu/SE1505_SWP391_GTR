@@ -239,9 +239,9 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Students</a></li>
-                                <li><a href="pages/admin/adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
-                                <li><a href="pages/admin/adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
-                                <li><a href="pages/admin/adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
+                                <li><a href="adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
+                                <li><a href="adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
+                                <li><a href="adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -264,7 +264,7 @@
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
 
                         <form method="post" action="ImportStudentController" enctype="multipart/form-data">
-                            <input type="file" name="file" size="60" hidden="true" class="btn btn-primary btn-sm btn-student"/>
+                            <input type="file" name="file" size="60" class="btn btn-primary btn-sm btn-student"/>
                             <input type="submit" value="Upload" />
                         </form>
 

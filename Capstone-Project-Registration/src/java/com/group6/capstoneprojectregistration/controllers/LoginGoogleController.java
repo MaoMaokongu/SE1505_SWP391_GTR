@@ -9,7 +9,7 @@ import com.group6.capstoneprojectregistration.config.Checkmail;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.GoogleDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.GoogleUtils;
+import com.group6.capstoneprojectregistration.utils.GoogleUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

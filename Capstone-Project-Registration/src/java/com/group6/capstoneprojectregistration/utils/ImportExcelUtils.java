@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.group6.capstoneprojectregistration.untils;
+package com.group6.capstoneprojectregistration.utils;
 
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,12 +27,67 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public class ImportExcelUtils {
 
-    public static ArrayList<ArrayList<String>> ReadDataFromXLS(InputStream filecontent) throws FileNotFoundException, IOException {
+     public static void ImportProject(InputStream inputStream) throws IOException, SQLException {
+        ProjectDAO projectDao = new ProjectDAO();
+        HSSFWorkbook wb = new HSSFWorkbook(inputStream);
+
+        //1/3 Create Project
+        ArrayList<ArrayList<String>> list = ImportExcelUtils.ReadDataFromXLS(wb);
+
+        for (ArrayList<String> project : list) {
+            boolean checkInsertProject = projectDao.insert(project);
+        }
+    }
+    
+    public static void ImportStudent(InputStream inputStream) throws IOException, SQLException {
+        UserDAO userDao = new UserDAO();
+        GroupDAO groupDao = new GroupDAO();
+        HSSFWorkbook wb = new HSSFWorkbook(inputStream);
+
+        //1/3 Create Students
+        ArrayList<ArrayList<String>> list = ImportExcelUtils.ReadDataFromXLS(wb);
+
+        for (ArrayList<String> student : list) {
+            boolean checkInsertStudent = userDao.insert(student);
+        }
+
+        //groups
+        HashMap<String, ArrayList<String>> hashGroup = ImportExcelUtils.ReadDataGroupFromExcel(wb);
+
+        for (HashMap.Entry<String, ArrayList<String>> set : hashGroup.entrySet()) {
+            //2/3 CreateGroup
+            String groupName = set.getKey();
+            boolean checkInsertGroup = groupDao.insertGroupName(groupName);
+            //  if (checkGroupInsert == true) {
+            //
+            //     }
+
+            GroupDTO group = groupDao.getGroupByName(groupName);
+            //3/3 Update group's student
+            ArrayList<String> students = set.getValue();
+            int i = 0; //for count who is leader
+            boolean isLeader = false;
+            for (String studentId : students) {
+                if (i == 0) {
+                    isLeader = true;
+                } else {
+                    isLeader = false;
+                }
+                boolean checkUpdateGroup = userDao.updateGroupFromExcel(studentId, group, isLeader);
+                i++;
+                // if (checkGroupUpdate == true) {
+                //
+                // }
+            }
+        }
+    }
+
+    private static ArrayList<ArrayList<String>> ReadDataFromXLS(HSSFWorkbook wb) throws FileNotFoundException, IOException {
         //obtaining input bytes from a file  
 //        FileInputStream fis = new FileInputStream(new File(fileUrl));
 
         //creating workbook instance that refers to .xls file  
-        HSSFWorkbook wb = new HSSFWorkbook(filecontent);
+        // HSSFWorkbook wb = new HSSFWorkbook(filecontent);
         //creating a Sheet object to retrieve the object  
         HSSFSheet sheet = wb.getSheetAt(0);
         //evaluating cell type   
@@ -54,16 +114,17 @@ public class ImportExcelUtils {
             listCell.add(listRow);
         }
 
+        wb.close();
         listCell.remove(0); //remove header of excel
         return listCell;
     }
 
-    public static HashMap<String, ArrayList<String>> ReadDataGroupFromExcel(InputStream filecontent) throws FileNotFoundException, IOException {
+    private static HashMap<String, ArrayList<String>> ReadDataGroupFromExcel(HSSFWorkbook wb) throws FileNotFoundException, IOException {
         //obtaining input bytes from a file  
 //        FileInputStream fis = new FileInputStream(new File(fileUrl));
 
         //creating workbook instance that refers to .xls file  
-        HSSFWorkbook wb = new HSSFWorkbook(filecontent);
+        //HSSFWorkbook wb = new HSSFWorkbook(filecontent);
         //creating a Sheet object to retrieve the object  
         HSSFSheet sheet = wb.getSheetAt(1);
         //evaluating cell type   
@@ -110,6 +171,8 @@ public class ImportExcelUtils {
             }
         }
 
+        wb.close();
         return hashStudent;
     }
+
 }

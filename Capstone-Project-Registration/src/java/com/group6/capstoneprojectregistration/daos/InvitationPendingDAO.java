@@ -9,7 +9,7 @@ import com.group6.capstoneprojectregistration.controllers.InviteUserController;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
