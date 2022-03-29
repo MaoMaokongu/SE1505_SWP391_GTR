@@ -6,8 +6,10 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
@@ -41,16 +43,19 @@ public class LeaderRemoveStudentsController extends HttpServlet {
         String receiverEmail = request.getParameter("receiverEmail");
         String sender = request.getParameter("sender");
         int groupId = Integer.parseInt(request.getParameter("groupId"));
+        String groupName = request.getParameter("groupName");
 
         ProjectDetailDAO pdDao = new ProjectDetailDAO();
         EventDAO evDao = new EventDAO();
         UserDAO usDao = new UserDAO();
+        GroupDAO grDao = new GroupDAO();
 
         try {
+            GroupDTO group = grDao.getGroupThatHasApprovedProject(groupName, true);
             UserDTO currentUser = usDao.getUserById(sender);
             UserDTO receiveUser = usDao.getUserByEmail(receiverEmail);
             ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(groupId);
-            if (projectDetail == null) {
+            if (projectDetail == null && group == null) {
                 boolean checkRemoveStudent = usDao.removeStudentFromGroupByUserId(userId);
                 if (checkRemoveStudent) {
                     evDao.insertEvent(receiveUser, currentUser, "LeaderRemove");
@@ -60,7 +65,7 @@ public class LeaderRemoveStudentsController extends HttpServlet {
                     url = SUCCESS;
                 }
             } else {
-                request.setAttribute("USER_HAVE_GROUP", "Your group has already registered the project, so you can't remove this member ");
+                request.setAttribute("USER_HAVE_GROUP", "Can't remove this member, cause your group has already registered the project ");
             }
         } catch (Exception e) {
             log("Error at LeaderRemoveStudentsController " + e.toString());

@@ -42,7 +42,7 @@ public class ListProjectGuidingController extends HttpServlet {
                 session.setAttribute("LIST_PROJECT_GUIDING", list);
                 url = SUCCESS;
             } else {
-                session.setAttribute("LIST_PROJECT_GUIDING", list);
+                session.setAttribute("LIST_PROJECT_GUIDING", null);
                 request.setAttribute("MESSAGE", "Empty List");
                 url = ERROR;
             }

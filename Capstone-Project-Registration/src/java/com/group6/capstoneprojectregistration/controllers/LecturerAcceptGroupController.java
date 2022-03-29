@@ -7,6 +7,7 @@ package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PC
  */
-@WebServlet(name = "AcceptGroupController", urlPatterns = {"/AcceptGroupController"})
+@WebServlet(name = "LecturerAcceptGroupController", urlPatterns = {"/LecturerAcceptGroupController"})
 public class LecturerAcceptGroupController extends HttpServlet {
 
     private static final String ERROR = "projectlist.jsp";
@@ -29,24 +30,27 @@ public class LecturerAcceptGroupController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
+
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+        String projectId = request.getParameter("projectId").trim();
+        GroupDAO grDao = new GroupDAO();
+        ProjectDAO prDao = new ProjectDAO();
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
+
         try {
-            int groupId = Integer.parseInt(request.getParameter("groupId"));
-            String projectId = request.getParameter("projectId").trim();
-            GroupDAO grDao = new GroupDAO();
-            ProjectDAO prDao = new ProjectDAO();
+            boolean checkDeleteProjectPending = pdDao.deleteAllProjectPendingByGroupId(groupId);
             boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId);
             boolean checkUpdateProject = prDao.updateProject(projectId);
-            if (checkUpdateProject && checkUpdateGroup) {
-                
+            if (checkUpdateProject && checkUpdateGroup && checkDeleteProjectPending) {
                 request.setAttribute("ACCEPTED", "Accept Successful!");
                 url = SUCCESS;
-            }else{
+            } else {
                 request.setAttribute("ACCEPTED", "Accept Fail!");
                 url = ERROR;
             }
         } catch (Exception e) {
-            log("Error at AcceptGroupController "+e.toString());
-        }finally{
+            log("Error at AcceptGroupController " + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

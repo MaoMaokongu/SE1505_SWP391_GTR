@@ -6,7 +6,9 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
+import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.EventDTO;
+import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -35,24 +37,44 @@ public class DeleteMessageController extends HttpServlet {
 
         String sender = request.getParameter("sender");
         String receiver = request.getParameter("receiver");
-        String loginedUserEmail = request.getParameter("loginedUserEmail");
         String event = request.getParameter("event");
+        String action = request.getParameter("action");
+
         HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("USER");
+
+        EventDAO evdao = new EventDAO();
+        EventDAO evDao = new EventDAO();
 
         try {
-            EventDAO evDao = new EventDAO();
-            boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(receiver, sender, event);
-            EventDAO dao = new EventDAO();
-            if (checkDeleteEvent) {
-                List<EventDTO> listEvent = dao.getAllEventByReceiverEmail(loginedUserEmail);
-                if (!listEvent.isEmpty()) {
-                    session.setAttribute("EVENT", listEvent);
-                } else {
-                    session.setAttribute("EVENT", null);
-                }
-                request.setAttribute("MESSAGE", "Delete message successful");
-                url = SUCCESS;
+            switch (action) {
+                case "Delete":
+                    boolean checkDeleteEvent = evDao.deleteMessageByReceiverAndSender(receiver, sender, event);
+                    if (checkDeleteEvent) {
+                        List<EventDTO> listEvent = evdao.getAllEventByReceiverEmail(user.getEmail());
+                        if (!listEvent.isEmpty()) {
+                            session.setAttribute("EVENT", listEvent);
+                        } else {
+                            session.setAttribute("EVENT", null);
+                        }
+                        request.setAttribute("MESSAGE", "Delete message successful");
+                        url = SUCCESS;
+                    }
+                    break;
+                case "DeleteAll":
+                    boolean checkDeleteAllEvent = evDao.deleteAllMessageByReceiverEmail(user.getEmail());
+                    if (checkDeleteAllEvent) {
+                        List<EventDTO> listEvent = evdao.getAllEventByReceiverEmail(user.getEmail());
+                        if (!listEvent.isEmpty()) {
+                            session.setAttribute("EVENT", listEvent);
+                        } else {
+                            session.setAttribute("EVENT", null);
+                        }
+                        url = SUCCESS;
+                    }
+                    break;
             }
+
         } catch (Exception e) {
             log("Error at ClearMessageController " + e.toString());
         } finally {

@@ -6,8 +6,10 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,26 +39,33 @@ public class LeaderDisbandGroupController extends HttpServlet {
 
         int groupId = Integer.parseInt(request.getParameter("groupId"));
         String currentUserId = request.getParameter("currentUserId");
+        String groupName = request.getParameter("groupName");
 
         HttpSession session = request.getSession();
         UserDAO usDao = new UserDAO();
         GroupDAO grDao = new GroupDAO();
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
 
         try {
+            GroupDTO groupDto = grDao.getGroupThatHasApprovedProject(groupName, true);
             List<UserDTO> listUserInGroup = usDao.getListUserByGroupId(groupId);
             GroupDTO group = grDao.getGroupByGroupId(groupId);
-
-            if (group != null) {
-                for (UserDTO user : listUserInGroup) {
-                    usDao.updateGroupAndIsLeaderByUserId(user.getUserId());
+            ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(groupId);
+            if (projectDetail == null && groupDto == null) {
+                if (group != null) {
+                    for (UserDTO user : listUserInGroup) {
+                        usDao.updateGroupAndIsLeaderByUserId(user.getUserId());
+                    }
+                    grDao.deleteGroupById(groupId);
+                    UserDTO user = usDao.getUserById(currentUserId);
+                    session.setAttribute("USER", user);
+                    session.setAttribute("LIST_USER_IN_GROUP", null);
+                    url = SUCCESS;
                 }
-                grDao.deleteGroupById(groupId);
-                UserDTO user = usDao.getUserById(currentUserId);
-                session.setAttribute("USER", user);
-                session.setAttribute("LIST_USER_IN_GROUP", null);
+            } else {
+                request.setAttribute("MESSAGE_DISBAND", "Unable to disband, your team has registered the project ");
                 url = SUCCESS;
             }
-
         } catch (Exception e) {
             log("ERROR at LeaderDisbandGroupController " + e.toString());
         } finally {

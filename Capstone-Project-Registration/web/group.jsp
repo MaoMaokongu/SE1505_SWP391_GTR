@@ -36,22 +36,12 @@
         <!--<link rel="stylesheet" href="../../dist1/css/skins/_all-skins.min.css">-->
         <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
 
-        <!-- My group -->
-        <!--<link rel="stylesheet" href="MyGroup.css">-->
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Google Font -->
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        <style>
 
-        </style>
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
@@ -241,22 +231,20 @@
                     </ol>
                     <div class="createbutton">
                         <form action="CreateGroupController">
-                            Group Name: <input type="text" name="groupName" value="" required="">
+                            Group Name: <input type="text" name="groupName" value="" required="" placeholder="enter your group name...">
                             <input type="hidden" name="email" value="${sessionScope.USER.email}"/>
-                            <input type="submit" name="action" value="Join" style="border-radius: 50px"/>
-                                Or
                             <input type="submit" name="action" value="Create" style="border-radius: 50px"/>
 
-                            <c:if test="${sessionScope.LIST_USER_IN_GROUP eq null}">
-                                <button disabled="" class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
-                                    <!--<i class="fa fa-user-plus"></i>-->
-                                </button>
-                            </c:if>
-                            <c:if test="${sessionScope.LIST_USER_IN_GROUP ne null}">
-                                <button class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">
-                                    <!--<i class="fa fa-user-plus"></i>-->
-                                </button>
-                            </c:if>
+                            <%--<c:if test="${sessionScope.LIST_USER_IN_GROUP eq null}">--%>
+                            <!--<button disabled="" class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">-->
+                            <!--<i class="fa fa-user-plus"></i>-->
+                            <!--</button>-->
+                            <%--</c:if>--%>
+                            <%--<c:if test="${sessionScope.LIST_USER_IN_GROUP ne null}">--%>
+                            <!--<button class="btn btn-outline-primary fa fa-user-plus" type="button" data-toggle="popover" data-trigger="click" data-placement="bottom" data-html="true" data-title="Invite someone by email" data-original-title="" title="">-->
+                            <!--<i class="fa fa-user-plus"></i>-->
+                            <!--</button>-->
+                            <%--</c:if>--%>
                         </form>
                         <section>
                             <div id="PopoverContent" style="display: none;">
@@ -276,201 +264,328 @@
 
                 <!-- Main content -->
 
+
+
                 <section class="content">
-
-                    <section class="content">
-                        <!-- START CUSTOM TABS -->
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <!-- Custom Tabs -->
-                                <div class="nav-tabs-custom">
-                                    <ul class="nav nav-tabs">
-                                        <li><a href="#tab_1" data-toggle="tab">Group</a></li>
-                                        <li><a href="#tab_2" data-toggle="tab" id="tab2" onclick="showMessage()">Message</a></li>
-                                            <c:if  test="${sessionScope.USER.leader eq true}">
-                                            <li><a href="#tab_3" data-toggle="tab" onclick="showUserPending()">User Pending</a></li>
-                                            <li><a href="#tab_4" data-toggle="tab" onclick="showUserNoGroup()">Invitation</a></li>
-                                            </c:if>                                       
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab_1">
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <div class="box">
-                                                        <div class="box-header">
-                                                            <h3 class="box-title">Your Group</h3></br>
-                                                            <h4 style="color: red">${requestScope.INVITE}</h4>
-                                                            <h4 style="color: red">${requestScope.BUG}</h4>
-                                                            <h4 style="color: red">${requestScope.DUPLICATE}</h4>
-                                                            <h4 style="color: red">${requestScope.ACCEPT}</h4>
-                                                            <h4 style="color: red">${requestScope.MESSAGE}</h4>
-                                                            <h4 style="color: red">${requestScope.REMOVE}</h4>
-                                                            <h4 style="color: red">${requestScope.MESSAGE_DELETE_USER_PENDING}</h4>
-                                                            <h4 style="color: red">${requestScope.UPDATE_STATUS}</h4>
-                                                            <h4 style="color: red">${requestScope.USER_HAVE_GROUP}</h4>
-                                                        </div>
-                                                        <!-- /.box-header -->
-                                                        <div class="box-header clearfix">
-
-                                                        </div>
-                                                        <!-- /.box-header -->
-                                                        <div class="box-body table-responsive no-padding">
-                                                            <table class="table table-hover">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>#</th>
-                                                                        <th>User Id</th>
-                                                                        <th>Username</th>
-                                                                        <th>Gender</th>
-                                                                        <th>Leader</th>
-                                                                        <th>Email</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <c:forEach items="${sessionScope.LIST_USER_IN_GROUP}" var="user" varStatus="count">
-                                                                        <tr>
-                                                                            <td style="width: 50px">${count.count}</td>
-                                                                            <td style="width: 100px">${user.userId}</td>
-                                                                            <td style="width: 100px">${user.userName}</td>
-                                                                            <td style="width: 100px">${user.gender}</td>
-                                                                            <td style="width: 100px">${user.leader}</td>
-                                                                            <td style="width: 100px">${user.email}</td>
-                                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName}">
-                                                                                <td style="width: 100px">
-                                                                                    <form action="LeaderRemoveStudentsController"> 
-                                                                                        <input type="hidden" name="groupId" value="${user.group.groupId}"/>
-                                                                                        <input type="hidden" name="receiverId" value="${user.userId}"/>
-                                                                                        <input type="hidden" name="receiverEmail" value="${user.email}"/>
-                                                                                        <input type="hidden" name="sender" value="${sessionScope.USER.userId}"/>
-                                                                                        <input type="submit" name="remove" value="Remove"/>
-                                                                                    </form>
-                                                                                </td>
-                                                                            </c:if>
-                                                                        </tr>
-                                                                    </c:forEach>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!-- /.box-body -->
-                                                        <div class="box-footer clearfix">
-                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.USER.group.groupId ne null}">
-                                                                <form class="pull-right" action="LeaderDisbandGroupController">
-                                                                    <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
-                                                                    <input type="hidden" name="currentUserId" value="${sessionScope.USER.userId}"/>
-                                                                    <input type="submit" value="Disband"/>
-                                                                </form>
-                                                            </c:if>
-                                                            <c:if test="${sessionScope.USER.leader ne true && sessionScope.USER.group.groupId ne null}">
-                                                                <form class="pull-right">
-                                                                    <input type="submit" value="Leave"/>
-                                                                </form>
-                                                            </c:if>
-                                                        </div>
+                    <!-- START CUSTOM TABS -->
+                    <div class="row" >
+                        <div class="col-xs-12">
+                            <!-- Custom Tabs -->
+                            <div class="nav-tabs-custom" id="tabs">
+                                <ul class="nav nav-tabs" id="nav1">
+                                    <li class="active"><a href="#tab_1" data-toggle="tab" onclick="showGroup()">Group</a></li>
+                                    <li class=""><a href="#tab_2" data-toggle="tab" onclick="showMessage()">Message</a></li>
+                                        <c:if  test="${sessionScope.USER.leader eq true}">
+                                        <li class=""><a href="#tab_3" data-toggle="tab" onclick="showUserPending()">User Pending</a></li>
+                                        <li class=""><a href="#tab_4" data-toggle="tab" onclick="showUserNoGroup()" id="action">Invitation</a></li>
+                                        </c:if>                                       
+                                </ul>
+                                <div class="tab-content" id="form">
+                                    <div class="tab-pane active" id="tab_1">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="box">
+                                                    <div class="box-header">
+                                                        <h3 class="box-title">Your Group</h3></br>
+                                                        <h4 style="color: red">${requestScope.INVITE}</h4>
+                                                        <h4 style="color: red">${requestScope.BUG}</h4>
+                                                        <h4 style="color: red">${requestScope.DUPLICATE}</h4>
+                                                        <h4 style="color: red">${requestScope.ACCEPT}</h4>
+                                                        <h4 style="color: red">${requestScope.MESSAGE}</h4>
+                                                        <h4 style="color: red">${requestScope.REMOVE}</h4>
+                                                        <h4 style="color: red">${requestScope.MESSAGE_DELETE_USER_PENDING}</h4>
+                                                        <h4 style="color: red">${requestScope.UPDATE_STATUS}</h4>
+                                                        <h4 style="color: red">${requestScope.USER_HAVE_GROUP}</h4>
+                                                        <h4 style="color: red">${requestScope.MESSAGE_DISBAND}</h4>
+                                                        <span id="error"></span>
                                                     </div>
-                                                    <!-- /.box -->
+                                                    <!-- /.box-header -->
+                                                    <div class="box-header clearfix">
+
+                                                    </div>
+                                                    <!-- /.box-header -->
+                                                    <div class="box-body table-responsive no-padding" id="table">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>User Id</th>
+                                                                    <th>Username</th>
+                                                                    <th>Gender</th>
+                                                                    <th>Leader</th>
+                                                                    <th>Email</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <c:forEach items="${sessionScope.LIST_USER_IN_GROUP}" var="user" varStatus="count">
+                                                                    <tr>
+                                                                        <td style="width: 50px">${count.count}</td>
+                                                                        <td style="width: 100px">${user.userId}</td>
+                                                                        <td style="width: 100px">${user.userName}</td>
+                                                                        <td style="width: 100px">${user.gender}</td>
+                                                                        <td style="width: 100px">${user.leader}</td>
+                                                                        <td style="width: 100px">${user.email}</td>
+                                                                        <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName}">
+                                                                            <td style="width: 100px">
+                                                                                <form action="LeaderRemoveStudentsController"> 
+                                                                                    <input type="hidden" name="groupId" value="${user.group.groupId}"/>
+                                                                                    <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
+                                                                                    <input type="hidden" name="receiverId" value="${user.userId}"/>
+                                                                                    <input type="hidden" name="receiverEmail" value="${user.email}"/>
+                                                                                    <input type="hidden" name="sender" value="${sessionScope.USER.userId}"/>
+                                                                                    <input type="submit" name="remove" value="Remove"/>
+                                                                                </form>
+                                                                            </td>
+                                                                        </c:if>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                    <div class="box-footer clearfix">
+                                                        <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.USER.group.groupId ne null}">
+                                                            <form class="pull-right" action="LeaderDisbandGroupController" id="disbandForm">
+                                                                <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
+                                                                <input type="hidden" name="currentUserId" value="${sessionScope.USER.userId}"/>
+                                                                <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
+                                                                <input type="submit" id="bttDisband" value="Disband"/>
+                                                            </form>
+                                                        </c:if>
+                                                        <c:if test="${sessionScope.USER.leader ne true && sessionScope.USER.group.groupId ne null}">
+                                                            <form class="pull-right" action="MemberLeaveGroupController">
+                                                                <input type="submit" value="Leave"/>
+                                                            </form>
+                                                        </c:if>
+                                                    </div>
                                                 </div>
+                                                <!-- /.box -->
                                             </div>
                                         </div>
-                                        <!-- /.tab-pane -->
-                                        <div class="tab-pane" id="tab_2">
-                                        </div>
-                                        <!-- /.tab-pane -->
-                                        <div class="tab-pane" id="tab_3">
-                                        </div>
-                                        <!-- /.tab-pane -->
-                                        <!-- /.tab-pane -->                                           
-                                        <!--<form action="InviteUserController">-->
-
-                                        <div class="tab-pane" id="tab_4">
-
-                                        </div>                                       
-                                        <!--</form>-->
-
-                                        <!-- /.tab-pane -->
                                     </div>
-                                    <!-- /.tab-content -->
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="tab_2">
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="tab_3">
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <!-- /.tab-pane -->                                           
+                                    <!--<form action="InviteUserController">-->
+
+                                    <!--                                    <div class="tab-pane" id="tab_4">
+                                                                             /.tab-content 
+                                                                        </div>-->
+
+                                    <div class="tab-pane" id="tab_4">
+
+                                        <!-- /.tab-content -->
+                                    </div>
+                                    <!-- nav-tabs-custom -->
                                 </div>
-                                <!-- nav-tabs-custom -->
+                                <!-- /.col -->
                             </div>
-                            <!-- /.col -->
+                            </section>
+                            <!-- /.content -->
                         </div>
-                    </section>
-                    <!-- /.content -->
+                        <!-- /.content-wrapper -->
+                        <footer class="main-footer">
+                            <div class="pull-right hidden-xs">
+                                <b>Version</b> 26.02
+                            </div>
+                            <strong>Copyright &copy; 2022 baolucky1901 <a href="https://github.com/baolucky1901">My GitHub</a>.</strong>
+                        </footer>
+                        <!-- /.control-sidebar -->
+                        <!-- Add the sidebar's background. This div must be placed
+                           immediately after the control sidebar -->
+                        <div class="control-sidebar-bg"></div>
+                    </div> 
             </div>
-            <!-- /.content-wrapper -->
-            <footer class="main-footer">
-                <div class="pull-right hidden-xs">
-                    <b>Version</b> 26.02
-                </div>
-                <strong>Copyright &copy; 2022 baolucky1901 <a href="https://github.com/baolucky1901">My GitHub</a>.</strong>
-            </footer>
-
-
-            <!-- /.control-sidebar -->
-            <!-- Add the sidebar's background. This div must be placed
-               immediately after the control sidebar -->
-            <div class="control-sidebar-bg"></div>
         </div>
-        <!-- ./wrapper -->
 
-        <!-- jQuery 3 -->
-        <script src="bower_components/jquery/dist1/jquery.min.js"></script>
-        <!-- Bootstrap 3.3.7 -->
-        <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
-        <!-- Slimscroll -->
-        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-        <!-- FastClick -->
-        <script src="bower_components/fastclick/lib/fastclick.js"></script>
-        <!-- AdminLTE App -->
-        <script src="dist1/js/adminlte.min.js"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="dist1/js/demo.js"></script>
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-        <script>
-                                                $(function () {
-                                                    $('[data-toggle="popover"]').popover({
-                                                        sanitize: false,
-                                                        content: function () {
-                                                            return $("#PopoverContent").html();
-                                                        }
-                                                    });
-                                                }).on('shown.bs.popover', function () {
-                                                    $('#ExecutorSNPSearchStr').focus();
+    </section>
+
+    <!-- ./wrapper -->
+
+    <!-- jQuery 3 -->
+    <script src="bower_components/jquery/dist1/jquery.min.js"></script>
+    <!--<script src="bower_components/jquery/dist1/jquery-3.2.1.js.min.js"></script>-->
+    <!-- Bootstrap 3.3.7 -->
+    <script src="bower_components/bootstrap/dist1/js/bootstrap.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist1/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist1/js/demo.js"></script>
+    <script>
+                                            $(function () {
+                                                $('[data-toggle="popover"]').popover({
+                                                    sanitize: false,
+                                                    content: function () {
+                                                        return $("#PopoverContent").html();
+                                                    }
                                                 });
-        </script>
-        <script>
-            function showMessage() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onload = function () {
-                    document.getElementById("tab_2").innerHTML = this.responseText;
-                };
-                xhttp.open("GET", "MessageController");
-                xhttp.send();
-            }
+                                            }).on('shown.bs.popover', function () {
+                                                $('#ExecutorSNPSearchStr').focus();
+                                            });</script>
 
-        </script>
-        <script>
-            function showUserPending() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onload = function () {
-                    document.getElementById("tab_3").innerHTML = this.responseText;
-                };
-                xhttp.open("GET", "InvitationPendingController");
-                xhttp.send();
-            }
-        </script>
-        <script>
-            function showUserNoGroup() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onload = function () {
-                    document.getElementById("tab_4").innerHTML = this.responseText;
-                };
-                xhttp.open("GET", "StudentNoGroupController");
-                xhttp.send();
-            }
-        </script>
-        <script>
-        </script>
-    </body>
+    <!--show message ajax-->
+    <script>
+        function showMessage() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("tab_2").innerHTML = this.responseText;
+            };
+            xhttp.open("GET", "MessageController");
+            xhttp.send();
+        }
+    </script>
+    <!--show user pending ajax-->
 
+    <script>
+        function showUserPending() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("tab_3").innerHTML = this.responseText;
+            };
+            xhttp.open("GET", "InvitationPendingController");
+            xhttp.send();
+        }
+    </script>
+    <!--show user no group ajax-->
+    <script>
+        function showUserNoGroup() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                document.getElementById("tab_4").innerHTML = this.responseText;
+            };
+            xhttp.open("GET", "StudentNoGroupController");
+            xhttp.send();
+        }
+    </script>
+    <!--invite user using ajax-->
+    <script>
+        $('#tab_4').on('click', '#btnInvite', function () {
+            var currentRow = $(this).closest("tr");
+            var col2 = currentRow.find("td:eq(2)").text();
+            var currentUser = $('#sender').val();
+            var currentGroupName = $('#groupName').val();
+            $.ajax({
+                url: 'InviteUserController',
+                method: 'post',
+//                dataType: 'json',
+                data: {
+                    receiver: col2,
+                    sender: currentUser,
+                    groupName: currentGroupName
+                },
+                success: function (res) {
+                    alert('Invite ' + col2 + ' successfully!');
+                    showUserNoGroup();
+                }
+            });
+        });
+    </script>
+    <!--delete user pending using ajax-->
+    <script>
+        $('#tab_3').on('click', '#btnDeleteUserPending', function () {
+            var currentRow = $(this).closest("tr");
+            var col = currentRow.find("td:eq(1)").text();
+            var leaderId = $('#leaderId').val();
+            var action = $('#btnDeleteUserPending').val();
+            $.ajax({
+                url: 'LeaderDeleteUserPendingController',
+                method: 'post',
+                data: {
+                    userInvited: col,
+                    userId: leaderId,
+                    action: action
+                },
+                success: function () {
+                    showUserPending();
+                }
+            });
+        });
+    </script>
+    <!--delete message using ajax-->
+    <script>
+        $('#tab_2').on('click', '#btnDeleteMessage', function () {
+            var currentRow = $(this).closest("tr");
+            var sender = currentRow.find("td:eq(6)").text();
+            var event = currentRow.find("td:eq(4)").text();
+            var receiver = currentRow.find("td:eq(5)").text();
+            var action = $('#btnDeleteMessage').val();
+
+            $.ajax({
+                url: 'DeleteMessageController',
+                method: 'post',
+                data: {
+                    sender: sender,
+                    receiver: receiver,
+                    event: event,
+                    action: action
+                },
+                success: function () {
+                    showMessage();
+                }
+            });
+        });
+    </script>
+    <!--delete all user pending using ajax-->
+    <script>
+        $('#tab_3').on('click', '#btnDeleteAllUserPending', function () {
+            var leaderId = $('#leaderId').val();
+            var action = $('#btnDeleteAllUserPending').val();
+            $.ajax({
+                url: 'LeaderDeleteUserPendingController',
+                method: 'post',
+                data: {
+                    userId: leaderId,
+                    action: action
+                },
+                success: function () {
+                    showUserPending();
+                }
+            });
+        });
+    </script>
+    <!--delete all message using ajax-->
+    <script>
+        $('#tab_2').on('click', '#btnDeleteAllMessage', function () {
+            var loginedUser = $('#loginedUser').val();
+            var action = $('#btnDeleteAllMessage').val();
+            $.ajax({
+                url: 'DeleteMessageController',
+                method: 'post',
+                data: {
+                    loginedUser: loginedUser,
+                    action: action
+                },
+                success: function () {
+                    showMessage();
+                }
+            });
+        });
+    </script>
+    <!--search-->
+    <script>
+        function searchByEmail(param) {
+            var txtSearch = param.value;
+            $.ajax({
+                url: 'SearchUserController',
+                method: 'get',
+                data: {
+                    txtEmail: txtSearch
+                },
+                success: function (data) {
+                    var row = document.getElementById("show");
+                    row.innerHTML = data;
+                }
+            });
+        }
+    </script>
+</body>
 </html>

@@ -7,7 +7,7 @@ package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import com.sun.xml.internal.ws.org.objectweb.asm.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +33,49 @@ public class UserDAO {
     private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String REMOVE_STUDENT_FROM_GROUP = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
     private static final String UPDATE_GROUP_ISLEADER_BY_USER_ID = " UPDATE [USER] SET [Group] = ?, Isleader = ? WHERE UserId = ?";
+    private static final String SEARCH_USER_BY_EMAIL = " SELECT * FROM [User] WHERE Email like ? AND [Group] is null AND Isleader is null";
+    
+    
+    public List<UserDTO> searchUserByEmail(String email) throws SQLException {
+        List<UserDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = SEARCH_USER_BY_EMAIL;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, "%"+email+"%");
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    String userId = rs.getString("UserId");
+                    String emailUser = rs.getString("Email");
+                    String userName = rs.getString("Username");
+                    String gender = rs.getString("Gender");
+                    int role = rs.getInt("Role");
+                    RoleDAO rlDao = new RoleDAO();
+                    GroupDAO grDao = new GroupDAO();
+                    list.add(new UserDTO(userId, emailUser, userName, gender, rlDao.getRole(role), null, false));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
 
     public boolean updateGroupAndIsLeaderByUserId(String userId) throws SQLException {
         boolean check = false;

@@ -31,7 +31,7 @@ public class MessageController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url = ERROR;
-        
+
         try {
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
@@ -40,10 +40,13 @@ public class MessageController extends HttpServlet {
             if (listEvent.size() > 0) {
                 session.setAttribute("EVENT", listEvent);
                 url = SUCCESS;
+            } else {
+                session.setAttribute("EVENT", null);
+                url = ERROR;
             }
         } catch (Exception e) {
             log("Error at MessageController " + e.toString());
-        } finally{
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

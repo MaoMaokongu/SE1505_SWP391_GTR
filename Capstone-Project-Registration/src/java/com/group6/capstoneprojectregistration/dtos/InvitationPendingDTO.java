@@ -23,7 +23,18 @@ public class InvitationPendingDTO implements Serializable{
     private UserDTO user;
     private GroupDTO group;
     private String userInvited;
+
+    public InvitationPendingDTO(UserDTO user, String userInvited) {
+        this.user = user;
+        this.userInvited = userInvited;
+    }
+
+    public InvitationPendingDTO(String userInvited) {
+        this.userInvited = userInvited;
+    }
  
+    
+    
 //    public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
 //        this.status = status;
 //        this.user = user;

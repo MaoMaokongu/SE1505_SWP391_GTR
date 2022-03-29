@@ -9,7 +9,7 @@ import com.group6.capstoneprojectregistration.controllers.InviteUserController;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +30,74 @@ public class InvitationPendingDAO {
     private static final String UPDATE_STATUS_ACCEPT = " UPDATE [Invitation Pending] SET Status = ? WHERE [User] = ? AND UserInvited =?";
     private static final String GET_USER_PENDING_BY_EMAIL = " SELECT * FROM [Invitation Pending] WHERE UserInvited = ?";
     private static final String DELETE_USER_PENDING_BY_USER_INVITED = " DELETE FROM [Invitation Pending] WHERE UserInvited = ? AND [User] = ?";
+    private static final String DELETE_ALL_USER_PENDING_BY_USER = " DELETE FROM [Invitation Pending] WHERE [User] = ?";
+    private static final String GET_INVITATION_BY_USER = " SELECT ip.UserInvited\n"
+            + "FROM [User] u join [Invitation Pending] ip \n"
+            + "on u.UserId = ip.[User]\n"
+            + "Where u.UserId = ? ";
 
-    
+    public List<InvitationPendingDTO> getInvitationByUser(String userId) throws SQLException {
+        List<InvitationPendingDTO> invi = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_INVITATION_BY_USER;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, userId);
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    String userInvited = rs.getString("UserInvited");
+                    invi.add(new InvitationPendingDTO(userInvited));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return invi;
+    }
+
+    public boolean deleteAllUserPendingByUser(String user) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_ALL_USER_PENDING_BY_USER;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, user);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public boolean deleteUserPendingByUserInvitedAndLeaderId(String userInvited, String leaderId) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -215,7 +281,7 @@ public class InvitationPendingDAO {
         return invite;
     }
 
-    public boolean updateStatus(InvitationPendingDTO invi,int status) throws SQLException {
+    public boolean updateStatus(InvitationPendingDTO invi, int status) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;

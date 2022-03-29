@@ -47,8 +47,9 @@
                                             <form action="LeaderDeleteUserPendingController">
                                                 <input type="hidden" name="userId" value="${invi.user.userId}"/>
                                                 <input type="hidden" name="userInvited" value="${invi.userInvited}"/>
-                                                <input type="hidden" name="leaderId" value="${sessionScope.USER.userId}"/>
-                                                <input type="submit" value="Delete"/>
+                                                <input type="hidden" id="leaderId" name="leaderId" value="${sessionScope.USER.userId}"/>
+                                                <!--<input type="submit" value="Delete"/>-->
+                                                <button type="button" name="action" id="btnDeleteUserPending" value="Delete">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -59,9 +60,10 @@
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <c:if test="${sessionScope.INVITATION ne null}">
-                            <c:if test="${sessionScope.INVITATION == null}">
+                            <c:if test="${sessionScope.INVITATION != null}">
                                 <form class="pull-right">
-                                    <input type="submit" value="Delete All"/>
+                                    <input type="hidden" id="currentUser" value="${sessionScope.USER.userId}"/>
+                                    <button type="button" name="action" id="btnDeleteAllUserPending" value="DeleteAll">Delete All</button>
                                 </form>
                             </c:if>
 

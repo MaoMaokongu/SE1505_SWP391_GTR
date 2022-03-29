@@ -7,7 +7,7 @@ package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,6 +33,33 @@ public class ProjectDetailDAO {
             + " Where u.UserId = ?";
     private static final String UPDATE_DENY_PROJECT = " DELETE FROM ProjectDetail WHERE ProjectId = ?";
     private static final String GET_PROJECT_DETAIL_BY_GROUP_ID = " SELECT * FROM ProjectDetail WHERE GroupId = ?";
+    private static final String DELETE_ALL_PROJECT_PENDING_BY_GROUP_ID = " DELETE FROM ProjectDetail WHERE GroupId = ?";
+    
+    public boolean deleteAllProjectPendingByGroupId(int groupId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_ALL_PROJECT_PENDING_BY_GROUP_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
 
     public ProjectDetailsDTO getProjectDetailByGroupId(int groupId) throws SQLException {
         ProjectDetailsDTO projectDetail = null;

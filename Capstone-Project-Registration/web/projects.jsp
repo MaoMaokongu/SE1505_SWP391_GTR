@@ -320,8 +320,8 @@
                                                                         <%--<c:if test="${sessionScope.USER.leader}">--%> 
                                                                         <form action="RegisterProjectController">
                                                                             <c:if test="${sessionScope.USER.group.groupId eq null}">
-                                                                                Oops! Look like, you are not in any group,
-                                                                                <a href="group.jsp">Click me</a> to create/john group first 
+                                                                                Oops! You are not in any group, please contact your leader or 
+                                                                                <a href="group.jsp">click me</a> to create group 
                                                                                 <input id="sampleId5" type="submit" value="Register" class="btn btn-primary" disabled/>
                                                                             </c:if>
                                                                             <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader eq true}">

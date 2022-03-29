@@ -25,7 +25,6 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -45,6 +44,9 @@
                                         <td style="width: 500px">${event.event.messageContent}</td>
                                         <td style="width: 250px">by</td>
                                         <td style="width: 250px">${event.sender.userName}</td>
+                                        <td style="width: 250px" hidden>${event.event.messageEvent}</td>
+                                        <td style="width: 250px" hidden>${event.receiver}</td>
+                                        <td style="width: 250px" hidden>${event.sender.userId}</td>
                                         <c:if test="${event.event.messageEvent eq 'Invite'}">
                                             <td>
                                                 <form action="StudentDecisionController">
@@ -68,7 +70,8 @@
                                                 <input type="hidden" name="sender" value="${event.sender.userId}"/>
                                                 <input type="hidden" name="receiver" value="${event.receiver}"/>
                                                 <input type="hidden" name="event" value="${event.event.messageEvent}"/>
-                                                <input type="submit" value="Delete"/>
+                                                <!--<input type="submit" value="Delete"/>-->
+                                                <button type="button" id="btnDeleteMessage" value="Delete">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -79,11 +82,12 @@
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <c:if test="${sessionScope.EVENT ne null}">
-                            <c:if test="${sessionScope.EVENT != null}">
-                                <form class="pull-right">
-                                    <input type="submit" value="Delete All"/>
-                                </form>                        
-                            </c:if>
+                            <%--<c:if test="${sessionScope.EVENT != null}">--%>
+                            <form class="pull-right">
+                                <input type="hidden" id="loginedUser" value="${sessionScope.USER.email}"/>
+                                <button type="button" id="btnDeleteAllMessage" value="DeleteAll">Delete All</button>
+                            </form>                        
+                            <%--</c:if>--%>
                         </c:if>
                     </div>
                 </div>

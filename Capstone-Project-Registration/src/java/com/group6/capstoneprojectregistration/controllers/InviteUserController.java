@@ -34,7 +34,7 @@ import javax.servlet.http.HttpSession;
 public class InviteUserController extends HttpServlet {
 
     private static final String ERROR = "group.jsp";
-    private static final String SUCCESS = "group.jsp";
+    private static final String SUCCESS = "student-with-no-group.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,7 +59,7 @@ public class InviteUserController extends HttpServlet {
             UserDTO user = (UserDTO) session.getAttribute("USER");
             int numOfStudent = usDao.countStudentInGroup(user.getGroup().getGroupId());
             UserDTO receiver = usDao.getUserByEmail(receiverEmail);
-            EventDTO event = evDao.getEventByReceiverAndEvent(receiverEmail);
+            EventDTO event = evDao.getEventByReceiverAndEvent(receiverEmail,sender.getUserId());
             ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(group.getGroupId());
             if (projectDetail == null) {
                 if (event == null) {
@@ -81,12 +81,14 @@ public class InviteUserController extends HttpServlet {
                     request.setAttribute("INVITE", "This user already invited");
                 }
             } else {
+                
                 request.setAttribute("INVITE", "This member cannot be invited because your group has already registered the project ");
             }
 
         } catch (Exception e) {
             log("Error at InviteUserController" + e.toString());
         } finally {
+            
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

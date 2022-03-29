@@ -219,7 +219,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        List of Projects
+                        Project
                         <small>had signed</small>
                     </h1>
                     <ol class="breadcrumb">
@@ -236,93 +236,76 @@
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <!--<li class="active"><a href="#tab_1" data-toggle="tab">Signed</a></li>-->
-                                    <!--                                    <li><a href="#tab_2" data-toggle="tab">Accepted</a></li>
-                                                                        <li><a href="#tab_3" data-toggle="tab">Cancle</a></li>-->
-                                    <!-- <li class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                            Dropdown <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                                            <li role="presentation" class="divider"></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                                            </ul>
-                                        </li> -->
-                                    <!--<li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear">Status</i></a></li>-->
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="tab_1">
+                                    <c:if test="${sessionScope.PROJECT_APPROVED != null}">
+                                        <div class="tab-pane active" id="tab_1">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="box">
+                                                        <div class="box-header">
+                                                            <h3 class="box-title">Approved</h3>
+                                                            <small>Project</small>
+                                                        </div>
+                                                        <div class="box-body table-responsive no-padding">
+                                                            <div class="container">
+                                                                <td>${sessionScope.PROJECT_APPROVED.project.discription}</td>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.box-body -->
+                                                    </div>
+                                                    <!-- /.box -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                    <!--/.tab-pane--> 
+                                    <!--<div class="tab-pane" id="tab_2">-->
+                                    <c:if test="${sessionScope.LIST_PROJECT_PENDING != null}">
+
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="box">
                                                     <div class="box-header">
-                                                        <h3 class="box-title">Approved</h3>
-                                                        <small>Project</small>
+                                                        <h3 class="box-title">Pending</h3>
+                                                        <small>Projects</small>
                                                     </div>
                                                     <div class="box-body table-responsive no-padding">
+
                                                         <table class="table table-hover">
                                                             <thead>
                                                                 <tr>
                                                                     <th style="width : 10px">#</th>
-                                                                    <th>Project's Name</th>
-                                                                    <th>Status</th>
+                                                                    <th style="width: 100px">Project Id</th>
+                                                                    <th style="width: 500px">Project Name</th>
+                                                                    <th style="width: 500px">Mentor</th>
+                                                                    <th style="width: 500px">Co-Mentor</th>
+                                                                    <th style="width: 200px">Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>Đồ án...</td>
-                                                                    <td>In processing...</td>
-                                                                </tr>
+                                                                <c:forEach items="${sessionScope.LIST_PROJECT_PENDING}" var="list" varStatus="count">
+                                                                    <tr>
+                                                                        <td>${count.count}</td>
+                                                                        <td>${list.project.projectId}</td>
+                                                                        <td style="width: 1000px">${list.project.name}</td>
+                                                                        <td>${list.project.mentor.userName}</td>
+                                                                        <td>${list.project.coMentor}</td>
+                                                                        <td>In processing...</td>
+                                                                    </tr>
+                                                                </c:forEach>
                                                             </tbody>
                                                         </table>
+
                                                     </div>
                                                     <!-- /.box-body -->
                                                 </div>
                                                 <!-- /.box -->
                                             </div>
+                                            <!--</div>-->
                                         </div>
-                                    </div>
-                                    <!--/.tab-pane--> 
-                                    <!--<div class="tab-pane" id="tab_2">-->
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Pending</h3>
-                                                    <small>Projects</small>
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width : 10px">#</th>
-                                                                <th style="width: 100px">Project Id</th>
-                                                                <th style="width: 500px">Project Name</th>
-                                                                <th style="width: 200px">Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <c:forEach items="${sessionScope.LIST_PROJECT_PENDING}" var="list" varStatus="count">
-                                                                <tr>
-                                                                    <td>${count.count}</td>
-                                                                    <td>${list.project.projectId}</td>
-                                                                    <td>${list.project.name}</td>
-                                                                    <td>In processing...</td>
-                                                                </tr>
-                                                            </c:forEach>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <!--</div>-->
-                                    </div>
+                                    </c:if>
+
                                     <!--/.tab-pane--> 
                                     <!-- /.tab-pane -->
                                 </div>

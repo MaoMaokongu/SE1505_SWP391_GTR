@@ -6,7 +6,7 @@
 package com.group6.capstoneprojectregistration.daos;
 
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
-import com.group6.capstoneprojectregistration.untils.DBUtils;
+import com.group6.capstoneprojectregistration.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +28,47 @@ public class GroupDAO {
     private static final String CHECK_DUPLICATE = " SELECT Name FROM [Group] WHERE Name=? ";
     private static final String UPDATE_ISAPPROVED_PROJECTID_BY_GROUP_ID = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";
     private static final String DELETE_GROUP_BY_GROUP_ID = " DELETE FROM [Group] WHERE GroupId = ?";
+    private static final String GET_GROUP_THAT_HAS_APPROVED_PROJECT = " SELECT * FROM [Group] WHERE Name = ? AND IsApproved = ? ";
+    
+    public GroupDTO getGroupThatHasApprovedProject(String groupName, boolean isApproved) throws SQLException {
+        GroupDTO group = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_GROUP_THAT_HAS_APPROVED_PROJECT;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, groupName);
+                stm.setBoolean(2, isApproved);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int groupId = rs.getInt("GroupId");
+                    String name = rs.getString("Name");
+                    boolean approved = rs.getBoolean("IsApproved");
+                    String project = rs.getString("ProjectId");
+                    ProjectDAO dao = new ProjectDAO();
+                    group = new GroupDTO(groupId, name, approved, dao.getProjectById(project));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return group;
+    }
 
     public boolean deleteGroupById(int groupId) throws SQLException {
         boolean check = false;
