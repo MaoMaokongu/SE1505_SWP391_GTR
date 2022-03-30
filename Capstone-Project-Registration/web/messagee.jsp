@@ -24,60 +24,65 @@
 
                     </div>
                     <!-- /.box-header -->
+                    <c:if test="${sessionScope.EVENT eq null}">
+                        <h4 style="text-align-last: center">There are no messages yet</h4>
+                    </c:if>
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Message</th>
-                                    <th></th>
-                                    <th>Sender</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <c:forEach var="event" items="${sessionScope.EVENT}" varStatus="count">
-                                <tbody>
+                        <c:if test="${sessionScope.EVENT ne null}">
+                            <table class="table table-hover">
+                                <thead>
                                     <tr>
-                                        <td style="width: 50px">${count.count}</td>
-                                        <td style="width: 500px">${event.event.messageContent}</td>
-                                        <td style="width: 250px">by</td>
-                                        <td style="width: 250px">${event.sender.userName}</td>
-                                        <td style="width: 250px" hidden>${event.event.messageEvent}</td>
-                                        <td style="width: 250px" hidden>${event.receiver}</td>
-                                        <td style="width: 250px" hidden>${event.sender.userId}</td>
-                                        <c:if test="${event.event.messageEvent eq 'Invite'}">
-                                            <td>
-                                                <form action="StudentDecisionController">
-                                                    <input type="hidden" name="sender" value="${event.sender.userId}"/>
-                                                    <input type="hidden" name="invitedUserId" value="${sessionScope.USER.userId}"/>
-                                                    <input type="hidden" name="emailReceiver" value="${sessionScope.USER.email}"/>
-                                                    <input type="submit" name="studentDecision" value="Accept"/>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form action="StudentDenyGroupInvitationController">       
+                                        <th>#</th>
+                                        <th>Message</th>
+                                        <th></th>
+                                        <th>Sender</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <c:forEach var="event" items="${sessionScope.EVENT}" varStatus="count">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50px">${count.count}</td>
+                                            <td style="width: 500px">${event.event.messageContent}</td>
+                                            <td style="width: 250px">by</td>
+                                            <td style="width: 250px">${event.sender.userName}</td>
+                                            <td style="width: 250px" hidden>${event.event.messageEvent}</td>
+                                            <td style="width: 250px" hidden>${event.receiver}</td>
+                                            <td style="width: 250px" hidden>${event.sender.userId}</td>
+                                            <c:if test="${event.event.messageEvent eq 'Invite'}">
+                                                <td>
+                                                    <form action="StudentDecisionController">
+                                                        <input type="hidden" name="sender" value="${event.sender.userId}"/>
+                                                        <input type="hidden" name="invitedUserId" value="${sessionScope.USER.userId}"/>
+                                                        <input type="hidden" name="emailReceiver" value="${sessionScope.USER.email}"/>
+                                                        <input type="submit" name="studentDecision" value="Accept"/>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action="StudentDenyGroupInvitationController">       
+                                                        <input type="hidden" name="sender" value="${event.sender.userId}"/>
+                                                        <input type="hidden" name="receiver" value="${event.receiver}"/>
+                                                        <input type="submit" value="Deny"/>
+                                                    </form>
+                                                </td>
+                                            </c:if>
+                                            <td style="width: 25px">
+                                                <form action="DeleteMessageController">
+                                                    <input type="hidden" name="loginedUserEmail" value="${sessionScope.USER.email}"/>
                                                     <input type="hidden" name="sender" value="${event.sender.userId}"/>
                                                     <input type="hidden" name="receiver" value="${event.receiver}"/>
-                                                    <input type="submit" value="Deny"/>
+                                                    <input type="hidden" name="event" value="${event.event.messageEvent}"/>
+                                                    <!--<input type="submit" value="Delete"/>-->
+                                                    <button type="button" id="btnDeleteMessage" value="Delete">Delete</button>
                                                 </form>
                                             </td>
-                                        </c:if>
-                                        <td style="width: 25px">
-                                            <form action="DeleteMessageController">
-                                                <input type="hidden" name="loginedUserEmail" value="${sessionScope.USER.email}"/>
-                                                <input type="hidden" name="sender" value="${event.sender.userId}"/>
-                                                <input type="hidden" name="receiver" value="${event.receiver}"/>
-                                                <input type="hidden" name="event" value="${event.event.messageEvent}"/>
-                                                <!--<input type="submit" value="Delete"/>-->
-                                                <button type="button" id="btnDeleteMessage" value="Delete">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
+                                        </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:if>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">

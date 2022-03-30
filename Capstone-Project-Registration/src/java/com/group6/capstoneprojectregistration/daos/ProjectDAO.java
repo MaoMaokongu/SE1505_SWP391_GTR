@@ -24,11 +24,51 @@ public class ProjectDAO {
     private static final String GET_PROJECT_BY_NAME = " SELECT * FROM Project WHERE Name = ?";
     private static final String GET_PROJECT_BY_ID = " SELECT * FROM Project WHERE ProjectId = ?";
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
-    private static final String UPDATE_PROJECT = " UPDATE project SET IsSelected = ? WHERE ProjectId =?";
+    private static final String UPDATE_PROJECT = " UPDATE Project SET IsSelected = ? WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
     private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
             + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
+    private static final String GET_PROJECT_BY_MENTOR_ID = " Select * \n"
+            + "from Project p join [Group] g\n"
+            + "on p.ProjectId = g.ProjectId\n"
+            + "Where MentorId = ?";
+
+    public List<ProjectDTO> getProjectByMentorId(String mentorId) throws SQLException {
+        List<ProjectDTO> project = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_PROJECT_BY_MENTOR_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, mentorId);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String projectId = rs.getString("ProjectId");
+                    String projectName = rs.getString("Name");
+                    project.add(new ProjectDTO(projectId, projectName));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return project;
+    }
 
     public ProjectDTO getProject(String projectName) throws SQLException {
         ProjectDTO project = null;

@@ -30,4 +30,10 @@ public class ProjectDTO implements Serializable{
     private String discription;
     private SemesterDTO semester;
 
+    public ProjectDTO(String projectId, String name) {
+        this.projectId = projectId;
+        this.name = name;
+    }
+
+    
 }

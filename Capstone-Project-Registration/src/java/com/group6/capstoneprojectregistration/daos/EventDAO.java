@@ -115,7 +115,7 @@ public class EventDAO {
         return check;
     }
 
-    public boolean insertMessageDenyOfLecturer(String sender, String receiverEmail) throws SQLException {
+    public boolean insertMessageOfLecturer(String sender, String receiverEmail, String event) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -127,7 +127,7 @@ public class EventDAO {
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, receiverEmail);
                 stm.setString(2, sender);
-                stm.setString(3, "DenyProject");
+                stm.setString(3, event);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {

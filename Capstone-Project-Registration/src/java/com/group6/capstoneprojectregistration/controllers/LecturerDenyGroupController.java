@@ -35,21 +35,24 @@ public class LecturerDenyGroupController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
+
+        String projectId = request.getParameter("projectId").trim();
+        String currentUser = request.getParameter("sender");
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+        
+        
+        GroupDAO grDao = new GroupDAO();
+        UserDAO usDao = new UserDAO();
+        EventDAO evDao = new EventDAO();
+        ProjectDetailDAO prDao = new ProjectDetailDAO();
+        
         try {
-            
-            String projectId = request.getParameter("projectId").trim();
-            String currentUser = request.getParameter("sender");
-            int groupId = Integer.parseInt(request.getParameter("groupId"));
-            GroupDAO grDao = new GroupDAO();
-            UserDAO usDao = new UserDAO();
-            EventDAO evDao = new EventDAO();
-            ProjectDetailDAO prDao = new ProjectDetailDAO();
-            boolean checkUpdateDenyProject = prDao.denyProject(projectId);
+            boolean checkUpdateDenyProject = prDao.denyProject(projectId, groupId);
             List<UserDTO> listUserByGroupId = usDao.getListUserByGroupId(groupId);
-            
+
             if (checkUpdateDenyProject) {
                 for (UserDTO user : listUserByGroupId) {
-                    boolean checkSendingMessage = evDao.insertMessageDenyOfLecturer(currentUser, user.getEmail());
+                    boolean checkSendingMessage = evDao.insertMessageOfLecturer(currentUser, user.getEmail(), "DenyProject");
                     if (!checkSendingMessage) {
                         request.setAttribute("DENY", "Cant send message deny");
                     }

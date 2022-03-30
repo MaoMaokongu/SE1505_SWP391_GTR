@@ -31,10 +31,76 @@ public class ProjectDetailDAO {
     private static final String GET_PROJECT_PENDING_BY_USERID = " SELECT g.GroupId, pd.ProjectId, u.UserId\n"
             + " FROM [User] u  join [Group] g on u.[Group] = g.GroupId  join ProjectDetail pd on g.GroupId = pd.GroupId\n"
             + " Where u.UserId = ?";
-    private static final String UPDATE_DENY_PROJECT = " DELETE FROM ProjectDetail WHERE ProjectId = ?";
+    private static final String UPDATE_DENY_PROJECT = " DELETE FROM ProjectDetail WHERE ProjectId = ? AND GroupId = ?";
     private static final String GET_PROJECT_DETAIL_BY_GROUP_ID = " SELECT * FROM ProjectDetail WHERE GroupId = ?";
     private static final String DELETE_ALL_PROJECT_PENDING_BY_GROUP_ID = " DELETE FROM ProjectDetail WHERE GroupId = ?";
+    private static final String DELETE_PROJECT_REGISTED_OF_ANOTHER_GROUP = " DELETE FROM ProjectDetail WHERE ProjectId = ?";
+    private static final String GET_ALL_PROJECT_DETAILS = " SELECT * FROM ProjectDetail WHERE ProjectId = ?";
     
+    public List<ProjectDetailsDTO> getAllProjectDetails(String projectId) throws SQLException {
+        List<ProjectDetailsDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_ALL_PROJECT_DETAILS;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, projectId);
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    int id = rs.getInt(1);
+                    String projectID = rs.getString(2);
+                    int groupId = rs.getInt(3);
+                    ProjectDAO prDao = new ProjectDAO();
+                    GroupDAO grDao = new GroupDAO();
+                    list.add(new ProjectDetailsDTO(id, prDao.getProjectById(projectId), grDao.getGroupByGroupId(groupId)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public boolean deleteProjectRegistedOfAnotherGroup(String projectId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_PROJECT_REGISTED_OF_ANOTHER_GROUP;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
     public boolean deleteAllProjectPendingByGroupId(int groupId) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -98,7 +164,7 @@ public class ProjectDetailDAO {
         return projectDetail;
     }
 
-    public boolean denyProject(String projectId) throws SQLException {
+    public boolean denyProject(String projectId, int groupId) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -108,6 +174,7 @@ public class ProjectDetailDAO {
                 String sql = UPDATE_DENY_PROJECT;
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, projectId);
+                stm.setInt(2, groupId);
                 check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {

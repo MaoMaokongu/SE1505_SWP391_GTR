@@ -5,11 +5,16 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
+import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
+import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,21 +38,39 @@ public class LecturerAcceptGroupController extends HttpServlet {
 
         int groupId = Integer.parseInt(request.getParameter("groupId"));
         String projectId = request.getParameter("projectId").trim();
+        String currentUser = request.getParameter("sender");
+
         GroupDAO grDao = new GroupDAO();
         ProjectDAO prDao = new ProjectDAO();
         ProjectDetailDAO pdDao = new ProjectDetailDAO();
+        EventDAO evDao = new EventDAO();
+        UserDAO usDao = new UserDAO();
 
         try {
-            boolean checkDeleteProjectPending = pdDao.deleteAllProjectPendingByGroupId(groupId);
-            boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId);
-            boolean checkUpdateProject = prDao.updateProject(projectId);
+            List<ProjectDetailsDTO> listProjectRegistedDuplicate = pdDao.getAllProjectDetails(projectId);
+            List<UserDTO> listUserByGroupId = usDao.getListUserByGroupId(groupId);
+
+            boolean checkDeleteProjectPending = pdDao.deleteAllProjectPendingByGroupId(groupId); // 1 project đã được chấp nhận và delete hết project còn lại mà nhóm đã dk trc đó 
+            boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId); // update status group đã được accept project
+            boolean checkUpdateProject = prDao.updateProject(projectId); // update isSelected in tbl project 
+
+            if (!listProjectRegistedDuplicate.isEmpty()) {
+                boolean checkDeleteProjectPendingOfAnotherGroup = pdDao.deleteProjectRegistedOfAnotherGroup(projectId);// delete các nhóm khác có đăng ký trùng project
+            }
             if (checkUpdateProject && checkUpdateGroup && checkDeleteProjectPending) {
+                for (UserDTO user : listUserByGroupId) {
+                    boolean checkSendingMessage = evDao.insertMessageOfLecturer(currentUser, user.getEmail(), "AcceptProject");
+                    if (!checkSendingMessage) {
+                        request.setAttribute("DENY", "Cant send message deny");
+                    }
+                }
                 request.setAttribute("ACCEPTED", "Accept Successful!");
                 url = SUCCESS;
             } else {
                 request.setAttribute("ACCEPTED", "Accept Fail!");
                 url = ERROR;
             }
+
         } catch (Exception e) {
             log("Error at AcceptGroupController " + e.toString());
         } finally {
@@ -55,7 +78,7 @@ public class LecturerAcceptGroupController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

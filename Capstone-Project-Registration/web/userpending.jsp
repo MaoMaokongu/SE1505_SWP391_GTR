@@ -27,35 +27,40 @@
                         </ul>
                     </div>
                     <!-- /.box-header -->
+                    <c:if test="${sessionScope.INVITATION eq null}">
+                        <h4 style="text-align-last: center">There are no students have been invited yet</h4>
+                    </c:if>
                     <div class="box-body table-responsive no-padding">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="width : 10px">#</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <c:forEach var="invi" items="${sessionScope.INVITATION}" varStatus="count">
-                                <tbody>
+                        <c:if test="${sessionScope.INVITATION ne null}">
+                            <table class="table table-hover">
+                                <thead>
                                     <tr>
-                                        <td style="width: 50px">${count.count}</td>
-                                        <td style="width: 500px">${invi.userInvited}</td>
-                                        <td style="width: 500px">${invi.status.name}....</td>
-                                        <td>
-                                            <form action="LeaderDeleteUserPendingController">
-                                                <input type="hidden" name="userId" value="${invi.user.userId}"/>
-                                                <input type="hidden" name="userInvited" value="${invi.userInvited}"/>
-                                                <input type="hidden" id="leaderId" name="leaderId" value="${sessionScope.USER.userId}"/>
-                                                <!--<input type="submit" value="Delete"/>-->
-                                                <button type="button" name="action" id="btnDeleteUserPending" value="Delete">Delete</button>
-                                            </form>
-                                        </td>
+                                        <th style="width : 10px">#</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th></th>
                                     </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
+                                </thead>
+                                <c:forEach var="invi" items="${sessionScope.INVITATION}" varStatus="count">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 50px">${count.count}</td>
+                                            <td style="width: 500px">${invi.userInvited}</td>
+                                            <td style="width: 500px">${invi.status.name}....</td>
+                                            <td>
+                                                <form action="LeaderDeleteUserPendingController">
+                                                    <input type="hidden" name="userId" value="${invi.user.userId}"/>
+                                                    <input type="hidden" name="userInvited" value="${invi.userInvited}"/>
+                                                    <input type="hidden" id="leaderId" name="leaderId" value="${sessionScope.USER.userId}"/>
+                                                    <!--<input type="submit" value="Delete"/>-->
+                                                    <button type="button" name="action" id="btnDeleteUserPending" value="Delete">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </c:forEach>
+                            </table>
+                        </c:if>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">

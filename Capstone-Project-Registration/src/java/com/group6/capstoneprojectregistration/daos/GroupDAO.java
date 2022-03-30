@@ -29,7 +29,51 @@ public class GroupDAO {
     private static final String UPDATE_ISAPPROVED_PROJECTID_BY_GROUP_ID = " UPDATE [Group] SET IsApproved= ?, ProjectId = ? WHERE GroupId = ?";
     private static final String DELETE_GROUP_BY_GROUP_ID = " DELETE FROM [Group] WHERE GroupId = ?";
     private static final String GET_GROUP_THAT_HAS_APPROVED_PROJECT = " SELECT * FROM [Group] WHERE Name = ? AND IsApproved = ? ";
+    private static final String GET_GROUP_BY_PROJECT_ID = " Select * \n"
+            + "from Project p join [Group] g\n"
+            + "on p.ProjectId = g.ProjectId\n"
+            + "Where MentorId = ?";
+
     
+    public List<GroupDTO> getGroupByProjectId(String mentorId) throws SQLException {
+        List<GroupDTO> group = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_GROUP_BY_PROJECT_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, mentorId);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int groupId = rs.getInt(9);
+                    String name = rs.getString(10);
+                    boolean isApproved = rs.getBoolean(11);
+                    String projectId = rs.getString(12);
+                    ProjectDAO project = new ProjectDAO();
+                    group.add(new GroupDTO(groupId, name, isApproved, project.getProjectById(projectId)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return group;
+    }
+
     public GroupDTO getGroupThatHasApprovedProject(String groupName, boolean isApproved) throws SQLException {
         GroupDTO group = null;
         Connection conn = null;

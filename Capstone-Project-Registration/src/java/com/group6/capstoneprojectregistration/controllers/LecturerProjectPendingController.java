@@ -44,7 +44,7 @@ public class LecturerProjectPendingController extends HttpServlet {
                     session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
                     url = SUCCESS;
                 } else {
-                    session.setAttribute("LIST_PROJECT_DETAILS", listprojectdetail);
+                    session.setAttribute("LIST_PROJECT_DETAILS", null);
                     request.setAttribute("EMPTY_LIST", "The list is empty");
                     url = ERROR;
                 }

@@ -86,55 +86,6 @@
                                                     <p>Fighting!!!</p>
                                                 </a>
                                             </li>
-                                            <!-- end message -->
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="pages/lecturer/Van Trung.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Van Trung - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="pages/lecturer/Thanh Phu.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Phu - Be
-                                                        <small><i class="fa fa-clock-o"></i> Today</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="pages/lecturer/Thanh Hai.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Thanh Hai - Be
-                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <img src="pages/lecturer/Diu Huong.jpg" class="img-circle" alt="User Image">
-                                                    </div>
-                                                    <h4>
-                                                        Diu Huong - Fe
-                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                    </h4>
-                                                    <p>Fighting!!!</p>
-                                                </a>
-                                            </li>
                                         </ul>
                                     </li>
                                     <li class="footer"><a href="#">See All Messages</a></li>
@@ -257,16 +208,11 @@
                 <section class="content-header">
                     <h1>
                         ProjectGuiding
-
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                         <li class="active">Projects Guild</li>
                     </ol>
-                    <div class="list d-flex align-items-center justify-content-start">
-                        <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
-                        <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
-                    </div>
                 </section>
 
                 <!-- Main content -->
@@ -277,73 +223,50 @@
                                 <div class="box-header">
                                     <h3 class="box-title">List of Groups</h3>
                                     <small>are directive</small>
-                                    <!-- <div class="box-tools">
-                                    
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                      <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                    
-                                      <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                      </div>
-                                    </div>
-                                  </div> -->
                                 </div>
                                 <!-- /.box-header -->
-                                <div class="box-header clearfix">
-                                    <ul class="pagination pagination-sm no-margin pull-left">
-                                        <i>Show</i>
-                                        <select class="select">
-                                            <option><a href="#">10</a></option>
-                                            <option><a href="#">15</a></option>
-                                            <option><a href="#">25</a></option>
-                                            <option><a href="#">30</a></option>
-                                        </select>
-                                        <i>entries</i>
-                                    </ul>
-                                    <ul class="pagination pagination-sm no-margin pull-right">
-                                        <i class="fas fa-filter">Filter</i>
-                                        <select class="select">
-                                            <option><a href="#">Spring 2022</a></option>
-                                            <option><a href="#">Fall 2021</a></option>
-                                            <option><a href="#">Summer 2021</a></option>
-                                            <option><a href="#">Spring 2021</a></option>
-                                        </select>
-                                    </ul>
-                                </div>
+                                <!--                                <div class="box-header clearfix">
+                                                                    <ul class="pagination pagination-sm no-margin pull-right">
+                                                                        <i class="fas fa-filter">Filter</i>
+                                                                        <select class="select">
+                                                                            <option><a href="#">Spring 2022</a></option>
+                                                                            <option><a href="#">Fall 2021</a></option>
+                                                                            <option><a href="#">Summer 2021</a></option>
+                                                                            <option><a href="#">Spring 2021</a></option>
+                                                                        </select>
+                                                                    </ul>
+                                                                </div>-->
                                 <!-- /.box-header -->
+                                <c:if test="${sessionScope.LIST_PROJECT_GUIDING eq null}">
+                                    <h4 style="text-align-last: center">There are no students have registered yet</h4>
+                                </c:if>
+
                                 <div class="box-body table-responsive no-padding">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 10px">#</th>
-                                                <th>Projects's Id</th>
-                                                <th>Projects's Title</th>
-                                                <th>Groups's Name</th>                                             
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${requestScope.MESSAGE}
-                                            <c:forEach varStatus="count" items="${sessionScope.LIST_PROJECT_GUIDING}" var="list">
+                                    <c:if test="${sessionScope.LIST_PROJECT_GUIDING ne null && sessionScope.GROUP_PROJECT ne null}">
+                                        <table class="table table-hover">
+                                            <thead>
                                                 <tr>
-                                                    <td>${count.count}</td>
-                                                    <td>${list.project.projectId}</td>
-                                                    <td>${list.project.name}</td>
-                                                    <td>${list.name}</td>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>Projects's Id</th>
+                                                    <th>Projects's Title</th>
+                                                    <th>Groups's Name</th>                                             
                                                 </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                ${requestScope.MESSAGE}
+                                                <c:forEach varStatus="count" items="${sessionScope.LIST_PROJECT_GUIDING}" var="list">
+                                                        <tr>
+                                                            <td>${count.count}</td>
+                                                            <td>${list.projectId}</td>
+                                                            <td>${list.name}</td>
+                                                            <td>${sessionScope.GROUP_PROJECT.get(count.index).name}</td>
+                                                        </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:if>
                                 </div>
                                 <!-- /.box-body -->
-                                <div class="box-footer clearfix">
-                                    <ul class="pagination pagination-sm no-margin pull-right">
-                                        <<li><a href="#">Previous</a></li>
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">Next</a></li>
-                                    </ul>
-                                </div>
                             </div>
                             <!-- /.box -->
                         </div>
@@ -358,10 +281,6 @@
                 </div>
                 <strong>Copyright &copy; 2022 baolucky1901 <a href="https://github.com/baolucky1901">My GitHub</a>.</strong>
             </footer>
-            <!-- /.control-sidebar -->
-            <!-- Add the sidebar's background. This div must be placed
-               immediately after the control sidebar -->
-            <div class="control-sidebar-bg"></div>
         </div>
         <!-- ./wrapper -->
 

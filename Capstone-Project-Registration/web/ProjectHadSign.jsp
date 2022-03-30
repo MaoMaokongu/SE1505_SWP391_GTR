@@ -235,10 +235,12 @@
                         <div class="col-xs-12">
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                </ul>
                                 <div class="tab-content">
-                                    <c:if test="${sessionScope.PROJECT_APPROVED != null}">
+                                    <c:if test="${sessionScope.PROJECT_APPROVED eq null}">
+                                        <h4 style="text-align-last: center">${requestScope.MESSAGE}</h4>
+                                        <h4 style="text-align-last: center">${requestScope.NOT_IN_GROUP}</h4>
+                                    </c:if>
+                                    <c:if test="${sessionScope.PROJECT_APPROVED ne null && sessionScope.LIST_PROJECT_PENDING eq null}">
                                         <div class="tab-pane active" id="tab_1">
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -261,8 +263,7 @@
                                     </c:if>
                                     <!--/.tab-pane--> 
                                     <!--<div class="tab-pane" id="tab_2">-->
-                                    <c:if test="${sessionScope.LIST_PROJECT_PENDING != null}">
-
+                                    <c:if test="${sessionScope.LIST_PROJECT_PENDING ne null}">
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="box">
@@ -296,7 +297,6 @@
                                                                 </c:forEach>
                                                             </tbody>
                                                         </table>
-
                                                     </div>
                                                     <!-- /.box-body -->
                                                 </div>
@@ -305,7 +305,6 @@
                                             <!--</div>-->
                                         </div>
                                     </c:if>
-
                                     <!--/.tab-pane--> 
                                     <!-- /.tab-pane -->
                                 </div>

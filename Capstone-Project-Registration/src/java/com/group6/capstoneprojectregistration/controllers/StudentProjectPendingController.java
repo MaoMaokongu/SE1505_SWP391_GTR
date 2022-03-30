@@ -43,20 +43,26 @@ public class StudentProjectPendingController extends HttpServlet {
         GroupDAO grDao = new GroupDAO();
 
         try {
-            GroupDTO group = grDao.getGroupThatHasApprovedProject(user.getGroup().getName(), true);
-            List<ProjectDetailsDTO> listProject = dao.getProjectPendingByUserId(user.getUserId());
-            if (listProject.size() > 0) {
-                session.setAttribute("LIST_PROJECT_PENDING", listProject);
+            if (user.getGroup() != null) {
+                GroupDTO group = grDao.getGroupThatHasApprovedProject(user.getGroup().getName(), true);
+                List<ProjectDetailsDTO> listProject = dao.getProjectPendingByUserId(user.getUserId());
+                if (listProject.size() > 0) {
+                    session.setAttribute("LIST_PROJECT_PENDING", listProject);
+                } else {
+                    session.setAttribute("LIST_PROJECT_PENDING", null);
+                    request.setAttribute("MESSAGE", "There is no project registered yet");
+                }
+                if (group != null) {
+                    session.setAttribute("PROJECT_APPROVED", group);
+                } else {
+                    session.setAttribute("PROJECT_APPROVED", null);
+                }
+                url = SUCCESS;
             } else {
-                session.setAttribute("LIST_PROJECT_PENDING", null);
-                request.setAttribute("MESSAGE", "Empty List!");
+                System.out.println("hell");
+                request.setAttribute("NOT_IN_GROUP", "There is no project registered yet");
+                url = SUCCESS;
             }
-            if (group != null) {
-                session.setAttribute("PROJECT_APPROVED", group);
-            } else {
-                session.setAttribute("PROJECT_APPROVED", null);
-            }
-            url = SUCCESS;
         } catch (Exception e) {
             log("Error at StudentProjectPendingController " + e.toString());
         } finally {

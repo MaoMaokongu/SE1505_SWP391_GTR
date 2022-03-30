@@ -6,8 +6,10 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,13 +37,17 @@ public class ListProjectGuidingController extends HttpServlet {
         String url = ERROR;
         try {
             GroupDAO grDao = new GroupDAO();
+            ProjectDAO prDao = new ProjectDAO();
             HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            List<GroupDTO> list = grDao.getListGuiding(user.getUserId());
-            if (list.size() > 0) {
+            List<ProjectDTO> list = prDao.getProjectByMentorId(user.getUserId());
+            List<GroupDTO> group = grDao.getGroupByProjectId(user.getUserId());
+            if (list.size() > 0 && group.size() > 0) {
+                session.setAttribute("GROUP_PROJECT", group); // lấy projectId củaGroup đã được approved
                 session.setAttribute("LIST_PROJECT_GUIDING", list);
                 url = SUCCESS;
             } else {
+                session.setAttribute("GROUP_PROJECT", null); // lấy projectId củaGroup đã được approved
                 session.setAttribute("LIST_PROJECT_GUIDING", null);
                 request.setAttribute("MESSAGE", "Empty List");
                 url = ERROR;

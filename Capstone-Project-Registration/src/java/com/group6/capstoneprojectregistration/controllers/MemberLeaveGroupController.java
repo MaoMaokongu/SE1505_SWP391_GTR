@@ -5,6 +5,7 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.daos.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,10 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "MemberLeaveGroupController", urlPatterns = {"/MemberLeaveGroupController"})
 public class MemberLeaveGroupController extends HttpServlet {
 
+    private static final String ERROR = "group.jsp";
+    private static final String SUCCESS = "group.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
+        String url = ERROR;
+
+        String userId = request.getParameter("currentUser");
+        UserDAO user = new UserDAO();
+
+        try {
+            
+        } catch (Exception e) {
+            log("Error at MemberLeaveGroupController " + e.toString());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
