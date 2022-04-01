@@ -33,8 +33,76 @@ public class GroupDAO {
             + "from Project p join [Group] g\n"
             + "on p.ProjectId = g.ProjectId\n"
             + "Where MentorId = ?";
-
+    private static final String INSERT_NEW_GROUP = " INSERT INTO [Group] (Name, IsApproved) VALUES (?,?)";
+    private static final String GET_ALL_GROUP = " SELECT * FROM [Group] WHERE IsApproved = 0";
     
+    
+    public List<GroupDTO> getAllGroup() throws SQLException {
+        List<GroupDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_ALL_GROUP;
+                stm = conn.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    int groupId = rs.getInt(1);
+                    String name = rs.getString(2);
+                    boolean isApproved = rs.getBoolean(3);
+                    String projectId = rs.getString(4);
+                    ProjectDAO prDao = new ProjectDAO();
+                    list.add(new GroupDTO(groupId, name, isApproved, prDao.getProjectById(projectId)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
+
+    public boolean insertNewGroup(String groupName) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = INSERT_NEW_GROUP;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, groupName);
+                stm.setBoolean(2, false);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public List<GroupDTO> getGroupByProjectId(String mentorId) throws SQLException {
         List<GroupDTO> group = new ArrayList<>();
         Connection conn = null;

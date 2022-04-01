@@ -364,32 +364,48 @@
                                                         </ul>
                                                     </div>
                                                     <!-- /.box-header -->
-                                                    <div class="box-body table-responsive no-padding">
-
-                                                        <table class="table table-hover">
-                                                            <c:forEach items="${sessionScope.SPLIT_GROUP}" var="list">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="width : 10px">#</th>
-                                                                        <th>Student Id</th>
-                                                                        <th>Name</th>
-                                                                        <th>Group Name</th>
-                                                                        <th style="width : 120px">Semester</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <c:forEach items="${list}" var="list">
+                                                    <!--<div class="box">-->
+                                                    <form action="RandomGroupController" method="post">
+                                                        <div class="box-body table-responsive no-padding col-md-12">
+                                                            <c:forEach items="${sessionScope.SPLIT_GROUP}" var="list" varStatus="group">
+                                                                <table class="table table-hover">
+                                                                    <thead>
                                                                         <tr>
-                                                                            <td>${count.count}</td>
-                                                                            <td>${list.userName}</td>
-                                                                            <td>${list.userId}</td>
+                                                                            <th style="width: 200px">GroupRandom ${group.count}</th>
+                                                                            <th>
+                                                                                <input type="hidden" name="groupName" value="GroupRandom ${group.count}"/>
+                                                                            </th>
                                                                         </tr>
-                                                                    </c:forEach>
-                                                                </tbody>
+                                                                        <tr>
+                                                                            <th style="width: 10px">#</th>
+                                                                            <th>Student Id</th>
+                                                                            <th>Name</th>
+<!--                                                                            <th>Project Name</th>-->
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <c:forEach items="${list}" var="list" varStatus="count">
+                                                                            <tr>
+                                                                                <td>${count.count}</td>
+                                                                                <td style="width: 300px">${list.userId}</td>
+                                                                                <td style="width: 300px">${list.userName}</td>
+                                                                                <td>
+                                                                                    <input type="hidden" name="listStudentId" value="${list.userId}"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </c:forEach>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <td colspan="4" >
+                                                                                <button type="submit" class="pull-right" >Save</button> 
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                </table>
                                                             </c:forEach>
-                                                        </table>
-
-                                                    </div>
+                                                        </div>
+                                                    </form>
                                                     <!-- /.box-body -->
                                                     <div class="box-footer clearfix">
                                                         <ul class="pagination pagination-sm no-margin pull-right">
@@ -430,26 +446,6 @@
                                                                 <td>1</td>
                                                                 <td>SE151278</td>
                                                                 <td>Ngo Chi Bao</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5</td>
-                                                                <td>SE15xxxx</td>
-                                                                <td>xxxxxxx</td>
                                                             </tr>
                                                         </table>
                                                     </div>

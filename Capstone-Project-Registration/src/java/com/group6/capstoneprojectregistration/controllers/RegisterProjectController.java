@@ -6,6 +6,7 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
@@ -33,19 +34,24 @@ public class RegisterProjectController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
+
+        String projectId = request.getParameter("projectId").trim();
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
+        UserDAO userDao = new UserDAO();
+        ProjectDAO projectDao = new ProjectDAO();
+        GroupDAO grDao = new GroupDAO();
+        InvitationPendingDAO ipDao = new InvitationPendingDAO();
+
         try {
             boolean checkInsertProjectId = false;
-            String projectId = request.getParameter("projectId").trim();
-            int groupId = Integer.parseInt(request.getParameter("groupId"));
-            ProjectDetailDAO pdDao = new ProjectDetailDAO();
-            UserDAO userDao = new UserDAO();
-            ProjectDAO projectDao = new ProjectDAO();
+
             ProjectDTO project = projectDao.getProjectById(projectId);
-            GroupDAO grDao = new GroupDAO();
-            HttpSession session = request.getSession();
-            UserDTO user = (UserDTO) session.getAttribute("USER");
             GroupDTO grDto = grDao.getGroupByGroupId(groupId);
+
             int count = userDao.countStudentInGroup(groupId);
             if (count == project.getNumOfStus()) { //số thành viên trong nhóm = projectnumber
                 if (!grDto.isApproved()) {//kiểm tra nhóm đã đăng kí thành công đồ án chưa
@@ -65,6 +71,7 @@ public class RegisterProjectController extends HttpServlet {
                 } else {
                     request.setAttribute("INSERT_PROJECTID", "Your group already have a project");
                 }
+                ipDao.deleteAllUserPending(groupId);
             } else {
                 request.setAttribute("INSERT_PROJECTID", "Your group does not have enough members or exceeds the allowed"
                         + " number to register for this project ");

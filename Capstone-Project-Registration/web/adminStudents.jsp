@@ -89,55 +89,7 @@
                                                 <p>Fighting!!!</p>
                                             </a>
                                         </li>
-                                        <!-- end message -->
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="Van Trung.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Van Trung - Fe
-                                                    <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                                                </h4>
-                                                <p>Fighting!!!</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="Thanh Phu.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Thanh Phu - Be
-                                                    <small><i class="fa fa-clock-o"></i> Today</small>
-                                                </h4>
-                                                <p>Fighting!!!</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="Thanh Hai.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Thanh Hai - Be
-                                                    <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                </h4>
-                                                <p>Fighting!!!</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="Diu Huong.jpg" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Diu Huong - Fe
-                                                    <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                </h4>
-                                                <p>Fighting!!!</p>
-                                            </a>
-                                        </li>
+                                        <!-- end message -->                                       
                                     </ul>
                                 </li>
                                 <li class="footer"><a href="#">See All Messages</a></li>
@@ -243,7 +195,7 @@
                         <ul class="treeview-menu">
                             <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Manage Students</a></li>
                             <li><a href="adminGroups.jsp"><i class="fa fa-circle-o"></i> Manage Groups</a></li>
-                            <li><a href="adminProject.jsp"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
+                            <li><a href="AdminProjectController"><i class="fa fa-circle-o"></i> Manage Projects</a></li>
                             <li><a href="adminLecturers.jsp"><i class="fa fa-circle-o"></i> Manage Lecturers</a></li>
                         </ul>
                     </li>
@@ -325,23 +277,16 @@
                                                 <!-- /.box-header -->
                                                 <div class="box-header clearfix">
                                                     <ul class="pagination pagination-sm no-margin pull-left">
-                                                        <i>Show</i>
-                                                        <select class="select">
-                                                            <option><a href="#">10</a></option>
-                                                            <option><a href="#">15</a></option>
-                                                            <option><a href="#">25</a></option>
-                                                            <option><a href="#">30</a></option>
-                                                        </select>
-                                                        <i>entries</i>
+                                                        
                                                     </ul>
                                                     <ul class="pagination pagination-sm no-margin pull-right">
-                                                        <i class="fas fa-filter">Filter</i>
-                                                        <select class="select">
+                                                        
+<!--                                                        <select class="select">
                                                             <option><a href="#">Spring 2022</a></option>
                                                             <option><a href="#">Fall 2021</a></option>
                                                             <option><a href="#">Summer 2021</a></option>
                                                             <option><a href="#">Spring 2021</a></option>
-                                                        </select>
+                                                        </select>-->
                                                     </ul>
                                                 </div>
                                                 <!-- /.box-header -->

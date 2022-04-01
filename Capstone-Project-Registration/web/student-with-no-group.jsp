@@ -22,7 +22,7 @@
                         <h3 class="box-title">User</h3>
                         <h4 style="color: red" >${requestScope.INVITE}</h4>
                         <form action="#" method="get">
-                            <input type="text" name="txtEmail" placeholder="Search..." oninput="searchByEmail(this)" value="${param.txtEmail}">
+                            <input type="text" name="txtEmail" placeholder="Search Email..." oninput="searchByEmail(this)" value="${param.txtEmail}">
                             <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                             </button>
                         </form>

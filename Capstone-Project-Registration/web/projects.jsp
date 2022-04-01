@@ -274,7 +274,7 @@
                                                 <th>Id</th>
                                                 <th>Project Name</th>
                                                 <th>Mentor</th>
-                                                <th>Co-Mentor</th>
+                                                <th></th>
                                                 <th>Number of Students</th>
                                                 <th>Semester</th>
                                                 <th>Semester</th>
@@ -296,13 +296,7 @@
                                                         <a href="#" data-toggle="modal" data-target="#myModal${vs.index}" data-id=" ${project.discription}"
                                                            data-id1=" ${project.name}" data-id2="${project.mentor}" data-id3="${project.coMentor}" data-id4="${project.numOfStus}"
                                                            data-url="${here}" id="viewDetailButton">${project.name}</a>
-                                                        <!--                                                        <button type="button" class="btn btn-primary 
-                                                                                                                        btn-sm" data-toggle="modal" 
-                                                                                                                        data-target="#myModal"
-                                                                                                                        data-id="${project.name}"
-                                                                                                                        data-url="#">
-                                                                                                                    Submit
-                                                                                                                </button>-->
+                                                      
                                                         <!-- Modal -->
                                                         <div id="myModal${vs.index}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
@@ -342,7 +336,7 @@
                                                         <!-- /.modal -->
                                                     </td>
                                                     <td style="width: 500px">${project.mentor.userName}</td>
-                                                    <td style="width: 500px">${project.coMentor}</td>
+                                                    <td style="width: 500px"></td>
                                                     <td style="width: 500px">${project.numOfStus}</td>
                                                     <td style="width: 500px">${project.semester.name}</td>
                                                     <td style="width: 500px">

@@ -6,6 +6,7 @@
 package com.group6.capstoneprojectregistration.dtos;
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class InvitationPendingDTO implements Serializable{
 
     private int id;
@@ -32,15 +35,6 @@ public class InvitationPendingDTO implements Serializable{
     public InvitationPendingDTO(String userInvited) {
         this.userInvited = userInvited;
     }
- 
-    
-    
-//    public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
-//        this.status = status;
-//        this.user = user;
-//        this.group = group;
-//        this.userInvited = userInvited;
-//    }
 
     public InvitationPendingDTO(UserStatusDTO status, UserDTO user, GroupDTO group, String userInvited) {
         this.status = status;

@@ -327,9 +327,9 @@
                                                                             <td style="width: 100px">${user.gender}</td>
                                                                             <td style="width: 100px">${user.leader}</td>
                                                                             <td style="width: 100px">${user.email}</td>
-                                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.GROUP.approved ne null}">
+                                                                            <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.GROUP.project eq null && sessionScope.DETAIL.group.groupId eq null}">
                                                                                 <td style="width: 100px">
-                                                                                    <form action="LeaderRemoveStudentsController"> 
+                                                                                    <form action="LeaderRemoveStudentsController">
                                                                                         <input type="hidden" name="groupId" value="${user.group.groupId}"/>
                                                                                         <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>
                                                                                         <input type="hidden" name="receiverId" value="${user.userId}"/>
@@ -347,7 +347,7 @@
                                                     </div>
                                                     <!-- /.box-body -->
                                                     <div class="box-footer clearfix">
-                                                        <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.USER.group.groupId ne null && sessionScope.GROUP.approved ne null}">
+                                                        <c:if test="${sessionScope.USER.leader eq true && sessionScope.GROUP.project eq null && sessionScope.DETAIL.group.groupId eq null}">
                                                             <form class="pull-right" action="LeaderDisbandGroupController" id="disbandForm">
                                                                 <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
                                                                 <input type="hidden" name="currentUserId" value="${sessionScope.USER.userId}"/>
@@ -355,7 +355,7 @@
                                                                 <input type="submit" id="bttDisband" value="Disband"/>
                                                             </form>
                                                         </c:if>
-                                                        <c:if test="${sessionScope.USER.leader ne true && sessionScope.USER.group.groupId ne null && sessionScope.GROUP.approved ne null}">
+                                                        <c:if test="${sessionScope.USER.leader ne true && sessionScope.GROUP.project eq null && sessionScope.DETAIL.group.groupId eq null}">
                                                             <form class="pull-right" action="MemberLeaveGroupController">
                                                                 <input type="hidden" name="currentUser" value="${sessionScope.USER.userId}"/>
                                                                 <input type="submit" value="Leave"/>
@@ -480,7 +480,6 @@
             $.ajax({
                 url: 'InviteUserController',
                 method: 'post',
-                //                dataType: 'json',
                 data: {
                     receiver: col2,
                     sender: currentUser,

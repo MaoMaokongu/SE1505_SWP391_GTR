@@ -32,20 +32,23 @@ public class ProjectController extends HttpServlet {
 
         String url = ERROR;
 
+        String indexPage = request.getParameter("index");
+
+        HttpSession session = request.getSession();
+
+        ProjectDAO dao = new ProjectDAO();
+
         try {
-            String indexPage = request.getParameter("index");
             if (indexPage == null) {
                 indexPage = "1";
             }
             int index = Integer.parseInt(indexPage);
-            ProjectDAO dao = new ProjectDAO();
             int count = dao.getTotalProject();
             int endPage = count / 10;
             if (count % 10 != 0) {
                 endPage++;
             }
-            List<ProjectDTO> listProject = dao.pagingProject(index);
-            HttpSession session = request.getSession();
+            List<ProjectDTO> listProject = dao.pagingProject(index, 0);
             if (listProject.size() > 0) {
                 session.setAttribute("LIST_PROJECT", listProject);
                 session.setAttribute("endP", endPage);

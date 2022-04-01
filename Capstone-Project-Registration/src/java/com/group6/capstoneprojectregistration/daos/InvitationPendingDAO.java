@@ -35,6 +35,71 @@ public class InvitationPendingDAO {
             + "FROM [User] u join [Invitation Pending] ip \n"
             + "on u.UserId = ip.[User]\n"
             + "Where u.UserId = ? ";
+    private static final String GET_CURRENT_INVITATION_PENDING = " SELECT ip.UserInvited\n"
+            + "FROM [User] u join [Invitation Pending] ip\n"
+            + "on u.UserId = ip.[User]";
+    private static final String DELETE_ALL_USER_PENDING = " DELETE FROM [Invitation Pending] WHERE [Group] = ?";
+
+    public boolean deleteAllUserPending(int groupId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_ALL_USER_PENDING;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
+    public List<InvitationPendingDTO> getCurrentInvitationPending() throws SQLException {
+        List<InvitationPendingDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_CURRENT_INVITATION_PENDING;
+                stm = conn.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String userInvited = rs.getString("UserInvited");
+                    list.add(new InvitationPendingDTO(userInvited));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
 
     public List<InvitationPendingDTO> getInvitationByUser(String userId) throws SQLException {
         List<InvitationPendingDTO> invi = new ArrayList<>();
@@ -49,7 +114,7 @@ public class InvitationPendingDAO {
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, userId);
                 rs = stm.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     String userInvited = rs.getString("UserInvited");
                     invi.add(new InvitationPendingDTO(userInvited));
                 }

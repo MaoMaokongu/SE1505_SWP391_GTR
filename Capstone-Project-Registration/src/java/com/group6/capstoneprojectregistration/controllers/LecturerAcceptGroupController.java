@@ -7,6 +7,7 @@ package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.EventDAO;
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
@@ -45,14 +46,15 @@ public class LecturerAcceptGroupController extends HttpServlet {
         ProjectDetailDAO pdDao = new ProjectDetailDAO();
         EventDAO evDao = new EventDAO();
         UserDAO usDao = new UserDAO();
-
+        InvitationPendingDAO ipDao = new InvitationPendingDAO();
+        
         try {
             List<ProjectDetailsDTO> listProjectRegistedDuplicate = pdDao.getAllProjectDetails(projectId);
             List<UserDTO> listUserByGroupId = usDao.getListUserByGroupId(groupId);
 
             boolean checkDeleteProjectPending = pdDao.deleteAllProjectPendingByGroupId(groupId); // 1 project đã được chấp nhận và delete hết project còn lại mà nhóm đã dk trc đó 
             boolean checkUpdateGroup = grDao.updateGroup(projectId, groupId); // update status group đã được accept project
-            boolean checkUpdateProject = prDao.updateProject(projectId); // update isSelected in tbl project 
+            boolean checkUpdateProject = prDao.updateProjectIsSelected(projectId); // update isSelected in tbl project 
 
             if (!listProjectRegistedDuplicate.isEmpty()) {
                 boolean checkDeleteProjectPendingOfAnotherGroup = pdDao.deleteProjectRegistedOfAnotherGroup(projectId);// delete các nhóm khác có đăng ký trùng project
@@ -64,6 +66,7 @@ public class LecturerAcceptGroupController extends HttpServlet {
                         request.setAttribute("DENY", "Cant send message deny");
                     }
                 }
+                ipDao.deleteAllUserPending(groupId);
                 request.setAttribute("ACCEPTED", "Accept Successful!");
                 url = SUCCESS;
             } else {

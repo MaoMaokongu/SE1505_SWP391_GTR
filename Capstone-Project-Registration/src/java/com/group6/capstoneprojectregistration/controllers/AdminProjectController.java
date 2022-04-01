@@ -5,12 +5,10 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.InvitationPendingDAO;
-import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.InvitationPendingDTO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,45 +21,45 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "SearchUserController", urlPatterns = {"/SearchUserController"})
-public class SearchUserController extends HttpServlet {
+@WebServlet(name = "AdminProjectController", urlPatterns = {"/AdminProjectController"})
+public class AdminProjectController extends HttpServlet {
 
-    private static final String ERROR = "search-not-exit-user.jsp";
-    private static final String SUCCESS = "search-user-nogroup.jsp";
+    private static final String ERROR = "adminProject.jsp";
+    private static final String SUCCESS = "adminProject.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String url = ERROR;
-        String searchEmail = request.getParameter("txtEmail");
 
-        UserDAO dao = new UserDAO();
-        InvitationPendingDAO ipDao = new InvitationPendingDAO();
-
+        String indexPage = request.getParameter("index");
         HttpSession session = request.getSession();
 
+        ProjectDAO dao = new ProjectDAO();
+
         try {
-                List<InvitationPendingDTO> listInvitationPending = ipDao.getCurrentInvitationPending();
-                List<UserDTO> listUserNoGroup = dao.searchUserByEmail(searchEmail);
-                List<UserDTO> userToRemove = new ArrayList<>();
-                for (UserDTO user : listUserNoGroup) {
-                    for (InvitationPendingDTO invi : listInvitationPending) {
-                        if (user.getEmail().equals(invi.getUserInvited())) {
-                            userToRemove.add(user);
-                        }
-                    }
-                }
-                listUserNoGroup.removeAll(userToRemove);
-                if (listUserNoGroup.size() > 0) {
-                    session.setAttribute("LIST_USER_NO_GROUP", listUserNoGroup);
-                    url = SUCCESS;
-                } else {
-                    session.setAttribute("LIST_USER_NO_GROUP", null);
-                    url = ERROR;
-                }
+            if (indexPage == null) {
+                indexPage = "1";
+            }
+            int index = Integer.parseInt(indexPage);
+            int count = dao.getTotalProject();
+            int endPage = count / 10;
+            if (count % 10 != 0) {
+                endPage++;
+            }
+            List<ProjectDTO> listProject = dao.pagingAdminProject(index);
+            if (listProject.size() > 0) {
+                session.setAttribute("LIST_PROJECT_ADMIN", listProject);
+                session.setAttribute("endP", endPage);
+                session.setAttribute("tag", index);
+                url = SUCCESS;
+            } else {
+                request.setAttribute("BUG", "Can not load project");
+                url = ERROR;
+            }
         } catch (Exception e) {
-            log("Error at SearchUserController " + e.toString());
+            log("ERROR at AdminProjectController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -26,13 +27,119 @@ public class ProjectDAO {
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
     private static final String UPDATE_PROJECT = " UPDATE Project SET IsSelected = ? WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
-    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
+    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = ? "
             + " ORDER BY ProjectId "
-            + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
+            + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
     private static final String GET_PROJECT_BY_MENTOR_ID = " Select * \n"
             + "from Project p join [Group] g\n"
             + "on p.ProjectId = g.ProjectId\n"
             + "Where MentorId = ?";
+    private static final String GET_ALL_NOT_SELECTED_PROJECT = " SELECT * FROM Project WHERE IsSelected =? AND NumOfStus = 4";
+    private static final String GET_PAGING_ADMIN_PROJECT = " SELECT * FROM Project WHERE IsSelected IS NOT NULL "
+            + " ORDER BY ProjectId "
+            + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
+
+    public List<ProjectDTO> pagingAdminProject(int index) throws SQLException {
+        List<ProjectDTO> list = new ArrayList<>();
+        SemesterDAO dao = new SemesterDAO();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+
+                stm = conn.prepareStatement(GET_PAGING_ADMIN_PROJECT);
+                stm.setInt(1, (index - 1) * 10);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String projectId = rs.getString("ProjectId");
+                    String name = rs.getString("Name");
+                    String mentor = rs.getString("MentorId");
+                    String coMentor = rs.getString("Co-Mentor");
+                    int num = rs.getInt("NumOfStus");
+                    boolean isSelected = rs.getBoolean("IsSelected");
+                    String discription = rs.getString("Discription");
+                    int semester = rs.getInt("Semester");
+                    UserDAO usDao = new UserDAO();
+                    list.add(new ProjectDTO(projectId, name, usDao.getUserById(mentor), coMentor, num, isSelected,
+                            discription, dao.getSemesterById(semester)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public List<ProjectDTO> getRandomProject(List<ProjectDTO> list, int totalItems) {
+        Random rand = new Random();
+
+        List<ProjectDTO> newList = new ArrayList<>();
+        for (int i = 0; i < totalItems; i++) {
+            int randomIndex = rand.nextInt(list.size());
+
+            newList.add(list.get(randomIndex));
+
+            list.remove(randomIndex);
+
+        }
+
+        return newList;
+    }
+
+    public List<ProjectDTO> getAllNotSelectedProject(boolean isSelected) throws SQLException {
+        List<ProjectDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_ALL_NOT_SELECTED_PROJECT;
+                stm = conn.prepareStatement(sql);
+                stm.setBoolean(1, isSelected);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String projectId = rs.getString(1);
+                    String name = rs.getString(2);
+                    String mentorId = rs.getString(3);
+                    String coMentor = rs.getString(4);
+                    int numofStu = rs.getInt(5);
+                    String discription = rs.getString(7);
+                    int semester = rs.getInt(8);
+                    UserDAO usDao = new UserDAO();
+                    SemesterDAO smDao = new SemesterDAO();
+                    list.add(new ProjectDTO(projectId, name, usDao.getUserById(mentorId), coMentor, numofStu, isSelected, discription, smDao.getSemesterById(semester)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
 
     public List<ProjectDTO> getProjectByMentorId(String mentorId) throws SQLException {
         List<ProjectDTO> project = new ArrayList<>();
@@ -174,7 +281,7 @@ public class ProjectDAO {
         return 0;
     }
 
-    public List<ProjectDTO> pagingProject(int index) throws SQLException {
+    public List<ProjectDTO> pagingProject(int index, int selectedStatus) throws SQLException {
         List<ProjectDTO> list = new ArrayList<>();
         SemesterDAO dao = new SemesterDAO();
         Connection conn = null;
@@ -186,6 +293,7 @@ public class ProjectDAO {
 
                 stm = conn.prepareStatement(GET_PAGING_PROJECT);
                 stm.setInt(1, (index - 1) * 10);
+                stm.setInt(2, selectedStatus);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String projectId = rs.getString("ProjectId");
@@ -303,7 +411,7 @@ public class ProjectDAO {
         return list;
     }
 
-    public boolean updateProject(String projectId) throws SQLException {
+    public boolean updateProjectIsSelected(String projectId) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;

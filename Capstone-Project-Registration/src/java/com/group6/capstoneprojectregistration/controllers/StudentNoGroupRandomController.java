@@ -5,11 +5,14 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
+import com.group6.capstoneprojectregistration.daos.ProjectDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,19 +35,26 @@ public class StudentNoGroupRandomController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
+        UserDAO usDao = new UserDAO();
+        ProjectDAO prDao = new ProjectDAO();
+        Random rand = new Random();
+
         try {
-            UserDAO usDao = new UserDAO();
+            List<ProjectDTO> listNotSelectedProject = prDao.getAllNotSelectedProject(false);
             List<UserDTO> listUserNoGroup = usDao.getListNoGroupUser(1);
             List<List<UserDTO>> splitGroups = ListUtils.partition(listUserNoGroup, 4);
-            if (splitGroups.size()>0) {
+            List<ProjectDTO> listProjectRandom = prDao.getRandomProject(listNotSelectedProject, splitGroups.size());
+            
+            if (splitGroups.size() > 0 && listNotSelectedProject.size() > 0) {
                 HttpSession session = request.getSession();
+                session.setAttribute("SPLIT_PROJECT", listProjectRandom);
                 session.setAttribute("SPLIT_GROUP", splitGroups);
                 url = SUCCESS;
             }
-          
+
         } catch (Exception e) {
-            log("Error at StudentNoGroupRandomController"+e.toString());
-        }finally{
+            log("Error at StudentNoGroupRandomController" + e.toString());
+        } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }

@@ -68,16 +68,18 @@
                                                     </form>
                                                 </td>
                                             </c:if>
-                                            <td style="width: 25px">
-                                                <form action="DeleteMessageController">
-                                                    <input type="hidden" name="loginedUserEmail" value="${sessionScope.USER.email}"/>
-                                                    <input type="hidden" name="sender" value="${event.sender.userId}"/>
-                                                    <input type="hidden" name="receiver" value="${event.receiver}"/>
-                                                    <input type="hidden" name="event" value="${event.event.messageEvent}"/>
-                                                    <!--<input type="submit" value="Delete"/>-->
-                                                    <button type="button" id="btnDeleteMessage" value="Delete">Delete</button>
-                                                </form>
-                                            </td>
+                                            <c:if test="${event.event.messageEvent ne 'Invite'}">
+                                                <td style="width: 25px">
+                                                    <form action="DeleteMessageController">
+                                                        <input type="hidden" name="loginedUserEmail" value="${sessionScope.USER.email}"/>
+                                                        <input type="hidden" name="sender" value="${event.sender.userId}"/>
+                                                        <input type="hidden" name="receiver" value="${event.receiver}"/>
+                                                        <input type="hidden" name="event" value="${event.event.messageEvent}"/>
+                                                        <!--<input type="submit" value="Delete"/>-->
+                                                        <button type="button" id="btnDeleteMessage" value="Delete">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </c:if>
                                         </tr>
                                     </tbody>
                                 </c:forEach>

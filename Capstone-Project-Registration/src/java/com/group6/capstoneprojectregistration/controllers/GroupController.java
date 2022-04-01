@@ -6,8 +6,10 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.GroupDAO;
+import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
 import com.group6.capstoneprojectregistration.daos.UserDAO;
 import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
 import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.util.List;
@@ -40,10 +42,13 @@ public class GroupController extends HttpServlet {
 
         UserDAO usDao = new UserDAO();
         GroupDAO grDao = new GroupDAO();
+        ProjectDetailDAO pdDao = new ProjectDetailDAO();
 
         try {
             GroupDTO group = grDao.getGroupByGroupId(user.getGroup().getGroupId());
             session.setAttribute("GROUP", group);
+            ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(user.getGroup().getGroupId());
+            session.setAttribute("DETAIL", projectDetail);
             List<UserDTO> listUser = usDao.getListUserByGroupId(user.getGroup().getGroupId());
             if (!listUser.isEmpty()) {
                 if (listUser.size() > 0) {
