@@ -48,11 +48,11 @@ public class ProjectController extends HttpServlet {
             if (count % 10 != 0) {
                 endPage++;
             }
-            List<ProjectDTO> listProject = dao.pagingProject(index, 0);
+            List<ProjectDTO> listProject = dao.pagingProject(index);
             if (listProject.size() > 0) {
                 session.setAttribute("LIST_PROJECT", listProject);
-                session.setAttribute("endP", endPage);
-                session.setAttribute("tag", index);
+                session.setAttribute("endP_stu", endPage);
+                session.setAttribute("tag_stu", index);
                 url = SUCCESS;
             } else {
                 request.setAttribute("BUG", "Can not load project");

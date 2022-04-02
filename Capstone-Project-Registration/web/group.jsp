@@ -314,21 +314,27 @@
                                                                         <th>User Id</th>
                                                                         <th>Username</th>
                                                                         <th>Gender</th>
-                                                                        <th>Leader</th>
                                                                         <th>Email</th>
+                                                                        <th>Role</th>
+                                                                        <th></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <c:forEach items="${sessionScope.LIST_USER_IN_GROUP}" var="user" varStatus="count">
                                                                         <tr>
-                                                                            <td style="width: 50px">${count.count}</td>
-                                                                            <td style="width: 100px">${user.userId}</td>
-                                                                            <td style="width: 100px">${user.userName}</td>
-                                                                            <td style="width: 100px">${user.gender}</td>
-                                                                            <td style="width: 100px">${user.leader}</td>
-                                                                            <td style="width: 100px">${user.email}</td>
+                                                                            <td style="width: 250px">${count.count}</td>
+                                                                            <td style="width: 500px">${user.userId}</td>
+                                                                            <td style="width: 500px">${user.userName}</td>
+                                                                            <td style="width: 500px">${user.gender}</td>
+                                                                            <td style="width: 500px">${user.email}</td>
+                                                                            <c:if test="${user.leader eq true}">
+                                                                                <td style="width: 500px">Leader</td>
+                                                                            </c:if>
+                                                                            <c:if test="${user.leader ne true}">
+                                                                                <td style="width: 500px">Member</td>
+                                                                            </c:if>
                                                                             <c:if test="${sessionScope.USER.leader eq true && user.userName ne sessionScope.USER.userName && sessionScope.GROUP.project eq null && sessionScope.DETAIL.group.groupId eq null}">
-                                                                                <td style="width: 100px">
+                                                                                <td style="width: 500px">
                                                                                     <form action="LeaderRemoveStudentsController">
                                                                                         <input type="hidden" name="groupId" value="${user.group.groupId}"/>
                                                                                         <input type="hidden" name="groupName" value="${sessionScope.USER.group.name}"/>

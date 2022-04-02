@@ -296,7 +296,7 @@
                                                         <a href="#" data-toggle="modal" data-target="#myModal${vs.index}" data-id=" ${project.discription}"
                                                            data-id1=" ${project.name}" data-id2="${project.mentor}" data-id3="${project.coMentor}" data-id4="${project.numOfStus}"
                                                            data-url="${here}" id="viewDetailButton">${project.name}</a>
-                                                      
+
                                                         <!-- Modal -->
                                                         <div id="myModal${vs.index}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
@@ -319,8 +319,8 @@
                                                                                 <input id="sampleId5" type="submit" value="Register" class="btn btn-primary" disabled/>
                                                                             </c:if>
                                                                             <c:if test="${sessionScope.USER.group.groupId ne null && sessionScope.USER.leader eq true}">
-<!--                                                                                Oops! Look like, you are not in any group,
-                                                                                <a href="group.jsp">Click me</a> to create/john group first -->
+                                                                                <!--                                                                                Oops! Look like, you are not in any group,
+                                                                                                                                                                <a href="group.jsp">Click me</a> to create/john group first -->
                                                                                 <input id="sampleId5" type="submit" value="Register" class="btn btn-primary"/>
                                                                             </c:if>
                                                                             <input type="hidden" name="projectId" value="${project.projectId}"/>
@@ -349,15 +349,14 @@
                                 <!-- /.box-body -->
                                 <div class="box-footer clearfix">
                                     <ul class="pagination pagination-sm no-margin pull-right">
-                                        <c:if test="${tag > 1}">
-                                            <li class="page-item "><a href="ProjectController?index=${tag-1}" class="page-link">Previous</a> </li>
+                                        <c:if test="${tag_stu > 1}">
+                                            <li class="page-item "><a href="ProjectController?index=${tag_stu-1}" class="page-link">Previous</a> </li>
                                             </c:if>
-
-                                        <c:forEach begin="1" end="${endP}" var="i" >
+                                        <c:forEach begin="1" end="${endP_stu}" var="i" >
                                             <li class="page-item ${tag == i?"active":""}"><a href="ProjectController?index=${i}" class="page-link">${i}</a> </li>
                                             </c:forEach>
-                                            <c:if test="${tag < endP}">
-                                            <li class="page-item"><a href="ProjectController?index=${tag+1}" class="page-link">Next</a></li>
+                                            <c:if test="${tag_stu < endP_stu}">
+                                            <li class="page-item"><a href="ProjectController?index=${tag_stu+1}" class="page-link">Next</a></li>
                                             </c:if>
                                     </ul>
                                 </div>
@@ -420,8 +419,8 @@
         <!-- Modal ?? án -->
         <!--<script src="pages/account/modal.js"></script>-->
         <script>
-            $(window).on('load', function (){
-               $('#myModal').modal('show');
+            $(window).on('load', function () {
+                $('#myModal').modal('show');
             });
         </script>
     </body>

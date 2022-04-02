@@ -34,7 +34,8 @@
         }
         .container{
             position: relative;
-            width: 400px;
+            width: 700px;
+            height: 700px;
             background: white;
             padding: 60px 40px;
         }
@@ -42,6 +43,7 @@
             font-size: 40px;
             margin-bottom: 30px;
             font-family: 'Montserrat', sans-serif;
+            margin-top: 100px;
         }
         .input-field, form .button{
             margin: 25px 0;
@@ -130,7 +132,9 @@
         .links{
             display: flex;
             cursor: pointer;
-
+            width: 250px;
+            margin-left: 180px;
+            margin-top: 200px;
         }
         .teacher, .student, .bussiness{
             height: 40px;
@@ -163,7 +167,7 @@
         .links i{
             font-size: 23px;
             line-height: 40px;
-            margin-left: -90px;
+            margin-left: -150px;
         }
         .links span{
             position: absolute;
@@ -171,6 +175,7 @@
             font-weight: bold;
             padding-left: 8px;
             font-family: 'Open Sans', sans-serif;
+            margin-left: 0px;
         }
 
         /* selected box */
@@ -179,6 +184,8 @@
         .containers {
             padding-top: 5px;
             padding-left: 10px;
+            width: 500px;
+            height: 500px;
         }
 
         .select-box {
@@ -268,87 +275,12 @@
     </style>
     <body>
         <div class="container">
-            <header>Bussiness</header>
-            <form>
-                <div class="input-field">
-                    <input type="text" required>
-                    <label>Username</label>
-                </div>
-                <div class="input-field">
-                    <input class="pswrd" type="password" required>
-                    <span class="show">SHOW</span>
-                    <label>Password</label>
-                </div>
-                <div class="button">
-                    <div class="inner"></div>
-                    <button>LOGIN</button>
-                </div>
-            </form>
-            <div class="auth">Sinh viên, Giảng viên, Cán bộ ĐH-FPT</div>
-            <!-- Selected box -->
-            <div class="containers">
-
-
-                <div class="select-box">
-                    <div class="options-container">
-
-                        <div class="option">
-                            <input
-                                type="radio"
-                                class="radio"
-                                id="campus"
-                                name="category"
-                                />
-                            <label for="campus">Select Campus</label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" class="radio" id="hl" name="category" />
-                            <label for="hl">Hoà Lạc</label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" class="radio" id="hcm" name="category" />
-                            <label for="hcm">Hồ Chí Minh</label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" class="radio" id="dn" name="category" />
-                            <label for="dn">Đà Nẵng</label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" class="radio" id="ct" name="category" />
-                            <label for="ct">Cần Thơ</label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" class="radio" id="qn" name="category" />
-                            <label for="qn">Quy Nhơn</label>
-                        </div> 
-
-                    </div>
-
-                    <div class="selected">
-                        Select Campus
-                    </div>
-                </div>
-            </div>
-            <!-- -------- -->
-
+            <header>Login</header>
             <div class="links">
-                <!-- <div class="bussiness">
-                  <i class="fab fa-google-plus-square"><span>Bussiness</span></i>
-                </div> -->
-                <div class="teacher">
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Capstone-Project-Registration/LoginGoogleController&response_type=code
-                       &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google-plus-square"><span>Teacher</span></i></a></br>  
-                    <h4>${requestScope.ERROR_LOGIN}</h4>
-                </div>
                 <div class="student">
                     <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Capstone-Project-Registration/LoginGoogleController&response_type=code
                        &client_id=90676323264-m344qcc3bv607iu3jttu76l9ec5g0ekt.apps.googleusercontent.com&approval_prompt=force">
-                        <i class="fab fa-google-plus-square"><span>Student</span></i></a></br>  
+                        <i class="fab fa-google-plus-square"><span>Login With Google</span></i></a></br>  
                     <h4>${requestScope.ERROR_LOGIN}</h4>
                 </div>
             </div>

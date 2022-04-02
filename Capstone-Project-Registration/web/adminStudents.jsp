@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -238,22 +239,9 @@
                         <!-- Custom Tabs -->
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1" data-toggle="tab">Students <small>have Group</small></a></li>
-                                <li><a onclick="showUserNoGroup()" href="#tab_2" data-toggle="tab">Students <small>have no Group</small></a></li>
-                                <li class="disabled"><a href="#" data-toggle="tab">Random Students <small>for no Group</small></a></li>
-                                <!-- <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Dropdown <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                                        <li role="presentation" class="divider"></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                                        </ul>
-                                    </li> -->
-                                <!-- <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear">Status</i></a></li> -->
+                                <li class="active"><a href="#tab_1" data-toggle="tab">Students <small>Not In Group</small></a></li>
+                                <li><a href="#tab_2" data-toggle="tab">Students <small>have no Group</small></a></li>
+                                <li class=""><a href="#" data-toggle="tab">Random Students <small>for no Group</small></a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1">
@@ -261,51 +249,34 @@
                                         <div class="col-xs-12">
                                             <div class="box">
                                                 <div class="box-header">
-                                                    <h3 class="box-title">Students</h3>
-                                                    <small>with group</small>
-                                                    <!-- <div class="box-tools">
-                                                      
-                                                      <div class="input-group input-group-sm" style="width: 150px;">
-                                                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-                                      
-                                                        <div class="input-group-btn">
-                                                          <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                                        </div>
-                                                      </div>
-                                                    </div> -->
+<!--                                                    <h3 class="box-title">Students</h3>
+                                                    <small>without group</small>-->
+                                                    <div class="box-tools pull-left">
+                                                        <button type="button" class="btn btn-default btn-sm btn-student">
+                                                            <a href="StudentNoGroupRandomController" >Random</a>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <!-- /.box-header -->
-                                                <div class="box-header clearfix">
-                                                    <ul class="pagination pagination-sm no-margin pull-left">
-                                                        
-                                                    </ul>
-                                                    <ul class="pagination pagination-sm no-margin pull-right">
-                                                        
-<!--                                                        <select class="select">
-                                                            <option><a href="#">Spring 2022</a></option>
-                                                            <option><a href="#">Fall 2021</a></option>
-                                                            <option><a href="#">Summer 2021</a></option>
-                                                            <option><a href="#">Spring 2021</a></option>
-                                                        </select>-->
-                                                    </ul>
-                                                </div>
-                                                <!-- /.box-header -->
                                                 <div class="box-body table-responsive no-padding">
-
                                                     <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                            <th>Group Name</th>
-                                                        </tr>
-
-                                                        <c:forEach var="student" varStatus="counter" items="${requestScope.LIST_STUDENT}">
+                                                        <thead>
                                                             <tr>
-                                                                <td>${counter.count}</td>
-
+                                                                <th>#</th>
+                                                                <th>Student Id</th>
+                                                                <th>Name</th>
+                                                                <th>Email</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <c:forEach items="${sessionScope.ADMIN_LIST_USER_NO_GROUP}" var="list" varStatus="count">
                                                             <tr>
+                                                                <td style="width: 250px">${count.count}</td>
+                                                                <td style="width: 500px">${list.userId}</td>
+                                                                <td style="width: 500px">${list.userName}</td>
+                                                                <td style="width: 500px">${list.email}</td>
+                                                            </tr>
                                                         </c:forEach>
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                                 <!-- /.box-body -->
@@ -349,246 +320,6 @@
                                                             <td>1</td>
                                                             <td>SE151278</td>
                                                             <td>Ngo Chi Bao</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Group 2</h3>
-                                                    <!-- <small>with group</small> -->
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Group 3</h3>
-                                                    <!-- <small>with group</small> -->
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Group 4</h3>
-                                                    <!-- <small>with group</small> -->
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Group 5</h3>
-                                                    <!-- <small>with group</small> -->
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- /.box-body -->
-                                            </div>
-                                            <!-- /.box -->
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="box">
-                                                <div class="box-header">
-                                                    <h3 class="box-title">Group 6</h3>
-                                                    <!-- <small>with group</small> -->
-                                                </div>
-                                                <div class="box-body table-responsive no-padding">
-                                                    <table class="table table-hover">
-                                                        <tr>
-                                                            <th style="width : 10px">#</th>
-                                                            <th>Student Id</th>
-                                                            <th>Name</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>SE15xxxx</td>
-                                                            <td>xxxxxxx</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td></td>
-                                                            <td></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -640,7 +371,7 @@
                                     function showUserNoGroup() {
                                         var xhttp = new XMLHttpRequest();
                                         xhttp.onload = function () {
-                                            document.getElementById("tab_2").innerHTML = this.responseText;
+                                            document.getElementById("tab_1").innerHTML = this.responseText;
                                         };
                                         xhttp.open("GET", "ManageStudentNoGroupController");
                                         xhttp.send();

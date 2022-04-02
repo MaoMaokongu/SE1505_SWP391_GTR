@@ -27,7 +27,7 @@ public class ProjectDAO {
     private static final String GET_TOTAL_PROJECT = " SELECT count(*) FROM Project";
     private static final String UPDATE_PROJECT = " UPDATE Project SET IsSelected = ? WHERE ProjectId =?";
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
-    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = ? "
+    private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
             + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
     private static final String GET_PROJECT_BY_MENTOR_ID = " Select * \n"
@@ -281,7 +281,7 @@ public class ProjectDAO {
         return 0;
     }
 
-    public List<ProjectDTO> pagingProject(int index, int selectedStatus) throws SQLException {
+    public List<ProjectDTO> pagingProject(int index) throws SQLException {
         List<ProjectDTO> list = new ArrayList<>();
         SemesterDAO dao = new SemesterDAO();
         Connection conn = null;
@@ -293,7 +293,6 @@ public class ProjectDAO {
 
                 stm = conn.prepareStatement(GET_PAGING_PROJECT);
                 stm.setInt(1, (index - 1) * 10);
-                stm.setInt(2, selectedStatus);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String projectId = rs.getString("ProjectId");
