@@ -33,14 +33,41 @@ public class UserDAO {
     private static final String INSERT_STUDENTS = " INSERT INTO [User] (UserId, Email, Username, Gender, Role, [Group], Isleader) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String REMOVE_STUDENT_FROM_GROUP = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
     private static final String UPDATE_GROUP_ISLEADER_BY_USER_ID = " UPDATE [USER] SET [Group] = ?, Isleader = ? WHERE UserId = ?";
-    private static final String SEARCH_USER_BY_EMAIL = " SELECT * FROM [User] WHERE Email like ? AND [Group] is null AND Isleader is null";
+    private static final String SEARCH_USER_BY_EMAIL = " SELECT * FROM [User] WHERE Email like ? AND [Group] is null AND Isleader is null AND Role = 1";
     private static final String UPDATE_GROUP_BY_USER_ID = " UPDATE [User] SET [Group] = ? WHERE UserId = ?";
+
+    public boolean updateGroupByUserId(String userId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_GROUP_BY_USER_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setNull(1, Type.INT);
+                stm.setString(2, userId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
 
     public boolean updateGroupByUserId(String userId, int groupId) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement stm = null;
-
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
@@ -60,7 +87,6 @@ public class UserDAO {
                 conn.close();
             }
         }
-
         return check;
     }
 

@@ -5,13 +5,10 @@
  */
 package com.group6.capstoneprojectregistration.controllers;
 
-import com.group6.capstoneprojectregistration.daos.GroupDAO;
 import com.group6.capstoneprojectregistration.daos.ProjectDetailDAO;
-import com.group6.capstoneprojectregistration.daos.UserDAO;
-import com.group6.capstoneprojectregistration.dtos.GroupDTO;
 import com.group6.capstoneprojectregistration.dtos.ProjectDetailsDTO;
-import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,50 +21,40 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-// Hiển thị list sinh viên theo group id
-@WebServlet(name = "GroupController", urlPatterns = {"/GroupController"})
-public class GroupController extends HttpServlet {
+@WebServlet(name = "StudentCancelProjectPendingController", urlPatterns = {"/StudentCancelProjectPendingController"})
+public class StudentCancelProjectPendingController extends HttpServlet {
 
-    private static final String ERROR = "group.jsp";
-    private static final String SUCCESS = "group.jsp";
+    private static final String ERROR = "StudentProjectPendingController";
+    private static final String SUCCESS = "StudentProjectPendingController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         String url = ERROR;
 
-        String email = request.getParameter("email");
+        String projectId = request.getParameter("projectId");
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+
+        ProjectDetailDAO pbDao = new ProjectDetailDAO();
 
         HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("USER");
-
-        UserDAO usDao = new UserDAO();
-        GroupDAO grDao = new GroupDAO();
-        ProjectDetailDAO pdDao = new ProjectDetailDAO();
-        GroupDTO currenGroup = user.getGroup();
 
         try {
-
-            if (currenGroup != null) {
-                GroupDTO group = grDao.getGroupByGroupId(currenGroup.getGroupId());
-                session.setAttribute("GROUP", group);
-                List<UserDTO> listUser = usDao.getListUserByGroupId(currenGroup.getGroupId());
-                if (listUser.size() > 0) {
-                    session.setAttribute("LIST_USER_IN_GROUP", listUser);
+            boolean checkDeleteProjectDetail = pbDao.deleteProjectDetailByProjectIdAndGroupId(groupId, projectId);
+            List<ProjectDetailsDTO> listProjectDetail;
+            listProjectDetail = pbDao.getAllProjectDetailByGroupId(groupId);
+            if (checkDeleteProjectDetail) {
+                if (listProjectDetail.size() > 0) {
+                    session.setAttribute("LIST_PROJECT_PENDING", listProjectDetail);
                     url = SUCCESS;
+                } else {
+                    session.setAttribute("LIST_PROJECT_PENDING", null);
+                    url = ERROR;
                 }
-                ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(currenGroup.getGroupId());
-                if (projectDetail != null) {
-                    session.setAttribute("DETAIL", projectDetail);
-                }
-            } else {
-                request.setAttribute("MESSAGE", "Oops! You are not in any group, please contact your leader or create new group");
-                session.setAttribute("DETAIL", null);
-                session.setAttribute("LIST_USER_IN_GROUP", null);
-                session.setAttribute("GROUP", null);
             }
-
         } catch (Exception e) {
-            log("Error at GroupController " + e.toString());
+            log("Error at StudentCancelProjectPendingController " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

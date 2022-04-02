@@ -288,12 +288,12 @@
                                                         <h4 style="color: red">${requestScope.BUG}</h4>
                                                         <h4 style="color: red">${requestScope.DUPLICATE}</h4>
                                                         <h4 style="color: red">${requestScope.ACCEPT}</h4>
-                                                        <h4 style="color: red">${requestScope.MESSAGE}</h4>
                                                         <h4 style="color: red">${requestScope.REMOVE}</h4>
                                                         <h4 style="color: red">${requestScope.MESSAGE_DELETE_USER_PENDING}</h4>
                                                         <h4 style="color: red">${requestScope.UPDATE_STATUS}</h4>
                                                         <h4 style="color: red">${requestScope.USER_HAVE_GROUP}</h4>
                                                         <h4 style="color: red">${requestScope.MESSAGE_DISBAND}</h4>
+                                                        <h4 style="color: red">${requestScope.LEAVE}</h4>
                                                         <span id="error"></span>
                                                     </div>
                                                     <!-- /.box-header -->
@@ -302,9 +302,8 @@
                                                     </div>
                                                     <!-- /.box-header -->
                                                     <c:if test="${sessionScope.LIST_USER_IN_GROUP eq null}">
-                                                        <h4 style="text-align-last: center">Oops! You are not in any group, please contact your leader or 
-                                                            create a new group</h4>
-                                                        </c:if>
+                                                        <h4 style="text-align-last: center">${requestScope.MESSAGE}</h4>
+                                                    </c:if>
                                                     <div class="box-body table-responsive no-padding" id="table">
                                                         <c:if test="${sessionScope.LIST_USER_IN_GROUP ne null}">
                                                             <table class="table table-hover">
@@ -361,8 +360,9 @@
                                                                 <input type="submit" id="bttDisband" value="Disband"/>
                                                             </form>
                                                         </c:if>
-                                                        <c:if test="${sessionScope.USER.leader ne true && sessionScope.GROUP.project eq null && sessionScope.DETAIL.group.groupId eq null}">
+                                                        <c:if test="${sessionScope.USER.leader ne true  && sessionScope.USER.group.groupId ne null}">
                                                             <form class="pull-right" action="MemberLeaveGroupController">
+                                                                <input type="hidden" name="groupId" value="${sessionScope.USER.group.groupId}"/>
                                                                 <input type="hidden" name="currentUser" value="${sessionScope.USER.userId}"/>
                                                                 <input type="submit" value="Leave"/>
                                                             </form>
@@ -379,14 +379,6 @@
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="tab_3">
                                     </div>
-                                    <!-- /.tab-pane -->
-                                    <!-- /.tab-pane -->                                           
-                                    <!--<form action="InviteUserController">-->
-
-                                    <!--                                    <div class="tab-pane" id="tab_4">
-                                                                             /.tab-content 
-                                                                        </div>-->
-
                                     <div class="tab-pane" id="tab_4">
 
                                         <!-- /.tab-content -->

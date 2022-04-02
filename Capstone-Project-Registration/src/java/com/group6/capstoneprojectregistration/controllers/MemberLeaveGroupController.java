@@ -6,13 +6,17 @@
 package com.group6.capstoneprojectregistration.controllers;
 
 import com.group6.capstoneprojectregistration.daos.UserDAO;
+import com.group6.capstoneprojectregistration.dtos.GroupDTO;
+import com.group6.capstoneprojectregistration.dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,10 +35,31 @@ public class MemberLeaveGroupController extends HttpServlet {
         String url = ERROR;
 
         String userId = request.getParameter("currentUser");
-        UserDAO user = new UserDAO();
+        int groupId = Integer.parseInt(request.getParameter("groupId"));
+
+        HttpSession session = request.getSession();
+        UserDAO usDao = new UserDAO();
 
         try {
-            
+            boolean checkLeaveGroup = usDao.updateGroupByUserId(userId);
+            UserDTO userAfterUpdate = usDao.getUserById(userId);
+            GroupDTO currentGroupIdOfUser = userAfterUpdate.getGroup();
+            if (checkLeaveGroup) {
+                if (currentGroupIdOfUser != null) {
+                    List<UserDTO> listUserInGroup = usDao.getListUserByGroupId(currentGroupIdOfUser.getGroupId());
+                    if (listUserInGroup.size() > 0) {
+                        session.setAttribute("LIST_USER_IN_GROUP", listUserInGroup);
+                    } else {
+                        session.setAttribute("LIST_USER_IN_GROUP", null);
+                        request.setAttribute("MESSAGE", "Oops! You are not in any group, please contact your leader or create new group");
+                    }
+                } else {
+                    session.setAttribute("LIST_USER_IN_GROUP", null);
+                    request.setAttribute("MESSAGE", "Oops! You are not in any group, please contact your leader or create new group");
+                }
+                session.setAttribute("USER", userAfterUpdate);
+                url = SUCCESS;
+            }
         } catch (Exception e) {
             log("Error at MemberLeaveGroupController " + e.toString());
         } finally {

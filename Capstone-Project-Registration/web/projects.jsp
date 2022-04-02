@@ -258,33 +258,26 @@
                                 <div class="box-header clearfix">
 
                                     <ul class="pagination pagination-sm no-margin pull-right">
-                                        <i class="fa fa-filter">Filter</i>
-                                        <select class="select">
-                                            <option><a href="#">Spring 2022</a></option>
-                                            <option><a href="#">Fall 2021</a></option>
-                                            <option><a href="#">Summer 2021</a></option>
-                                            <option><a href="#">Spring 2021</a></option>
-                                        </select>
+                                       
                                     </ul>
                                 </div>
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Id</th>
                                                 <th>Project Name</th>
                                                 <th>Mentor</th>
-                                                <th></th>
                                                 <th>Number of Students</th>
-                                                <th>Semester</th>
-                                                <th>Semester</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach items="${sessionScope.LIST_PROJECT}" var="project" varStatus="vs">
                                                 ${requestScope.BUG}
                                                 <tr>
-                                                    <td style="width: 250px">${project.projectId}</td>
+                                                    <td style="width: 100px">${vs.count}</td>
+                                                    <td style="width: 200px">${project.projectId}</td>
                                                     <td style="width: 1000px">
                                                         <c:url var="here" value="projects.jsp">
                                                             <c:param name="projectName" value="${project.name}"></c:param>
@@ -301,7 +294,7 @@
                                                         <div id="myModal${vs.index}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel">
                                                             <div class="modal-dialog" role="document">
                                                                 <!-- Modal content-->
-                                                                <div class="modal-content modal-lg">
+                                                                <div class="modal-content modal-lg container">
                                                                     <div class="modal-header" style="background: #3c8dbc" >
                                                                         <h3 id="sampleId1" style="color: blanchedalmond"></h3>
                                                                     </div>
@@ -335,12 +328,8 @@
                                                         </div>
                                                         <!-- /.modal -->
                                                     </td>
-                                                    <td style="width: 500px">${project.mentor.userName}</td>
-                                                    <td style="width: 500px"></td>
-                                                    <td style="width: 500px">${project.numOfStus}</td>
-                                                    <td style="width: 500px">${project.semester.name}</td>
-                                                    <td style="width: 500px">
-                                                    </td>
+                                                    <td style="width: 300px">${project.mentor.userName}</td>
+                                                    <td style="width: 200px; text-align-last: center">${project.numOfStus}</td>                                                   
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
@@ -405,19 +394,6 @@
         <!--<script src="../../dist1/js/demo.js"></script>--> 
         <script src="dist1/js/demo.js"></script>
 
-        <!--        <script>
-                    $('#myModal').on('shown.bs.modal', function (event) {
-                        $("#sampleId").html($(event.relatedTarget).data('id'));
-                        $("#sampleId1").text($(event.relatedTarget).data('id1'));
-                        $("#sampleId2").text($(event.relatedTarget).data('id2'));
-                        $("#sampleId3").text($(event.relatedTarget).data('id3'));
-                        $("#sampleId4").text($(event.relatedTarget).data('id4'));
-                        $("#actualDeleteBtn").attr('href', $(event.relatedTarget).data('url'));
-                    });
-                </script>-->
-        <!-- page script -->
-        <!-- Modal ?? án -->
-        <!--<script src="pages/account/modal.js"></script>-->
         <script>
             $(window).on('load', function () {
                 $('#myModal').modal('show');

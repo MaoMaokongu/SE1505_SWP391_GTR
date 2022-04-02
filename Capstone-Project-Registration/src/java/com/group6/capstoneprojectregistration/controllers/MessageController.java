@@ -32,10 +32,12 @@ public class MessageController extends HttpServlet {
             throws ServletException, IOException {
         String url = ERROR;
 
+        HttpSession session = request.getSession();
+
+        EventDAO dao = new EventDAO();
+
         try {
-            HttpSession session = request.getSession();
             UserDTO user = (UserDTO) session.getAttribute("USER");
-            EventDAO dao = new EventDAO();
             List<EventDTO> listEvent = dao.getAllEventByReceiverEmail(user.getEmail());
             if (listEvent.size() > 0) {
                 session.setAttribute("EVENT", listEvent);

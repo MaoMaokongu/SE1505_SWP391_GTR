@@ -44,8 +44,8 @@ public class AdminProjectController extends HttpServlet {
             }
             int index = Integer.parseInt(indexPage);
             int count = dao.getTotalProject();
-            int endPage = count / 10;
-            if (count % 10 != 0) {
+            int endPage = count / 20;
+            if (count % 20 != 0) {
                 endPage++;
             }
             List<ProjectDTO> listProject = dao.pagingAdminProject(index);

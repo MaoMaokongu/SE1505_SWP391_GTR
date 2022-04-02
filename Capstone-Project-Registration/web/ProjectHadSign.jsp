@@ -22,20 +22,19 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
         <!-- DataTables -->
-        <link rel="stylesheet" href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
         <!-- Theme style -->
         <link rel="stylesheet" href="dist1/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="dist1/css/skins/_all-skins.min.css">
         <!-- details -->
-        <link rel="stylesheet" href="details.css" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Google Font -->
         <link rel="stylesheet"
@@ -84,7 +83,7 @@
                                                 <!-- start message -->
                                                 <a href="#">
                                                     <div class="pull-left">
-                                                        <img src="Chinh Truong.png" class="img-circle" alt="User Image">
+                                                        <img src="" class="img-circle" alt="User Image">
                                                     </div>
                                                     <h4>
                                                         Chinh Truong - Be
@@ -236,7 +235,7 @@
                             <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <div class="tab-content">
-                                    <c:if test="${sessionScope.PROJECT_APPROVED eq null}">
+                                    <c:if test="${sessionScope.PROJECT_APPROVED eq null || sessionScope.LIST_PROJECT_PENDING eq null}">
                                         <h4 style="text-align-last: center">${requestScope.MESSAGE}</h4>
                                         <h4 style="text-align-last: center">${requestScope.NOT_IN_GROUP}</h4>
                                     </c:if>
@@ -282,17 +281,25 @@
                                                                     <th style="width: 500px">Mentor</th>
                                                                     <th style="width: 500px">Co-Mentor</th>
                                                                     <th style="width: 200px">Status</th>
+                                                                    <th></th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <c:forEach items="${sessionScope.LIST_PROJECT_PENDING}" var="list" varStatus="count">
+                                                                <c:forEach items="${sessionScope.LIST_PROJECT_PENDING}" var="projectDetails" varStatus="count">
                                                                     <tr>
                                                                         <td>${count.count}</td>
-                                                                        <td>${list.project.projectId}</td>
-                                                                        <td style="width: 1000px">${list.project.name}</td>
-                                                                        <td>${list.project.mentor.userName}</td>
-                                                                        <td>${list.project.coMentor}</td>
+                                                                        <td>${projectDetails.project.projectId}</td>
+                                                                        <td style="width: 1000px">${projectDetails.project.name}</td>
+                                                                        <td>${projectDetails.project.mentor.userName}</td>
+                                                                        <td>${projectDetails.project.coMentor}</td>
                                                                         <td>In processing...</td>
+                                                                        <td>
+                                                                            <form action="StudentCancelProjectPendingController">
+                                                                                <input type="hidden" id="projectId" name="projectId" value="${projectDetails.project.projectId}"/>
+                                                                                <input type="hidden" id="groupId" name="groupId" value="${sessionScope.USER.group.groupId}"/>
+                                                                                <button type="submit" id="btnCancel">Cancel</button>
+                                                                            </form>
+                                                                        </td>
                                                                     </tr>
                                                                 </c:forEach>
                                                             </tbody>
@@ -344,6 +351,32 @@
         <!-- AdminLTE for demo purposes -->
         <script src="dist1/js/demo.js"></script>
         <!-- page script -->
-    </body>
 
+        <script type="text/javascript">
+//            $('#btnCancel').on('click', function () {
+//                var projectId = $('#projectId').val();
+//                var groupId = $('#groupId').val();
+//                var xhttp = new XMLHttpRequest();
+//                var confirmation = confirm("Are you sure?");
+//                if (confirmation) {
+//
+//                    $.ajax({
+//                        url: 'StudentCancelProjectPendingController',
+//                        method: 'post',
+//                        data: {
+//                            projectId: projectId,
+//                            groupId: groupId
+//                        },
+//                        success: function (data, textStatus, jqXHR) {
+//                            xhttp.onload = function () {
+//                                document.getElementById()
+//                            };
+//                            xhttp.open("GET", "StudentProjectPendingController");
+//                            xhttp.send();
+//                        }
+//                    });
+//                }
+//            });
+        </script>
+    </body>
 </html>

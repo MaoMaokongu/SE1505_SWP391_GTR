@@ -37,19 +37,20 @@ public class StudentDecisionController extends HttpServlet {
 
         String url = ERROR;
 
+        String studentDecision = request.getParameter("studentDecision");
+        String invitedUserId = request.getParameter("invitedUserId");
+        String sender = request.getParameter("sender");
+        String emailReceiver = request.getParameter("emailReceiver");
+        
+        UserDAO usDao = new UserDAO();
+        InvitationPendingDAO ipDao = new InvitationPendingDAO();
+        EventDAO evDao = new EventDAO();
+        
         try {
 
-            String studentDecision = request.getParameter("studentDecision");
-            String invitedUserId = request.getParameter("invitedUserId");
-            String sender = request.getParameter("sender");
-            String emailReceiver = request.getParameter("emailReceiver");
-
-            UserDAO usDao = new UserDAO();
             UserDTO SendUser = usDao.getUserById(sender);
             UserDTO currentUser = usDao.getUserByEmail(emailReceiver);
-            EventDAO evDao = new EventDAO();
             UserDTO userBack = usDao.getUserByEmail(emailReceiver);
-            InvitationPendingDAO ipDao = new InvitationPendingDAO();
             InvitationPendingDTO invite = ipDao.getUserPendingByEmail(emailReceiver, sender);
             HttpSession session = request.getSession();
 
@@ -74,7 +75,6 @@ public class StudentDecisionController extends HttpServlet {
             } else {
                 url = ERROR;
             }
-
         } catch (Exception e) {
             log("Error at StudentDecisionController" + e.toString());
         } finally {

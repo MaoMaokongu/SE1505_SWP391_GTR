@@ -28,22 +28,33 @@
             text-align: center;
             font-family: sans-serif;
             justify-content: center;
-            background: url(img/bg.jpg);
+            /*            background: url(img/bg.jpg);*/
+            background-color: #D9AFD9;
+            background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+
             background-size: cover;
             background-position: center;
         }
         .container{
             position: relative;
-            width: 700px;
-            height: 700px;
+            width: 400px;
+            height: 400px;
             background: white;
             padding: 60px 40px;
+            margin-left: -350px;
         }
         header{
             font-size: 40px;
             margin-bottom: 30px;
             font-family: 'Montserrat', sans-serif;
-            margin-top: 100px;
+            margin-top: 20px;
+        }
+
+        .container .logo .logobg{
+            width: 400px;
+            height: 400px; 
+            margin-left: 350px;
+            margin-top: -323px;
         }
         .input-field, form .button{
             margin: 25px 0;
@@ -133,10 +144,12 @@
             display: flex;
             cursor: pointer;
             width: 250px;
-            margin-left: 180px;
-            margin-top: 200px;
+            margin-left: 40px;
+            margin-top: 100px;
         }
-        .teacher, .student, .bussiness{
+          
+        
+        .student{
             height: 40px;
             width: 100%;
             border: 1px solid silver;
@@ -146,23 +159,12 @@
             padding-bottom: 5px;
 
         }
-        .teacher:hover{
-            border: 1px solid #3993dd;
-        }
         .student:hover{
-            border: 1px solid #9339dd;
-        }
-        .bussiness:hover {
-            border: 1px solid #39d8dd;
-        }
-        .teacher i, .teacher span{
-            color: #3993dd;
+            border: 1px solid #FF0000;
+            
         }
         .student i, .student span{
-            color: #9339dd;
-        }
-        .bussiness i, .bussiness span{
-            color: #39d8dd;
+            color: #FF0000;
         }
         .links i{
             font-size: 23px;
@@ -272,10 +274,32 @@
             display: none;
         }
 
+
+        .container .logoApp .icon1{
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #0093E9;
+        }
+
+        .container .logoApp .icon2{
+
+            width: 50px;
+            height: 50px;
+        }
+
     </style>
     <body>
         <div class="container">
+
+            <div class="logoApp">
+                <img class="icon1" src="img/logo.jpg" alt="">
+                <img class="icon2" src="img/logo.png" alt="">
+            </div>
+
             <header>Login</header>
+
+
             <div class="links">
                 <div class="student">
                     <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Capstone-Project-Registration/LoginGoogleController&response_type=code
@@ -284,40 +308,44 @@
                     <h4>${requestScope.ERROR_LOGIN}</h4>
                 </div>
             </div>
+
+            <div class="logo">
+                <img class="logobg" src="img/logo.jpg" alt="">
+            </div>
             <!-- <div class="signup">
               Not a member? <a href="signup.html">Signup now</a>
             </div> -->
         </div>
         <script>
-                    var input = document.querySelector('.pswrd');
-                    var show = document.querySelector('.show');
-                    show.addEventListener('click', active);
-                    function active() {
-                    if (input.type === "password") {
-                    input.type = "text";
-                            show.style.color = "#1DA1F2";
-                            show.textContent = "HIDE";
-                    } else {
-                    input.type = "password";
-                            show.textContent = "SHOW";
-                            show.style.color = "#111";
-                    }
-                    }
+            var input = document.querySelector('.pswrd');
+            var show = document.querySelector('.show');
+            show.addEventListener('click', active);
+            function active() {
+            if (input.type === "password") {
+            input.type = "text";
+            show.style.color = "#1DA1F2";
+            show.textContent = "HIDE";
+            } else {
+            input.type = "password";
+            show.textContent = "SHOW";
+            show.style.color = "#111";
+            }
+            }
         </script>
 
         <script>
             const selected = document.querySelector(".selected");
-                    const optionsContainer = document.querySelector(".options-container");
-                    const optionsList = document.querySelectorAll(".option");
-                    selected.addEventListener("click", () = > {
-                    optionsContainer.classList.toggle("active");
-                    });
-                    optionsList.forEach(o = > {
-                    o.addEventListener("click", () = > {
-                    selected.innerHTML = o.querySelector("label").innerHTML;
-                            optionsContainer.classList.remove("active");
-                    });
-                    });
+            const optionsContainer = document.querySelector(".options-container");
+            const optionsList = document.querySelectorAll(".option");
+            selected.addEventListener("click", () = > {
+            optionsContainer.classList.toggle("active");
+            });
+            optionsList.forEach(o = > {
+            o.addEventListener("click", () = > {
+            selected.innerHTML = o.querySelector("label").innerHTML;
+            optionsContainer.classList.remove("active");
+            });
+            });
 
         </script>
 

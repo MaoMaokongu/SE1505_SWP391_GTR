@@ -253,7 +253,7 @@
                                                     <small>without group</small>-->
                                                     <div class="box-tools pull-left">
                                                         <button type="button" class="btn btn-default btn-sm btn-student">
-                                                            <a href="StudentNoGroupRandomController" >Random</a>
+                                                            <a href="AdminRandomStudentNoGroupController" >Random</a>
                                                         </button>
                                                     </div>
                                                 </div>

@@ -26,7 +26,7 @@ import org.apache.commons.collections4.ListUtils;
  * @author PC
  */
 @WebServlet(name = "StudentNoGroupRandomController", urlPatterns = {"/StudentNoGroupRandomController"})
-public class StudentNoGroupRandomController extends HttpServlet {
+public class AdminRandomStudentNoGroupController extends HttpServlet {
 
     private static final String ERROR = "group.jsp";
     private static final String SUCCESS = "student-random.jsp";

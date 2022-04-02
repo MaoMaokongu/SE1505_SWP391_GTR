@@ -53,7 +53,7 @@ public class StudentNoGroupController extends HttpServlet {
 
             ProjectDetailsDTO projectDetail = pdDao.getProjectDetailByGroupId(user.getGroup().getGroupId());
             GroupDTO group = grDao.getGroupThatHasApprovedProject(user.getGroup().getName(), true);
-            List<UserDTO> listUserNoGroup = dao.getListNoGroupUser(user.getRole().getRoleId());
+            List<UserDTO> listUserNoGroup = dao.getListNoGroupUser(1);
 
             List<UserDTO> toRemove = new ArrayList<>();
             for (InvitationPendingDTO userInvited : invitation) {

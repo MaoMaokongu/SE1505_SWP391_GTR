@@ -29,7 +29,7 @@ public class ProjectDAO {
     private static final String GET_LIST_BY_MENTOR = " SELECT * FROM Project WHERE MentorId = ?";
     private static final String GET_PAGING_PROJECT = " SELECT * FROM Project WHERE IsSelected = 0 "
             + " ORDER BY ProjectId "
-            + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
+            + " OFFSET ? ROWS FETCH NEXT 20 ROWS ONLY ";
     private static final String GET_PROJECT_BY_MENTOR_ID = " Select * \n"
             + "from Project p join [Group] g\n"
             + "on p.ProjectId = g.ProjectId\n"
@@ -37,7 +37,7 @@ public class ProjectDAO {
     private static final String GET_ALL_NOT_SELECTED_PROJECT = " SELECT * FROM Project WHERE IsSelected =? AND NumOfStus = 4";
     private static final String GET_PAGING_ADMIN_PROJECT = " SELECT * FROM Project WHERE IsSelected IS NOT NULL "
             + " ORDER BY ProjectId "
-            + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
+            + " OFFSET ? ROWS FETCH NEXT 20 ROWS ONLY ";
 
     public List<ProjectDTO> pagingAdminProject(int index) throws SQLException {
         List<ProjectDTO> list = new ArrayList<>();
@@ -50,7 +50,7 @@ public class ProjectDAO {
             if (conn != null) {
 
                 stm = conn.prepareStatement(GET_PAGING_ADMIN_PROJECT);
-                stm.setInt(1, (index - 1) * 10);
+                stm.setInt(1, (index - 1) * 20);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String projectId = rs.getString("ProjectId");
@@ -292,7 +292,7 @@ public class ProjectDAO {
             if (conn != null) {
 
                 stm = conn.prepareStatement(GET_PAGING_PROJECT);
-                stm.setInt(1, (index - 1) * 10);
+                stm.setInt(1, (index - 1) * 20);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String projectId = rs.getString("ProjectId");

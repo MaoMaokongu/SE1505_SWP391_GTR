@@ -36,7 +36,76 @@ public class ProjectDetailDAO {
     private static final String DELETE_ALL_PROJECT_PENDING_BY_GROUP_ID = " DELETE FROM ProjectDetail WHERE GroupId = ?";
     private static final String DELETE_PROJECT_REGISTED_OF_ANOTHER_GROUP = " DELETE FROM ProjectDetail WHERE ProjectId = ?";
     private static final String GET_ALL_PROJECT_DETAILS = " SELECT * FROM ProjectDetail WHERE ProjectId = ?";
+    private static final String DELETE_PROJECT_DETAIL_BY_PROJECT_ID_AND_GROUP_ID = " DELETE FROM ProjectDetail WHERE GroupId = ? AND ProjectId =?";
+    private static final String GET_ALL_PROJECT_DETAIL_BY_GROUP_ID = " SELECT * FROM ProjectDetail WHERE GroupId = ?";
     
+    
+    public List<ProjectDetailsDTO> getAllProjectDetailByGroupId(int groupId) throws SQLException {
+        List<ProjectDetailsDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = GET_ALL_PROJECT_DETAIL_BY_GROUP_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                    int id = rs.getInt(1);
+                    String projectId = rs.getString(2);
+                    ProjectDAO pDao = new ProjectDAO();
+                    GroupDAO grDao = new GroupDAO();
+                    list.add(new ProjectDetailsDTO(id, pDao.getProjectById(projectId), grDao.getGroupByGroupId(groupId)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
+
+    public boolean deleteProjectDetailByProjectIdAndGroupId(int groupId, String projectId) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = DELETE_PROJECT_DETAIL_BY_PROJECT_ID_AND_GROUP_ID;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, groupId);
+                stm.setString(2, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     public List<ProjectDetailsDTO> getAllProjectDetails(String projectId) throws SQLException {
         List<ProjectDetailsDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -50,7 +119,7 @@ public class ProjectDetailDAO {
                 stm = conn.prepareStatement(sql);
                 stm.setString(1, projectId);
                 rs = stm.executeQuery();
-                while (rs.next()) {                    
+                while (rs.next()) {
                     int id = rs.getInt(1);
                     String projectID = rs.getString(2);
                     int groupId = rs.getInt(3);
