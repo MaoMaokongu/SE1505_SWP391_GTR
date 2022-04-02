@@ -31,11 +31,14 @@ public class ImportExcelUtils {
         ProjectDAO projectDao = new ProjectDAO();
         HSSFWorkbook wb = new HSSFWorkbook(inputStream);
 
-        //1/3 Create Project
+        //Create Project
         ArrayList<ArrayList<String>> list = ImportExcelUtils.ReadDataFromXLS(wb);
 
         for (ArrayList<String> project : list) {
             boolean checkInsertProject = projectDao.insert(project);
+            if(checkInsertProject == true){
+                
+            }
         }
     }
     
@@ -44,6 +47,7 @@ public class ImportExcelUtils {
         GroupDAO groupDao = new GroupDAO();
         HSSFWorkbook wb = new HSSFWorkbook(inputStream);
 
+        //STUDENT SHEET 1
         //1/3 Create Students
         ArrayList<ArrayList<String>> list = ImportExcelUtils.ReadDataFromXLS(wb);
 
@@ -51,7 +55,7 @@ public class ImportExcelUtils {
             boolean checkInsertStudent = userDao.insert(student);
         }
 
-        //groups
+        //GROUPS SHEET 2
         HashMap<String, ArrayList<String>> hashGroup = ImportExcelUtils.ReadDataGroupFromExcel(wb);
 
         for (HashMap.Entry<String, ArrayList<String>> set : hashGroup.entrySet()) {
@@ -80,15 +84,23 @@ public class ImportExcelUtils {
                 // }
             }
         }
+        
+        //PROJECT SHEET 3
+        HashMap<String, String> hashGroupProject = ImportExcelUtils.ReadGroupProjectFromExcel(wb);
+
+        for (HashMap.Entry<String, String> set : hashGroupProject.entrySet()) {  
+            String projectName = set.getKey().trim();
+            String groupId = set.getKey().trim();
+            boolean checkUpdateGroupProject = groupDao.updateGroup(projectName, Integer.parseInt(groupId));
+            //BUGG 2/4/20222
+            //  if (checkUpdateGroupProject == true) {
+            //
+            //     }
+        }
     }
 
+    //sheet0
     private static ArrayList<ArrayList<String>> ReadDataFromXLS(HSSFWorkbook wb) throws FileNotFoundException, IOException {
-        //obtaining input bytes from a file  
-//        FileInputStream fis = new FileInputStream(new File(fileUrl));
-
-        //creating workbook instance that refers to .xls file  
-        // HSSFWorkbook wb = new HSSFWorkbook(filecontent);
-        //creating a Sheet object to retrieve the object  
         HSSFSheet sheet = wb.getSheetAt(0);
         //evaluating cell type   
         FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
@@ -119,13 +131,8 @@ public class ImportExcelUtils {
         return listCell;
     }
 
+    //sheet1
     private static HashMap<String, ArrayList<String>> ReadDataGroupFromExcel(HSSFWorkbook wb) throws FileNotFoundException, IOException {
-        //obtaining input bytes from a file  
-//        FileInputStream fis = new FileInputStream(new File(fileUrl));
-
-        //creating workbook instance that refers to .xls file  
-        //HSSFWorkbook wb = new HSSFWorkbook(filecontent);
-        //creating a Sheet object to retrieve the object  
         HSSFSheet sheet = wb.getSheetAt(1);
         //evaluating cell type   
         FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
@@ -175,4 +182,49 @@ public class ImportExcelUtils {
         return hashStudent;
     }
 
+    //sheet2 
+    private static HashMap<String, String> ReadGroupProjectFromExcel(HSSFWorkbook wb) throws FileNotFoundException, IOException {
+        HSSFSheet sheet = wb.getSheetAt(1);
+        //evaluating cell type   
+        FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+
+        HashMap<String, String> hashGroupProject = new HashMap<>();
+        for (Row row : sheet) //iteration over row using for each loop  
+        {
+            if (row.getRowNum() != 0) {
+                String key = null;
+                String value = null;
+                for (Cell cell : row) //iteration over cell using for each loop  
+                {
+                    if (cell.getColumnIndex() != 0) {
+                        switch (formulaEvaluator.evaluateInCell(cell).getCellType()) {
+                            case Cell.CELL_TYPE_NUMERIC:   //field that represents numeric cell type  
+                                //getting the value of the cell as a number  
+                                if (cell.getColumnIndex() == 1) {
+                                    key = Double.toString(cell.getNumericCellValue());
+                                } else {
+                                    value = Double.toString(cell.getNumericCellValue());
+                                }
+                                break;
+                            case Cell.CELL_TYPE_STRING:    //field that represents string cell type  
+                                //getting the value of the cell as a string  
+                                if (cell.getColumnIndex() == 1) {
+                                    key = cell.getStringCellValue();
+                                } else {
+                                    value = cell.getStringCellValue();
+                                }
+                                break;
+                        }
+                    }
+                }
+
+                if (key != null && value != null) {
+                    hashGroupProject.put(key, value);
+                }
+            }
+        }
+
+        wb.close();
+        return hashGroupProject;
+    }
 }
