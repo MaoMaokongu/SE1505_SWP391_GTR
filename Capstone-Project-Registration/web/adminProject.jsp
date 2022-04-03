@@ -47,6 +47,9 @@
             <c:url var="logout" value="LogoutController">
 
             </c:url>
+            <c:if test="${sessionScope.USER == null or sessionScope.USER.role.name ne 'Admin'}">
+            <c:redirect url="index.jsp"></c:redirect>
+        </c:if>
             <header class="main-header">
                 <!-- Logo -->
                 <a href="../../index2.html" class="logo">

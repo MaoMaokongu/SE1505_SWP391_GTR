@@ -40,6 +40,9 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
+        <c:if test="${sessionScope.USER == null or sessionScope.USER.role.name ne 'Mentor'}">
+            <c:redirect url="index.jsp"></c:redirect>
+        </c:if>
         <div class="wrapper">
 
             <header class="main-header">
