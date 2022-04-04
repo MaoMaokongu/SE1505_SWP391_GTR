@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ManageStudentNoGroupController", urlPatterns = {"/ManageStudentNoGroupController"})
 public class ManageStudentNoGroupController extends HttpServlet {
 
-    private static final String ERROR = "group.jsp";
+    private static final String ERROR = "adminStudents.jsp";
     private static final String SUCCESS = "adminStudents.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

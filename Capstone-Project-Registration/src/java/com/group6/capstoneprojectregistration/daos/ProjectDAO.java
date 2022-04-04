@@ -11,10 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 /**
  *
  * @author admin
@@ -38,6 +38,8 @@ public class ProjectDAO {
     private static final String GET_PAGING_ADMIN_PROJECT = " SELECT * FROM Project WHERE IsSelected IS NOT NULL "
             + " ORDER BY ProjectId "
             + " OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY ";
+    private static final String UPDATE_PROJECT_DISCRIPTION = " UPDATE Project SET Discription = ? WHERE ProjectId =?";
+    private static final String INSERT_PROJECT = " INSERT INTO [Project] (ProjectId, Name, MentorId, [Co-Mentor], NumOfStus, IsSelected, Discription, Semester) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
     public List<ProjectDTO> pagingAdminProject(int index) throws SQLException {
         List<ProjectDTO> list = new ArrayList<>();
@@ -436,4 +438,73 @@ public class ProjectDAO {
         return check;
     }
 
+    public boolean updateProjectDiscription(String projectId, String discription) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_PROJECT_DISCRIPTION;
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, discription);
+                stm.setString(2, projectId);
+                check = stm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean insert(ArrayList<String> project) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+
+            if (conn != null) {
+                String sql = INSERT_PROJECT;
+                stm = conn.prepareStatement(sql);
+
+                stm.setString(1, project.get(1)); //ProjectId
+                stm.setString(2, project.get(2)); //Name
+                stm.setString(3, project.get(3)); //MentorId
+
+                if ("NULL".equals(project.get(4).toString().trim().toUpperCase())) { //NULL
+                    stm.setNull(4, Types.VARCHAR); //[Co-Mentor]
+                } else {
+                    stm.setString(4, project.get(4)); //[Co-Mentor]
+                }
+
+                stm.setInt(5, (int) Double.parseDouble(project.get(5))); //NumOfStus
+
+                stm.setBoolean(6, false); //IsSelected
+                stm.setNull(7, Types.NVARCHAR); //Discription
+                stm.setNull(8, Types.INTEGER); //Semester
+                check = stm.executeUpdate() > 0 ? true : false;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
 }

@@ -220,6 +220,15 @@
                         <button type="button" class="btn btn-success btn-sm btn-student">Upload Student</button>
                         <button type="button" class="btn btn-warning btn-sm btn-student">Import New Semester</button>
                         <button type="button" class="btn btn-primary btn-sm btn-student">Import Excel</button>
+
+                        <form method="post" action="ImportProjectController" enctype="multipart/form-data">
+                            <label for="avatar">Choose Project.xls:</label>
+                            <input type="file" name="files" multiple size="60" class="btn btn-primary btn-sm btn-student"/>
+
+                            <label for="avatar">Choose ProjectId.docx:</label>
+                            <input type="file" name="files" multiple size="60" class="btn btn-primary btn-sm btn-student"/>
+                            <input type="submit" value="Upload" />
+                        </form>
                     </div>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -249,7 +258,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-header clearfix">
                                     <ul class="pagination pagination-sm no-margin pull-left">
-                                        
+
                                     </ul>
                                     <ul class="pagination pagination-sm no-margin pull-right">
                                         <i class="fas fa-filter">Filter</i>

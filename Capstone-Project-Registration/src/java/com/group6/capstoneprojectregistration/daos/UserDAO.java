@@ -439,11 +439,75 @@ public class UserDAO {
                 stm.setString(3, student.get(3));
                 stm.setString(4, student.get(4));
 
-                stm.setInt(5, 1); //student
+                stm.setInt(5, 1); //student 1
                 stm.setNull(6, Types.INTEGER);
                 stm.setBoolean(7, false);
                 check = stm.executeUpdate() > 0 ? true : false;
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+    public boolean insertMentor(ArrayList<String> mentor) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+
+            if (conn != null) {
+                String sql = INSERT_STUDENTS;
+                stm = conn.prepareStatement(sql);
+
+                stm.setString(1, mentor.get(1));
+                stm.setString(2, mentor.get(2));
+                stm.setString(3, mentor.get(3));
+                stm.setString(4, mentor.get(4));
+
+                stm.setInt(5, 2); //mentor 2
+                stm.setNull(6, Types.INTEGER);
+                stm.setBoolean(7, false);
+                check = stm.executeUpdate() > 0 ? true : false;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+    public boolean updateGroupFromExcel(String userId, GroupDTO group, boolean isLeader) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = UPDATE_GROUP_USER;
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, group.getGroupId());
+                stm.setBoolean(2, isLeader);
+                stm.setString(3, userId);
+                check = stm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
             e.printStackTrace();
